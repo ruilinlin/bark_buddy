@@ -53,14 +53,14 @@ export default function PostScreen() {
         // )} */}
       </SafeAreaView>
     </GradientBackground>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
- //   background:background,
-    justifyContent:"center",
+  container: {
+    flex: 1,
+    //   background:background,
+    justifyContent: "center",
   },
   storiesContainer: {
     // flex:1,

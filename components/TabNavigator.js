@@ -1,10 +1,10 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PostScreen from "../screens/PostScreen";
-import EventScreen from "../screens/EventScreen";
 import MapScreen from "../screens/MapScreen";
 import MessageScreen from "../screens/MessageScreen";
 import UserScreen from "../screens/UserScreen";
+import StackNavigator from "./StackNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,9 +20,9 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Events"
-        component={EventScreen}
+        component={StackNavigator}
         options={{
-          headerTitle: "Events",
+          headerShown: false,
         }}
       />
       <Tab.Screen

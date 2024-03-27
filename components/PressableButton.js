@@ -1,37 +1,36 @@
-import React from 'react';
-import { Pressable, Text, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, Text } from "react-native";
+import React from "react";
 
 export default function PressableButton({
-  title,
   backgroundColor,
   onPress,
   children,
 }) {
   return (
     <Pressable
+      // style={[styles.defaultStyle, { backgroundColor }]}
       style={({ pressed }) => [
         styles.defaultStyle,
         {
           opacity: pressed ? 0.5 : 1,
-          backgroundColor: backgroundColor, 
+          backgroundColor: backgroundColor,
         },
       ]}
       onPress={onPress}
-      android_ripple={{ color: backgroundColor }} 
+      android_ripple={{ color: { backgroundColor } }}
     >
-
-      <Text>{title}</Text>
       {children}
     </Pressable>
   );
 }
 
-// Example styles, adjust as needed
 const styles = StyleSheet.create({
   defaultStyle: {
-    // Your default styles here, e.g. padding, margin
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    margin: 10,
+    width: 120,
+    height: 30,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
