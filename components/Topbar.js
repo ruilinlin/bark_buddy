@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-export default function post() {
+export default function Topbar() {
   return (
     <View>
-      <Text>post</Text>
+      <Text>Topbar</Text>
     </View>
   )
 }
