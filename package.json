@@ -17,13 +17,15 @@
     "expo": "~50.0.14",
     "expo-linear-gradient": "~12.7.2",
     "expo-status-bar": "~1.11.1",
+    "firebase": "^10.9.0",
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-modal-datetime-picker": "^17.1.0",
     "react-native-swiper": "^1.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "react-native-dotenv": "^3.4.11"
   },
   "private": true
 }
