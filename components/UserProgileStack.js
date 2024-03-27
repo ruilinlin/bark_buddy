@@ -1,4 +1,5 @@
 
+
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import EventScreen from "../screens/EventScreen";
@@ -9,7 +10,7 @@ import PostScreen from "../screens/PostScreen";
 
 const Stack = createStackNavigator();
 
-export default function PostStack({ navigation }) {
+export default function UserProgileStack({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
