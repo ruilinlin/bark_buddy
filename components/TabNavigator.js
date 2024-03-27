@@ -4,7 +4,7 @@ import PostScreen from "../screens/PostScreen";
 import MapScreen from "../screens/MapScreen";
 import MessageScreen from "../screens/MessageScreen";
 import UserScreen from "../screens/UserScreen";
-import StackNavigator from "./StackNavigator";
+import EventStack from "./EventStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +20,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Events"
-        component={StackNavigator}
+        component={EventStack}
         options={{
           headerShown: false,
         }}
