@@ -1,14 +1,16 @@
-import { Modal, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Modal,StyleSheet,Image, Text, View, FlatList,Button,SafeAreaView,Alert, Pressable, ScrollView,TouchableOpacity} from 'react-native'
+import React, { useState } from 'react'
 import { colors } from '../helper/Color';
 
 
-export const PostComments = ({comments , setClickComment}) => {
-  const modalVisible = Boolean(comments && comments.length > 0);
+export const PostComments = ({comments , setModalVisible}) => {
+  // const [modalVisible, setModalVisible] = useState(true);
+  // const [isclick, setIsClick] = useState(false)
+
+
   return (
   <View style={styles.container}>
-
-    <Modal visible={modalVisible} animationType="slide">
+    <Modal  animationType="slide">
       <View style={styles.modalView}>
         <FlatList
           data={comments}
@@ -17,8 +19,8 @@ export const PostComments = ({comments , setClickComment}) => {
           )}
           keyExtractor={item => item.id}
           ListFooterComponent = {
-            <TouchableOpacity onPress={() => setClickComment(false)}>
-              <Text style = {styles.text}>Close</Text>
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+            <Text>Close</Text>
             </TouchableOpacity>}
         />
       </View>
