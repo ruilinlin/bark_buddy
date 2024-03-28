@@ -4,6 +4,8 @@ import Input from "../components/Input";
 import DatePicker from "../components/DatePicker";
 import PressableButton from "../components/PressableButton";
 import { colors } from "../helper/Color";
+import { writeToDB } from "../firebase-files/firestoreHelper";
+import { auth, database } from "../firebase-files/firebaseSetup";
 
 export default function AddEvent({ navigation }) {
   const [title, setTitle] = useState("");
@@ -28,13 +30,14 @@ export default function AddEvent({ navigation }) {
 
   function writeNewEntry() {
     const newEntry = {
+      userId: auth.currentUser.uid,
       title: title,
       description: description,
-      location: location,
-      picture: picture,
+      // location: location,
+      // picture: picture,
       date: date,
     };
-    // writeToDB(newEntry);
+    writeToDB(newEntry, "events");
   }
 
   function saveHandler() {
@@ -53,9 +56,9 @@ export default function AddEvent({ navigation }) {
     }
 
     if (!isEmpty) {
-      // writeNewEntry();
+      writeNewEntry();
       // Navigate back to the previous screen
-      // navigation.goBack();
+      navigation.goBack();
     }
   }
 
