@@ -1,21 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import EventScreen from "../screens/EventScreen";
 import AddEvent from "../screens/AddEvent";
 import { Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import EventDetail from "../screens/EventDetail";
+import EventHeader from "./EventHeader";
 
 const Stack = createStackNavigator();
 
 export default function EventStack({ navigation }) {
+  const [selectedScreen, setSelectedScreen] = useState("Event"); // Define selectedScreen state here
+
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Event"
-        component={EventScreen}
+        // component={EventScreen}
+        // initialParams={{ selectedScreen: selectedScreen }} // Pass selectedScreen as initialParams
         options={{
-          headerTitle: "Events",
+          headerTitle: () => (
+            <EventHeader
+              selectedScreen={selectedScreen}
+              setSelectedScreen={setSelectedScreen}
+            />
+          ), // Pass setSelectedScreen function here
+          headerLeft: null,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("AddEvent")}
@@ -25,8 +35,10 @@ export default function EventStack({ navigation }) {
             </Pressable>
           ),
         }}
-      />
-      <Stack.Screen
+      >
+        {() => <EventScreen selectedScreen={selectedScreen} />}
+      </Stack.Screen>
+      {/* <Stack.Screen
         name="MyEvents"
         component={EventScreen}
         options={{
@@ -37,7 +49,7 @@ export default function EventStack({ navigation }) {
           //   </Pressable>
           // ),
         }}
-      />
+      /> */}
       <Stack.Screen
         name="AddEvent"
         component={AddEvent}
