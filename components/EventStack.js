@@ -36,7 +36,12 @@ export default function EventStack({ navigation }) {
           ),
         }}
       >
-        {() => <EventScreen selectedScreen={selectedScreen} />}
+        {() => (
+          <EventScreen
+            navigation={navigation}
+            selectedScreen={selectedScreen}
+          />
+        )}
       </Stack.Screen>
       {/* <Stack.Screen
         name="MyEvents"
