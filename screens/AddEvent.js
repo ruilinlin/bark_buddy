@@ -7,7 +7,12 @@ import { colors } from "../helper/Color";
 import { writeToDB } from "../firebase-files/firestoreHelper";
 import { auth, database } from "../firebase-files/firebaseSetup";
 
-export default function AddEvent({ navigation }) {
+export default function AddEvent({ navigation, route }) {
+  const isEdit = route.params !== undefined;
+  if (isEdit) {
+    const { id, userId } = route.params;
+  }
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");

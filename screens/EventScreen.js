@@ -57,9 +57,10 @@ export default function EventScreen({ navigation, selectedScreen }) {
 
   // const eventDataToDisplay = selectedScreen === "Event" ? events : events;
 
-  function itemPressHandler(eventItem) {
-    navigation.navigate("EventDetail", { data: eventItem, selectedScreen });
-  }
+  // function itemPressHandler(eventItem) {
+  //   console.log(eventItem);
+  //   navigation.navigate("EventDetail", { data: eventItem, selectedScreen });
+  // }
 
   const renderItem = ({ item }) => (
     <EventItem
@@ -67,7 +68,8 @@ export default function EventScreen({ navigation, selectedScreen }) {
       location={item.location}
       time={item.date.toDate().toString().substring(0, 21)}
       imageUrl={item.imageUrl}
-      itemPressHandler={itemPressHandler}
+      eventId={item.id}
+      userId={item.userId}
       selectedScreen={selectedScreen}
     />
   );
