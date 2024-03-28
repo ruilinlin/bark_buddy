@@ -42,7 +42,7 @@ export default function AddEvent({ navigation }) {
   }
 
   function validateInputs() {
-    // Validate activity and date
+    // Validate all the input fields
     const isEmpty =
       title.length === 0 ||
       description.length === 0 ||
