@@ -19,7 +19,7 @@ export default function PressableButton({
       onPress={onPress}
       android_ripple={{ color: { backgroundColor } }}
     >
-      {children}
+      <Text>{children}</Text>
     </Pressable>
   );
 }
@@ -27,7 +27,7 @@ export default function PressableButton({
 const styles = StyleSheet.create({
   defaultStyle: {
     margin: 10,
-    width: 120,
+    width: 60,
     height: 30,
     borderRadius: 5,
     alignItems: "center",

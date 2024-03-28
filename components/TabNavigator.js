@@ -1,6 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PostScreen from "../screens/PostScreen";
+import PostStack from "./PostStack";
 import MapScreen from "../screens/MapScreen";
 import MessageScreen from "../screens/MessageScreen";
 import UserScreen from "../screens/UserScreen";
@@ -13,9 +14,10 @@ export default function TabNavigator() {
     <Tab.Navigator>
       <Tab.Screen
         name="Posts"
-        component={PostScreen}
+        component={PostStack}
         options={{
           headerTitle: "Posts",
+          headerShown: false,
         }}
       />
       <Tab.Screen

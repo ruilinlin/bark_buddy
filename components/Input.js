@@ -3,6 +3,7 @@ import React from "react";
 import { colors } from "../helper/Color";
 
 export default function Input({
+  custominputborder,
   Customstyle,
   label,
   value,
@@ -17,7 +18,7 @@ export default function Input({
     <View style={Customstyle}>
       <Text style={styles.label}>{label}</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input,custominputborder]}
         value={value}
         onChangeText={onChangeText}
         onPressIn={onPressIn}
