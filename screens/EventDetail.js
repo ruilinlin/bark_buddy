@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, Alert, ScrollView } from "react-native";
 import React from "react";
 import PressableButton from "../components/PressableButton";
 import { colors } from "../helper/Color";
+import GradientBackground from "../components/Background";
 
 const joinHandler = () => {
   Alert.alert("Successfully Joined!");
@@ -9,55 +10,59 @@ const joinHandler = () => {
 
 export default function EventDetail({ navigation, route }) {
   return (
-    <View>
-      <Image
-        style={styles.image}
-        source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
-        resizeMode="cover" // cropped by size
-      />
-      <View style={styles.overlay}>
-        <Text style={styles.overlayText}>Time1</Text>
-      </View>
-      <View style={styles.eventInfo}>
-        <Text style={styles.eventName}>Event Name</Text>
-        <View style={styles.container}>
-          <View style={styles.eventDetailContainer}>
-            <Text style={styles.eventDetail}>Location: Location1</Text>
-            <Text style={styles.eventDetail}>Time: 2024.05.10 Tue 13:30</Text>
-            <Text style={styles.eventDetail}>Organizer: j;alskdg a;sldkgj</Text>
+    <GradientBackground>
+      <View>
+        <Image
+          style={styles.image}
+          source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
+          resizeMode="cover" // cropped by size
+        />
+        <View style={styles.overlay}>
+          <Text style={styles.overlayText}>Time1</Text>
+        </View>
+        <View style={styles.eventInfo}>
+          <Text style={styles.eventName}>Event Name</Text>
+          <View style={styles.container}>
+            <View style={styles.eventDetailContainer}>
+              <Text style={styles.eventDetail}>Location: Location1</Text>
+              <Text style={styles.eventDetail}>Time: 2024.05.10 Tue 13:30</Text>
+              <Text style={styles.eventDetail}>
+                Organizer: j;alskdg a;sldkgj
+              </Text>
+            </View>
+            <View style={styles.joinButtonContainer}>
+              <PressableButton
+                backgroundColor={colors.backgroundlight}
+                onPress={joinHandler}
+              >
+                <Text style={styles.buttonText}>Join</Text>
+              </PressableButton>
+            </View>
           </View>
-          <View style={styles.joinButtonContainer}>
-            <PressableButton
-              backgroundColor={colors.backgroundlight}
-              onPress={joinHandler}
-            >
-              <Text style={styles.buttonText}>Join</Text>
-            </PressableButton>
+          <View style={styles.introductionContainer}>
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+              <Text style={styles.introduction}>
+                The detail information about the event. The detail information
+                about the event.The detail information about the event.The
+                detail information about the event.The detail information about
+                the event.The detail information about the event.The detail
+                information about the event.The detail information about the
+                event.The detail information about the event.The detail
+                information about the event. The detail information about the
+                event.The detail information about the event.The detail
+                information about the event. The detail information about the
+                event. The detail information about the event.The detail
+                information about the event.The detail information about the
+                event.The detail information about the event.The detail
+                information about the event.The detail information about the
+                event.The detail information about the event.The detail
+                information about the event.
+              </Text>
+            </ScrollView>
           </View>
         </View>
-        <View style={styles.introductionContainer}>
-          <ScrollView contentContainerStyle={styles.scrollViewContent}>
-            <Text style={styles.introduction}>
-              The detail information about the event. The detail information
-              about the event.The detail information about the event.The detail
-              information about the event.The detail information about the
-              event.The detail information about the event.The detail
-              information about the event.The detail information about the
-              event.The detail information about the event.The detail
-              information about the event. The detail information about the
-              event.The detail information about the event.The detail
-              information about the event. The detail information about the
-              event. The detail information about the event.The detail
-              information about the event.The detail information about the
-              event.The detail information about the event.The detail
-              information about the event.The detail information about the
-              event.The detail information about the event.The detail
-              information about the event.
-            </Text>
-          </ScrollView>
-        </View>
       </View>
-    </View>
+    </GradientBackground>
   );
 }
 
