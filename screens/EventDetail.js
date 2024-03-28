@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, Alert, ScrollView } from "react-native";
 import React from "react";
 import PressableButton from "../components/PressableButton";
 import { colors } from "../helper/Color";
-import GradientBackground from "../components/Background";
+import GradientBackground from "../components/DarkBackGround";
 
 export default function EventDetail({ navigation, route }) {
   const { data, selectedScreen } = route.params;
