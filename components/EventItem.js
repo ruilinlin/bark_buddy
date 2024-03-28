@@ -4,15 +4,26 @@ import PressableButton from "./PressableButton";
 import { colors } from "../helper/Color";
 import { useNavigation } from "@react-navigation/native"; // Import the useNavigation hook
 
-// const navigation = useNavigation(); // Access the navigation object using useNavigation hook
+export default function EventItem({
+  name,
+  location,
+  time,
+  imageUrl,
+  itemPressHandler,
+  selectedScreen,
+}) {
+  const navigation = useNavigation(); // Access the navigation object using useNavigation hook
 
-const joinHandler = () => {
-  Alert.alert("Successfully Joined!");
-};
+  const joinHandler = () => {
+    Alert.alert("Successfully Joined!");
+  };
 
-export default function EventItem({ name, location, time, imageUrl }) {
+  const editHandler = () => {
+    navigation.navigate("AddEvent");
+  };
+
   return (
-    <Pressable>
+    <Pressable onPress={() => itemPressHandler()}>
       <View style={styles.eventItem}>
         <Image
           style={styles.image}
@@ -28,13 +39,22 @@ export default function EventItem({ name, location, time, imageUrl }) {
             <Text style={styles.eventDetail}>Location: {location}</Text>
             <Text style={styles.eventDetail}>Time: {time}</Text>
           </View>
-          <View style={styles.joinButtonContainer}>
-            <PressableButton
-              backgroundColor={colors.backgroundlight}
-              onPress={joinHandler}
-            >
-              <Text style={styles.buttonText}>Join</Text>
-            </PressableButton>
+          <View style={styles.buttonContainer}>
+            {selectedScreen === "Event" ? (
+              <PressableButton
+                backgroundColor={colors.backgroundlight}
+                onPress={joinHandler}
+              >
+                <Text style={styles.buttonText}>Join</Text>
+              </PressableButton>
+            ) : (
+              <PressableButton
+                backgroundColor={colors.backgroundlight}
+                onPress={editHandler}
+              >
+                <Text style={styles.buttonText}>Edit</Text>
+              </PressableButton>
+            )}
           </View>
         </View>
       </View>
@@ -79,7 +99,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     paddingBottom: 5,
   },
-  joinButtonContainer: {
+  buttonContainer: {
     flex: 1,
     alignItems: "flex-end",
     justifyContent: "flex-end",

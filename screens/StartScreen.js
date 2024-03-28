@@ -72,6 +72,7 @@ export default function StartScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Input
+        custominputborder ={styles.custominputborder}
         label="Email Address"
         value={email}
         onChangeText={changeEmailHandler}
@@ -117,4 +118,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   buttonText: { color: "#ffffff" },
+  custominputborder:{
+    color: colors.backgroundlight,
+  },
 });

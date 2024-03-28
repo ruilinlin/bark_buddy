@@ -1,14 +1,17 @@
-import { StyleSheet, Text, View, Image, Dimensions ,TouchableOpacity} from 'react-native'; 
+import { StyleSheet, Text, View, Image, Dimensions ,TouchableOpacity, Pressable} from 'react-native'; 
 // import UserAvatar from 'react-native-user-avatar';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import React, { useState } from 'react'
 import { colors } from '../helper/Color';
 import ImageViewer from './PostImageViewer';
+import { useNavigation } from '@react-navigation/core';
 
 
-export default function PostItem({postItemname}) {
+export default function PostItem({postItemname,onCommentClick}) {
+  const navigation = useNavigation(); 
   const [liked, setLiked] = useState(false);
+  const [isClickComments, setIsClickComments] =useState(false);
   const describe = "Here is my favorate avatar genarate by my dog!"
   const likenumbers = "90"
   const commentsnumbers ="90"
@@ -24,16 +27,22 @@ export default function PostItem({postItemname}) {
       height: 400,
     },
   });
+
+  function handleClickComment(){
+    setIsClickComments(true);
+  }
  
   return (
     <View style={styles.container}>
       <View style={dynamicStyles.postContainer}>
         <View style={styles.userinformationContainer}>
-          <Image
-            source={require('../assets/favicon.png')}
-            style={styles.avatorContainer}
-            resizeMode="cover" 
-          />
+          <Pressable onPress={()=>navigation.navigate("User")}>
+            <Image
+              source={require('../assets/favicon.png')}
+              style={styles.avatorContainer}
+              resizeMode="cover" 
+            />
+          </Pressable>
           {/* <UserAvatar size={100} name="Avishay Bar" src= {postitemavator}  /> */}
           <Text style={styles.Username}>{postItemname}</Text>
         </View >
@@ -49,7 +58,9 @@ export default function PostItem({postItemname}) {
           style={styles.icon}
         />
       </TouchableOpacity>
-      <FontAwesome5 name="comment-alt" size={22} color={colors.backgroundlight} style={styles.icon}/>
+      <TouchableOpacity onPress={onCommentClick}>
+        <FontAwesome5 name="comment-alt" size={22} color={colors.backgroundlight} style={styles.icon}/>
+      </TouchableOpacity>
     </View>
     
     <View style={styles.userinformationContainer}>
@@ -57,9 +68,6 @@ export default function PostItem({postItemname}) {
       <Text style={styles.textsmall}>{commentsnumbers} comments</Text>
     </View>
     <Text style={styles.describe}>{describe}</Text>
-      {/* <View style={styles.othercomments}>
-       <PostComments/>
-      </View> */}
     </View>
   )
 }

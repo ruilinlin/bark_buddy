@@ -3,20 +3,28 @@ import React from "react";
 import { colors } from "../helper/Color";
 
 export default function Input({
+  custominputborder,
+  Customstyle,
   label,
   value,
   onChangeText,
   onPressIn,
   error,
+  placeholder,
+  multiline,
+  numberOfLines,
 }) {
   return (
-    <View>
+    <View style={Customstyle}>
       <Text style={styles.label}>{label}</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input,custominputborder]}
         value={value}
         onChangeText={onChangeText}
         onPressIn={onPressIn}
+        placeholder={placeholder}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
       />
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </View>
@@ -25,19 +33,17 @@ export default function Input({
 
 const styles = StyleSheet.create({
   label: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: colors.backgroundlight,
+    fontSize: 12,
+    color: colors.commentsfontcolor,
     margin: 5,
     justifyContent: "flex-start",
     alignItems: "flex-start",
   },
   input: {
-    fontSize: 20,
-    color: colors.backgroundlight,
-    borderWidth: 2,
-    borderColor: colors.backgroundlight,
-    borderRadius: 5,
+    fontSize: 12,
+    color: colors.commentsfontcolor,
+    borderWidth: 1,
+    borderRadius: 20,
     padding: 10,
     margin: 5,
   },
