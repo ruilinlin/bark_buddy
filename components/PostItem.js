@@ -1,13 +1,15 @@
-import { StyleSheet, Text, View, Image, Dimensions ,TouchableOpacity} from 'react-native'; 
+import { StyleSheet, Text, View, Image, Dimensions ,TouchableOpacity, Pressable} from 'react-native'; 
 // import UserAvatar from 'react-native-user-avatar';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import React, { useState } from 'react'
 import { colors } from '../helper/Color';
 import ImageViewer from './PostImageViewer';
+import { useNavigation } from '@react-navigation/core';
 
 
 export default function PostItem({postItemname,onCommentClick}) {
+  const navigation = useNavigation(); 
   const [liked, setLiked] = useState(false);
   const [isClickComments, setIsClickComments] =useState(false);
   const describe = "Here is my favorate avatar genarate by my dog!"
@@ -34,11 +36,13 @@ export default function PostItem({postItemname,onCommentClick}) {
     <View style={styles.container}>
       <View style={dynamicStyles.postContainer}>
         <View style={styles.userinformationContainer}>
-          <Image
-            source={require('../assets/favicon.png')}
-            style={styles.avatorContainer}
-            resizeMode="cover" 
-          />
+          <Pressable onPress={()=>navigation.navigate("User")}>
+            <Image
+              source={require('../assets/favicon.png')}
+              style={styles.avatorContainer}
+              resizeMode="cover" 
+            />
+          </Pressable>
           {/* <UserAvatar size={100} name="Avishay Bar" src= {postitemavator}  /> */}
           <Text style={styles.Username}>{postItemname}</Text>
         </View >
