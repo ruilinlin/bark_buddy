@@ -23,7 +23,7 @@ export async function deleteActivity(id,CollectionName) {
 }
 
 
-export async function fetchActivitybyID(id,,CollectionName) {
+export async function fetchActivitybyID(id,CollectionName) {
   try {
     const docRef = doc(database, CollectionName, id);
     const docSnap = await getDoc(docRef);
