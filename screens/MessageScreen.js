@@ -4,6 +4,7 @@ import MessageItem from "../components/MessageItem";
 import LightBackGround from '../components/LightBackGround';
 import { colors } from '../helper/Color';
 import { MaterialIcons } from '@expo/vector-icons';
+import ChatBubble from '../components/ChatBubble';
 
 export default function MessageScreen() {
   const friendmessage =[{id: '1', name: 'test', avatar: require("../assets/favicon.png"),message:"Mobile Application Development SEC 05 Spring 2024 "},
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
   FriendMessageContainer:{
     backgroundColor:colors.lightavatarborder,
     flex:1,
+    borderRadius:20,
   },
   StrangerMessageContainer:{
     flex:2
