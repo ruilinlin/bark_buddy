@@ -9,8 +9,10 @@ export default function Input({
   onChangeText,
   onPressIn,
   error,
+  placeholder,
+  multiline,
+  numberOfLines,
 }) {
-
   return (
     <View style={Customstyle}>
       <Text style={styles.label}>{label}</Text>
@@ -19,7 +21,9 @@ export default function Input({
         value={value}
         onChangeText={onChangeText}
         onPressIn={onPressIn}
-        placeholder="Add Your Comment Here!"
+        placeholder={placeholder}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
       />
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </View>
@@ -38,7 +42,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.commentsfontcolor,
     borderWidth: 1,
-    color: colors.commentsfontcolor,
     borderRadius: 20,
     padding: 10,
     margin: 5,

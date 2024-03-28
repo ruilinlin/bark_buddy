@@ -90,6 +90,8 @@ export default function AddEvent({ navigation }) {
           label="Description *"
           value={description}
           onChangeText={descriptionChangeHandler}
+          multiline={true}
+          numberOfLines={5} // need to modify
         />
         {/* Need to add Location picker */}
         {/* Need to add Picture picker */}
@@ -118,24 +120,24 @@ export default function AddEvent({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   paddingTop: 30,
-  // },
-  // inputsContainer: {
-  //   flex: 4 / 5,
-  //   paddingHorizontal: 20,
-  //   marginBottom: 20,
-  // },
-  // buttonsContainer: {
-  //   flex: 1,
-  //   flexDirection: "row",
-  //   justifyContent: "space-around",
-  // },
-  // downside: {
-  //   flex: 1 / 5,
-  //   flexDirection: "column",
-  // },
+  container: {
+    flex: 1,
+    paddingTop: 30,
+  },
+  inputsContainer: {
+    flex: 4,
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+  buttonsContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  downside: {
+    flex: 1,
+    flexDirection: "column",
+  },
   text: {
     color: "#ffffff",
     fontWeight: "bold",
