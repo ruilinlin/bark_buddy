@@ -1,4 +1,4 @@
-import GradientBackground from '../components/Background'
+import GradientBackground from '../components/DarkBackGround'
 import PostItem from '../components/PostItem'
 import {PostComments} from '../components/PostComments'
 import PressableButton from '../components/PressableButton'

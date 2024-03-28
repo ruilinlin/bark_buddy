@@ -1,9 +1,11 @@
 import { StyleSheet,Image, Text, View, FlatList,Button,SafeAreaView,Alert, Pressable, ScrollView,Dimensions} from 'react-native'
 import React from "react";
-import GradientBackground from '../components/Background'
+import LightBackGround from '../components/LightBackGround';
 import { colors } from '../helper/Color';
 import PostItem from '../components/PostItem'
 import ImageViewer from '../components/PostImageViewer';
+// import LinearGradient from 'react-native-linear-gradient';
+
 
 export default function UserScreen() {
   const user = {
@@ -28,20 +30,31 @@ const stories = [
 ];
 const images = [{id: '1', uri: require('../assets/1.png') },
 {id: '2', uri: require('../assets/2.png') },
-{id: '3', uri: require('../assets/3.png') },]
+{id: '3', uri: require('../assets/3.png') },
+{id: '4', uri: require('../assets/1.png') },
+{id: '5', uri: require('../assets/2.png') },
+{id: '6', uri: require('../assets/3.png') },
+{id: '7', uri: require('../assets/2.png') },
+{id: '8', uri: require('../assets/3.png') },
+{id: '9', uri: require('../assets/3.png') },]
 
+const { width,height } = Dimensions.get('window');
 
   return (
-    <GradientBackground>
+    <LightBackGround>
       <SafeAreaView style={styles.container}>
-      <View style={styles.userinformationContainer}>
-      <Image
+      <View style={styles.userinformationContainer}> 
+        <Image
             source={require('../assets/favicon.png')}
             style={styles.avatorContainer}
             resizeMode="cover" 
           />
+
       <Text style={styles.Username}>{user.name}</Text>
-      <Text style={styles.Username}>{user.livein}</Text>
+      <Text style={styles.location}>{user.livein}</Text>
+      </View>
+      <View style={styles.titleContainer}>
+      <Text style={styles.titleText}>Puppy is Here</Text>
       </View>
       <ScrollView horizontal style={styles.petcardContainer}>
           {user.pet.map((pet)=>(
@@ -53,60 +66,103 @@ const images = [{id: '1', uri: require('../assets/1.png') },
           </View>
           ))}
         </ScrollView>
-      <FlatList 
-      style={styles.listContainer}
-      data={images}
-      renderItem={({item})=>(
-        <ImageViewer images={images} />
-      )}      
-      />
+        <FlatList
+          style={styles.listContainer}
+          data={images}
+          renderItem={({ item }) => (
+            <View style={[styles.imageContainer,{ width: width / 3 -5,height: width / 3 }]}>
+              <Image source={item.uri} style={{ width: '100%', height: '100%' }} resizeMode="contain" />
+            </View>
+          )}
+          keyExtractor={item => item.id}
+          numColumns={3} 
+        />
         
       </SafeAreaView>
     <View>
     </View>
-    </GradientBackground>
+    </LightBackGround>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
- flexDirection: 'column',
+  flexDirection: 'column',
   },
   userinformationContainer:{
-    flex: 1,
+    // flex: 1,
+    height: 150,
     marginTop:30,
     alignItems: "center",
   },  
   avatorContainer:{
-    width: 70,
-    height: 70,
+    width: 100,
+    height: 100,
     borderRadius: 50,
-    backgroundColor:colors.backgroundlight,
+    backgroundColor:colors.lightavatarborder,
     marginBottom:20,
+    borderWidth: 5, 
+    borderColor: colors.lightavatarborder,
   },
-  Username:{
-    fontSize:16,
-    color:colors.fontcolortitle,
-    paddingLeft: 10, 
-    marginBottom:5,
-  },
-  card:{
-    width:100,
-    height:100,
-    borderRadius:8,
-  },
-  petcardContainer:{
-    flex: 2,
-    width:"100%",
-    backgroundColor:"white",
-  },
-  cardInfo:{
+  titleContainer:{
+    width:25,
+    height:30,
+    marginTop:30,
+    alignItems: "center",
+    justifyContent: 'center',
+    width: '100%',
+    marginBottom:10,
 
   },
+  Username:{
+    fontSize:20,
+    color:colors.commentsfontcolor,
+    paddingLeft: 10, 
+  },
+  cardAvatar:{
+    width: 30,
+    height: 30,
+    borderRadius: 50,
+    backgroundColor:colors.lightavatarborder,
+  },
+  card:{
+    alignItems: "center",
+    justifyContent: 'center',
+    width:150,
+    height:110,
+    borderRadius:20,
+    backgroundColor:colors.lightavatarborder,
+    marginLeft:30,
+    marginTop:20,
+  },
+  petcardContainer:{  
+    height: 200,
+    width:"100%",
+    alignContent:"center",
+    marginBottom:30,
+  },
+  cardInfo:{
+    fontSize:12,
+    color:colors.commentsfontcolor,   
+  },
   listContainer:{
-    flex:9,
+    // flex:2,
+    width: "100%",
     // marginTop:0,
     // marginBottom:0,
+  },
+  imageContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    margin: 1,
+  },
+  location:{
+    fontSize:12,
+    color:colors.commentsfontcolor,
+  },
+  titleText:{
+    fontSize:20,
+    color:colors.fontcolortitle,
   },
 });

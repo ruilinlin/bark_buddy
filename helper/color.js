@@ -1,4 +1,6 @@
 export const colors = {
+  lightbackgrounddark:"#e0bbe4",
+  lightbackgroundlight:"#f6ecf5",
   backgrounddark:"#051e3e",
   backgroundshallow:"#451e3e",
   backgroundlight:"#bd1e51",
@@ -8,4 +10,5 @@ export const colors = {
   commentsmodal:'rgba(0, 0, 0, 0)',
   commentsfontcolor:"black",
   shadowColor: '#000',
+  lightavatarborder:"#d291bc",
 };

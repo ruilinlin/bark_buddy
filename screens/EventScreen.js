@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import EventItem from "../components/EventItem";
-import GradientBackground from "../components/Background";
+import GradientBackground from "../components/DarkBackGround";
 import EventDetail from "./EventDetail";
 import AddEvent from "./AddEvent";
 
