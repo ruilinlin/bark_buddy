@@ -4,6 +4,7 @@ import EventScreen from "../screens/EventScreen";
 import AddEvent from "../screens/AddEvent";
 import { Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import EventDetail from "../screens/EventDetail";
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,13 @@ export default function EventStack({ navigation }) {
         component={AddEvent}
         options={{
           headerTitle: "Add An Event",
+        }}
+      />
+      <Stack.Screen
+        name="EventDetail"
+        component={EventDetail}
+        options={{
+          headerTitle: "Event Detail",
         }}
       />
     </Stack.Navigator>

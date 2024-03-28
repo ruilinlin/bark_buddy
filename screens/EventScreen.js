@@ -29,13 +29,18 @@ const eventData = [
     imageUrl: "https://reactnative.dev/img/tiny_logo.png",
   },
 ];
-export default function EventScreen() {
+export default function EventScreen({ navigation }) {
+  function itemPressHandler(eventItem) {
+    navigation.navigate("EventDetail", { data: eventItem });
+  }
+
   const renderItem = ({ item }) => (
     <EventItem
       name={item.name}
       location={item.location}
       time={item.time}
       imageUrl={item.imageUrl}
+      itemPressHandler={itemPressHandler}
     />
   );
   return (
