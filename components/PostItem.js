@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import { colors } from '../helper/Color';
 import ImageViewer from './PostImageViewer';
 import { useNavigation } from '@react-navigation/core';
-
+import {fetchDataList} from "../firebase-files/firestoreHelper"
 
 export default function PostItem({postItemname,onCommentClick}) {
   const navigation = useNavigation(); 
@@ -21,6 +21,29 @@ export default function PostItem({postItemname,onCommentClick}) {
                   
   const {width}= Dimensions.get("window");
 
+  // const [userId, setUserId] = useState("");
+  // const [likenumbers,setLikeNumbers] = useState(0);
+  // const [commentnumbers,setConmmentNumbers] = useState(0);
+
+    // {when we have createpost feature, we will use this real fetch function replace the hard-work fake data}
+    // useEffect(() => {
+    //   if (CollectionName) {
+    //     const fetchDataList = async () => {
+    //       try {
+    //         const data = await fetchDataList (CollectionName);
+    //         if (data) {
+    //           setUserId(data.userId);
+    //           setLikeNumbers(data.likenumbers);
+    //           setConmmentNumbers(data.commentsnumbers);
+    //         }
+    //       } catch (error) {
+    //         Alert.alert('Error fetching activity', error.message);
+    //       }
+    //     };
+    //     fetchDataList();
+    //   }
+    // }, []);
+    
   const dynamicStyles = StyleSheet.create({
     postContainer: {
       width: width, 
