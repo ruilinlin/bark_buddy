@@ -36,6 +36,15 @@ try {
     return { id: docSnap.id, ...docSnap.data() };
   } else {
     console.log("No such document!");
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      return { id: docSnap.id, ...docSnap.data() };
+    } else {
+      console.log("No such document!");
+    }
+  } catch (error) {
+    console.error("Error fetching activity data: ", error);
   }
 } catch (error) {
   console.error("Error fetching data: ", error);
