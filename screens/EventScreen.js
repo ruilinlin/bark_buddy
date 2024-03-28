@@ -1,11 +1,11 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import EventItem from "../components/EventItem";
 import GradientBackground from "../components/DarkBackGround";
 import EventDetail from "./EventDetail";
 import AddEvent from "./AddEvent";
 
-// test datas
+// test datas for Event screen
 const eventData = [
   {
     id: "1",
@@ -29,20 +29,50 @@ const eventData = [
     imageUrl: "https://reactnative.dev/img/tiny_logo.png",
   },
 ];
-export default function EventScreen() {
+
+// test datas for MyEvent screen
+const eventDataForMy = [
+  {
+    id: "3",
+    name: "Event 3",
+    location: "Location 3",
+    time: "Time 3",
+    imageUrl: "https://reactnative.dev/img/tiny_logo.png",
+  },
+];
+
+export default function EventScreen({ navigation, selectedScreen }) {
+  // const [eventDataToDisplay, setEventDataToDisplay] = useState(eventData);
+
+  // useEffect(() => {
+  //   if (selectedScreen === "Event") {
+  //     setEventDataToDisplay(eventData);
+  //   } else if (selectedScreen === "MyEvents") {
+  //     setEventDataToDisplay(eventDataForMy);
+  //   }
+  // }, [selectedScreen]);
+  const eventDataToDisplay =
+    selectedScreen === "Event" ? eventData : eventDataForMy;
+
+  function itemPressHandler(eventItem) {
+    navigation.navigate("EventDetail", { data: eventItem, selectedScreen });
+  }
+
   const renderItem = ({ item }) => (
     <EventItem
       name={item.name}
       location={item.location}
       time={item.time}
       imageUrl={item.imageUrl}
+      itemPressHandler={itemPressHandler}
+      selectedScreen={selectedScreen}
     />
   );
   return (
     <GradientBackground>
       <View>
         <FlatList
-          data={eventData}
+          data={eventDataToDisplay}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
