@@ -4,11 +4,17 @@ import PressableButton from "../components/PressableButton";
 import { colors } from "../helper/Color";
 import GradientBackground from "../components/Background";
 
-const joinHandler = () => {
-  Alert.alert("Successfully Joined!");
-};
-
 export default function EventDetail({ navigation, route }) {
+  const { data, selectedScreen } = route.params;
+
+  const joinHandler = () => {
+    Alert.alert("Successfully Joined!");
+  };
+
+  const editHandler = () => {
+    navigation.navigate("AddEvent");
+  };
+
   return (
     <GradientBackground>
       <View>
@@ -30,13 +36,22 @@ export default function EventDetail({ navigation, route }) {
                 Organizer: j;alskdg a;sldkgj
               </Text>
             </View>
-            <View style={styles.joinButtonContainer}>
-              <PressableButton
-                backgroundColor={colors.backgroundlight}
-                onPress={joinHandler}
-              >
-                <Text style={styles.buttonText}>Join</Text>
-              </PressableButton>
+            <View style={styles.buttonContainer}>
+              {selectedScreen === "Event" ? (
+                <PressableButton
+                  backgroundColor={colors.backgroundlight}
+                  onPress={joinHandler}
+                >
+                  <Text style={styles.buttonText}>Join</Text>
+                </PressableButton>
+              ) : (
+                <PressableButton
+                  backgroundColor={colors.backgroundlight}
+                  onPress={editHandler}
+                >
+                  <Text style={styles.buttonText}>Edit</Text>
+                </PressableButton>
+              )}
             </View>
           </View>
           <View style={styles.introductionContainer}>
@@ -103,7 +118,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     paddingBottom: 5,
   },
-  joinButtonContainer: {
+  buttonContainer: {
     flex: 1,
     alignItems: "flex-end",
     justifyContent: "flex-end",
