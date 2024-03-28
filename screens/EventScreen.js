@@ -1,58 +1,61 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import EventItem from "../components/EventItem";
 import GradientBackground from "../components/DarkBackGround";
 import EventDetail from "./EventDetail";
 import AddEvent from "./AddEvent";
-
-// test datas for Event screen
-const eventData = [
-  {
-    id: "1",
-    name: "Event 1",
-    location: "Location 1",
-    time: "Time 1",
-    imageUrl: "https://reactnative.dev/img/tiny_logo.png",
-  },
-  {
-    id: "2",
-    name: "Event 2",
-    location: "Location 2",
-    time: "Time 2",
-    imageUrl: "https://reactnative.dev/img/tiny_logo.png",
-  },
-  {
-    id: "3",
-    name: "Event 3",
-    location: "Location 3",
-    time: "Time 3",
-    imageUrl: "https://reactnative.dev/img/tiny_logo.png",
-  },
-];
-
-// test datas for MyEvent screen
-const eventDataForMy = [
-  {
-    id: "3",
-    name: "Event 3",
-    location: "Location 3",
-    time: "Time 3",
-    imageUrl: "https://reactnative.dev/img/tiny_logo.png",
-  },
-];
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { auth, database } from "../firebase-files/firebaseSetup";
 
 export default function EventScreen({ navigation, selectedScreen }) {
-  // const [eventDataToDisplay, setEventDataToDisplay] = useState(eventData);
+  const [events, setEvents] = useState([]);
 
-  // useEffect(() => {
-  //   if (selectedScreen === "Event") {
-  //     setEventDataToDisplay(eventData);
-  //   } else if (selectedScreen === "MyEvents") {
-  //     setEventDataToDisplay(eventDataForMy);
-  //   }
-  // }, [selectedScreen]);
-  const eventDataToDisplay =
-    selectedScreen === "Event" ? eventData : eventDataForMy;
+  useEffect(() => {
+    // set up a listener to get realtime data from firestore - only after the first render
+    const unsubscribe = onSnapshot(
+      query(
+        collection(database, "events"),
+        selectedScreen === "Event"
+          ? null
+          : where("userId", "==", auth.currentUser.uid)
+      ),
+      (querySnapshot) => {
+        if (querySnapshot.empty) {
+          Alert.alert("You need to add an event");
+          return;
+        }
+        // loop through this querySnapshot (forEach) => a bunch of docSnapshot
+        // call .data() on each documentsnapshot
+        let newArray = [];
+        querySnapshot.forEach((doc) => {
+          // Check if location and imageUrl exist, if not, assign default values
+          const data = doc.data();
+          console.log(data);
+          const eventData = {
+            ...data,
+            id: doc.id,
+            location: data.location || "Location",
+            imageUrl:
+              data.imageUrl || "https://reactnative.dev/img/tiny_logo.png",
+          };
+          // store this data in a new array
+          newArray.push(eventData);
+        });
+        console.log(newArray);
+        //updating the events array with the new array
+        setEvents(newArray);
+      },
+      (error) => {
+        Alert.alert(error.message);
+      }
+    );
+    return () => {
+      console.log("unsubscribe");
+      unsubscribe();
+    };
+  }, [selectedScreen]);
+
+  // const eventDataToDisplay = selectedScreen === "Event" ? events : events;
 
   function itemPressHandler(eventItem) {
     navigation.navigate("EventDetail", { data: eventItem, selectedScreen });
@@ -62,7 +65,7 @@ export default function EventScreen({ navigation, selectedScreen }) {
     <EventItem
       name={item.name}
       location={item.location}
-      time={item.time}
+      time={item.date.toDate().toString().substring(0, 21)}
       imageUrl={item.imageUrl}
       itemPressHandler={itemPressHandler}
       selectedScreen={selectedScreen}
@@ -72,7 +75,7 @@ export default function EventScreen({ navigation, selectedScreen }) {
     <GradientBackground>
       <View>
         <FlatList
-          data={eventDataToDisplay}
+          data={events}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
