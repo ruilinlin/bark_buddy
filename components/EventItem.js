@@ -10,9 +10,15 @@ const joinHandler = () => {
   Alert.alert("Successfully Joined!");
 };
 
-export default function EventItem({ name, location, time, imageUrl }) {
+export default function EventItem({
+  name,
+  location,
+  time,
+  imageUrl,
+  itemPressHandler,
+}) {
   return (
-    <Pressable>
+    <Pressable onPress={() => itemPressHandler()}>
       <View style={styles.eventItem}>
         <Image
           style={styles.image}
