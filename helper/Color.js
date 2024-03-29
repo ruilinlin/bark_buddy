@@ -11,5 +11,4 @@ export const colors = {
   commentsfontcolor: "black",
   shadowColor: "#000",
   lightavatarborder: "#d291bc",
-  // to update the capitalization
 };
