@@ -8,7 +8,7 @@ BarkBuddy is an innovative social platform designed for pet lovers. The app faci
 
 - **Navigation Transition Architecture**: Implemented a robust navigator transition architecture, ensuring smooth navigation across different screens.
 - **Screen Layouts**: Established basic layouts for the Post, Event, Message, and Profile screens. The Map screen layout is planned for the next iteration.
-- **CRUD**: implemente the CRUD operations in eventscreen.
+- **CRUD**: implemente the CRUD operations in eventscreen.Since the post, message and profile Create operation contains the map, authentication,cemara,we will leave this screen CRUD in iteration 2.
 
 #### Post Screen
 
@@ -17,7 +17,7 @@ BarkBuddy is an innovative social platform designed for pet lovers. The app faci
 - Direct access to user profiles by clicking on user avatars.
 - An add button on the right part of the header for creating posts (currently inactive as CRUD operations will be implemented in iteration 2).
 
-#### Event Screen
+#### Event Screen(with CRUD)
 
 - Consists of two screens: Events and My Events.
 - On the header, there is an Add Pressable on the right side, which navigates to the "Add An Event" screen. Users can create a new event on the "Add An Event" screen.
