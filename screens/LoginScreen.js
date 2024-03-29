@@ -22,6 +22,7 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Email</Text>

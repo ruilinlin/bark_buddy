@@ -18,7 +18,7 @@ export default function PostStack({ navigation }) {
         options={{
           headerRight: () => (
             <Pressable 
-              onPress={() => navigation.navigate("AddEvent")}
+              // onPress={() => navigation.navigate("AddEvent")}
               style={{ margin: 10 }}
             >
               <Ionicons name="add-circle-outline" size={24} color="black" />
