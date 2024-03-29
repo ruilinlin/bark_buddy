@@ -8,7 +8,6 @@ import UserScreen from "../screens/UserScreen";
 import EventStack from "./EventStack";
 
 const Tab = createBottomTabNavigator();
-
 export default function TabNavigator() {
   return (
     <Tab.Navigator>

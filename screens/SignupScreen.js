@@ -2,8 +2,9 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { auth } from "../firebase-files/firebaseSetup";
+import TabNavigator from "../components/TabNavigator";
 
-export default function SignupScreen({ navigation }) {
+export default function SignupScreen({ navigation,setIsVisitor }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -11,6 +12,14 @@ export default function SignupScreen({ navigation }) {
   const loginHandler = () => {
     navigation.replace("Login");
   };
+
+  // const VisitorHandler = () => {
+  //   // Update isVisitor state
+  //   setIsVisitor(true); 
+  //   // Navigate to TabNavigator
+  //   navigation.navigate('TabNavigator');
+  // };
+  
   const signupHandler = async () => {
     if (!email || !password || !confirmPassword) {
       Alert.alert("Fields should not be empty");
@@ -69,6 +78,7 @@ export default function SignupScreen({ navigation }) {
       />
       <Button title="Register" onPress={signupHandler} />
       <Button title="Already Registered? Login" onPress={loginHandler} />
+      {/* <Button title="Visit as Visitor" onPress={VisitorHandler} /> */}
     </View>
   );
 }
