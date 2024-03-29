@@ -21,6 +21,7 @@ export default function EventScreen({ navigation, selectedScreen }) {
       ),
       (querySnapshot) => {
         if (querySnapshot.empty) {
+          setEvents([]);
           Alert.alert("You need to add an event");
           return;
         }
@@ -81,8 +82,6 @@ export default function EventScreen({ navigation, selectedScreen }) {
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
-        {/* <EventDetail></EventDetail> */}
-        {/* <AddEvent></AddEvent> */}
       </View>
     </GradientBackground>
   );

@@ -5,7 +5,7 @@ import { colors } from "../helper/Color";
 import GradientBackground from "../components/DarkBackGround";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, database } from "../firebase-files/firebaseSetup";
-import { readFromDB } from "../firebase-files/firestoreHelper";
+import { readFromDB, deleteFromDB } from "../firebase-files/firestoreHelper";
 
 export default function EventDetail({ navigation, route }) {
   const { id, userId } = route.params;
@@ -35,6 +35,11 @@ export default function EventDetail({ navigation, route }) {
       id: id,
       userId: userId,
     });
+  };
+
+  const deleteHandler = () => {
+    deleteFromDB(id, "events");
+    navigation.goBack();
   };
 
   const description = item?.description;
@@ -77,6 +82,12 @@ export default function EventDetail({ navigation, route }) {
                     onPress={editHandler}
                   >
                     <Text style={styles.buttonText}>Edit</Text>
+                  </PressableButton>
+                  <PressableButton
+                    backgroundColor={colors.backgroundlight}
+                    onPress={deleteHandler}
+                  >
+                    <Text style={styles.buttonText}>Delete</Text>
                   </PressableButton>
                 </View>
               )}

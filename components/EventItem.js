@@ -4,6 +4,7 @@ import PressableButton from "./PressableButton";
 import { colors } from "../helper/Color";
 import { useNavigation } from "@react-navigation/native"; // Import the useNavigation hook
 import { auth } from "../firebase-files/firebaseSetup";
+import { deleteFromDB } from "../firebase-files/firestoreHelper";
 
 export default function EventItem({
   name,
@@ -29,6 +30,10 @@ export default function EventItem({
       id: eventId,
       userId: userId,
     });
+  };
+
+  const deleteHandler = () => {
+    deleteFromDB(eventId, "events");
   };
 
   const isCurrentUserOwner = userId === auth.currentUser.uid;
@@ -58,6 +63,12 @@ export default function EventItem({
                   onPress={editHandler}
                 >
                   <Text style={styles.buttonText}>Edit</Text>
+                </PressableButton>
+                <PressableButton
+                  backgroundColor={colors.backgroundlight}
+                  onPress={deleteHandler}
+                >
+                  <Text style={styles.buttonText}>Delete</Text>
                 </PressableButton>
               </View>
             )}

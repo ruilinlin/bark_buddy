@@ -5,7 +5,11 @@ import DatePicker from "../components/DatePicker";
 import PressableButton from "../components/PressableButton";
 import { colors } from "../helper/Color";
 import { auth, database } from "../firebase-files/firebaseSetup";
-import { readFromDB, updateToDB } from "../firebase-files/firestoreHelper";
+import {
+  readFromDB,
+  writeToDB,
+  updateToDB,
+} from "../firebase-files/firestoreHelper";
 
 export default function AddEvent({ navigation, route }) {
   const isEdit = route.params !== undefined;
@@ -49,6 +53,18 @@ export default function AddEvent({ navigation, route }) {
       ]
     );
   };
+
+  function writeNewEntry() {
+    const newEntry = {
+      userId: auth.currentUser.uid,
+      title: title,
+      description: description,
+      // location: location,
+      // picture: picture,
+      date: date,
+    };
+    writeToDB(newEntry, "events");
+  }
 
   const saveHandler = () => {
     validateInputs();
