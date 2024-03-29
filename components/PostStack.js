@@ -1,4 +1,3 @@
-
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import EventScreen from "../screens/EventScreen";
@@ -17,14 +16,14 @@ export default function PostStack({ navigation }) {
         component={PostScreen}
         options={{
           headerRight: () => (
-            <Pressable 
-              onPress={() => navigation.navigate("AddEvent")}
+            <Pressable
+              // onPress={() => navigation.navigate("AddEvent")}
               style={{ margin: 10 }}
             >
               <Ionicons name="add-circle-outline" size={24} color="black" />
             </Pressable>
           ),
-          headerLeft: () => null, 
+          headerLeft: () => null,
         }}
       />
     </Stack.Navigator>

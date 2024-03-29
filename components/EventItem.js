@@ -3,27 +3,43 @@ import React from "react";
 import PressableButton from "./PressableButton";
 import { colors } from "../helper/Color";
 import { useNavigation } from "@react-navigation/native"; // Import the useNavigation hook
+import { auth } from "../firebase-files/firebaseSetup";
+import { deleteFromDB } from "../firebase-files/firestoreHelper";
 
 export default function EventItem({
   name,
   location,
   time,
   imageUrl,
-  itemPressHandler,
+  eventId,
+  userId,
   selectedScreen,
 }) {
   const navigation = useNavigation(); // Access the navigation object using useNavigation hook
+
+  function onPress() {
+    navigation.navigate("EventDetail", { id: eventId, userId: userId });
+  }
 
   const joinHandler = () => {
     Alert.alert("Successfully Joined!");
   };
 
   const editHandler = () => {
-    navigation.navigate("AddEvent");
+    navigation.navigate("AddEvent", {
+      id: eventId,
+      userId: userId,
+    });
   };
 
+  const deleteHandler = () => {
+    deleteFromDB(eventId, "events");
+  };
+
+  const isCurrentUserOwner = userId === auth.currentUser.uid;
+
   return (
-    <Pressable onPress={() => itemPressHandler()}>
+    <Pressable onPress={onPress}>
       <View style={styles.eventItem}>
         <Image
           style={styles.image}
@@ -40,20 +56,21 @@ export default function EventItem({
             <Text style={styles.eventDetail}>Time: {time}</Text>
           </View>
           <View style={styles.buttonContainer}>
-            {selectedScreen === "Event" ? (
-              <PressableButton
-                backgroundColor={colors.backgroundlight}
-                onPress={joinHandler}
-              >
-                <Text style={styles.buttonText}>Join</Text>
-              </PressableButton>
-            ) : (
-              <PressableButton
-                backgroundColor={colors.backgroundlight}
-                onPress={editHandler}
-              >
-                <Text style={styles.buttonText}>Edit</Text>
-              </PressableButton>
+            {isCurrentUserOwner && (
+              <View style={styles.buttonContainer}>
+                <PressableButton
+                  backgroundColor={colors.backgroundlight}
+                  onPress={editHandler}
+                >
+                  <Text style={styles.buttonText}>Edit</Text>
+                </PressableButton>
+                <PressableButton
+                  backgroundColor={colors.backgroundlight}
+                  onPress={deleteHandler}
+                >
+                  <Text style={styles.buttonText}>Delete</Text>
+                </PressableButton>
+              </View>
             )}
           </View>
         </View>
