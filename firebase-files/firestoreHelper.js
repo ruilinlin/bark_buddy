@@ -1,11 +1,4 @@
-import {
-  collection,
-  addDoc,
-  doc,
-  deleteDoc,
-  getDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, addDoc, doc, deleteDoc, getDoc, updateDoc} from "firebase/firestore";
 import { database } from "./firebaseSetup";
 
 export async function writeToDB(data, CollectionName) {
