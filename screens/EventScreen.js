@@ -64,7 +64,7 @@ export default function EventScreen({ navigation, selectedScreen }) {
 
   const renderItem = ({ item }) => (
     <EventItem
-      name={item.name}
+      name={item.title}
       location={item.location}
       time={item.date.toDate().toString().substring(0, 21)}
       imageUrl={item.imageUrl}
