@@ -65,9 +65,10 @@ Below are some screenshots showcasing the current UI and functionalities of the 
 
 ![Login Screen](image/Login.PNG)
 ![Register Screen](image/Register.PNG)
-![Post Screen](image/Post.png)
+![Post Screen](image/Post.PNG)
 ![Events Screen](image/Events.PNG)
 ![MyEvents Screen](image/MyEvents.PNG)
+![AddEvent Screen](image/AddEvent.PNG)
 ![Message Screen](image/Messages.PNG)
 ![UserProfile Screen](image/User.PNG)
 
@@ -114,3 +115,6 @@ Events Collection
   "Organizer": "",
 }
 ```
+
+## Notice
+To prevent potential version conflict, you can run "npx expo install react-native-gesture-handler " before running on an Android device.
