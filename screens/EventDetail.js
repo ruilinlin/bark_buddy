@@ -1,19 +1,55 @@
 import { StyleSheet, Text, View, Image, Alert, ScrollView } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PressableButton from "../components/PressableButton";
 import { colors } from "../helper/Color";
 import GradientBackground from "../components/DarkBackGround";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, database } from "../firebase-files/firebaseSetup";
+import { readFromDB, deleteFromDB } from "../firebase-files/firestoreHelper";
 
 export default function EventDetail({ navigation, route }) {
-  const { data, selectedScreen } = route.params;
+  const { id, userId } = route.params;
+  const [item, setItem] = useState(null);
+
+  const isCurrentUserOwner = userId === auth.currentUser.uid;
+
+  useEffect(() => {
+    // Define an asynchronous fetchData function
+    const fetchData = async () => {
+      try {
+        const itemData = await readFromDB(id, "events");
+        setItem(itemData); // Set the fetched data to the state
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+    fetchData();
+  }, [id]); // Dependency array to trigger the effect when id changes
 
   const joinHandler = () => {
     Alert.alert("Successfully Joined!");
   };
 
   const editHandler = () => {
-    navigation.navigate("AddEvent");
+    navigation.navigate("AddEvent", {
+      id: id,
+      userId: userId,
+    });
   };
+
+  const deleteHandler = () => {
+    deleteFromDB(id, "events");
+    navigation.goBack();
+  };
+
+  const description = item?.description;
+  const title = item?.title;
+  const date = item?.date;
+
+  // // You can now use these variables as needed
+  console.log("Date:", date);
+  // console.log("Description:", description);
+  // console.log("Title:", title);
 
   return (
     <GradientBackground>
@@ -24,55 +60,42 @@ export default function EventDetail({ navigation, route }) {
           resizeMode="cover" // cropped by size
         />
         <View style={styles.overlay}>
-          <Text style={styles.overlayText}>Time1</Text>
+          <Text style={styles.overlayText}>
+            {date?.toDate().toString().substring(0, 21)}
+          </Text>
         </View>
         <View style={styles.eventInfo}>
-          <Text style={styles.eventName}>Event Name</Text>
+          <Text style={styles.eventName}>{title}</Text>
           <View style={styles.container}>
             <View style={styles.eventDetailContainer}>
               <Text style={styles.eventDetail}>Location: Location1</Text>
-              <Text style={styles.eventDetail}>Time: 2024.05.10 Tue 13:30</Text>
               <Text style={styles.eventDetail}>
-                Organizer: j;alskdg a;sldkgj
+                Time: {date?.toDate().toString().substring(0, 21)}
               </Text>
+              <Text style={styles.eventDetail}>Organizer: {userId}</Text>
             </View>
             <View style={styles.buttonContainer}>
-              {selectedScreen === "Event" ? (
-                <PressableButton
-                  backgroundColor={colors.backgroundlight}
-                  onPress={joinHandler}
-                >
-                  <Text style={styles.buttonText}>Join</Text>
-                </PressableButton>
-              ) : (
-                <PressableButton
-                  backgroundColor={colors.backgroundlight}
-                  onPress={editHandler}
-                >
-                  <Text style={styles.buttonText}>Edit</Text>
-                </PressableButton>
+              {isCurrentUserOwner && (
+                <View style={styles.buttonContainer}>
+                  <PressableButton
+                    backgroundColor={colors.backgroundlight}
+                    onPress={editHandler}
+                  >
+                    <Text style={styles.buttonText}>Edit</Text>
+                  </PressableButton>
+                  <PressableButton
+                    backgroundColor={colors.backgroundlight}
+                    onPress={deleteHandler}
+                  >
+                    <Text style={styles.buttonText}>Delete</Text>
+                  </PressableButton>
+                </View>
               )}
             </View>
           </View>
           <View style={styles.introductionContainer}>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-              <Text style={styles.introduction}>
-                The detail information about the event. The detail information
-                about the event.The detail information about the event.The
-                detail information about the event.The detail information about
-                the event.The detail information about the event.The detail
-                information about the event.The detail information about the
-                event.The detail information about the event.The detail
-                information about the event. The detail information about the
-                event.The detail information about the event.The detail
-                information about the event. The detail information about the
-                event. The detail information about the event.The detail
-                information about the event.The detail information about the
-                event.The detail information about the event.The detail
-                information about the event.The detail information about the
-                event.The detail information about the event.The detail
-                information about the event.
-              </Text>
+              <Text style={styles.introduction}>{description} </Text>
             </ScrollView>
           </View>
         </View>

@@ -5,11 +5,15 @@ import PressableButton from '../components/PressableButton'
 import Topbar from '../components/Topbar'
 import { StyleSheet,Image, Text, View, FlatList,Button,SafeAreaView,Alert, Pressable, ScrollView,Dimensions} from 'react-native'
 import React, { useState } from 'react';
-import { colors } from '../helper/Color'
-import { useNavigation } from '@react-navigation/core'
+import { colors } from '../helper/Color';
+import { useNavigation } from '@react-navigation/core';
+
 
 export default function PostScreen() {
+  const navigation =useNavigation();
   const [ModalVisible, setModalVisible] = useState(false);
+
+// lack message and subcollection  
 
   const posts = [{id: '1', name: 'test', avatar: require("../assets/favicon.png")},
                 {id: '2', name: 'test', avatar: require("../assets/favicon.png")},
@@ -19,18 +23,16 @@ export default function PostScreen() {
                   {id: '2', name: 'test', avatar: require("../assets/favicon.png"),comments:"Mobile Application Development SEC 05 Spring 2024 "},
                   {id: '3', name: 'test', avatar: require("../assets/favicon.png"),comments:"Mobile Application Development SEC 05 Spring 2024 "},]
                   
-    const stories = [
+  const stories = [
     { id: '1', username: 'iiamcharlie', avatar: require("../assets/favicon.png") },
     { id: '2', username: 'iiamcharles', avatar: require("../assets/favicon.png") },
   ];
-  const navigation =useNavigation();
 
                             
   function handleCommentClick(){
     setModalVisible(true);
     console.log(setModalVisible);
   }
-
 
   return (
     <GradientBackground>
