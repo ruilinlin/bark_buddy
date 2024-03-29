@@ -1,25 +1,41 @@
 import { StyleSheet, Text, View, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../components/Input";
 import DatePicker from "../components/DatePicker";
 import PressableButton from "../components/PressableButton";
 import { colors } from "../helper/Color";
-import { writeToDB } from "../firebase-files/firestoreHelper";
 import { auth, database } from "../firebase-files/firebaseSetup";
+import { readFromDB, updateToDB } from "../firebase-files/firestoreHelper";
 
 export default function AddEvent({ navigation, route }) {
   const isEdit = route.params !== undefined;
-  if (isEdit) {
-    const { id, userId } = route.params;
-  }
-
+  const [id, setId] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [location, setLocation] = useState("");
-  const [picture, setPicture] = useState("");
   const [date, setDate] = useState(null);
+  const [item, setItem] = useState(null);
 
-  const emptySubmissionAlert = () =>
+  useEffect(() => {
+    if (isEdit) {
+      const { id } = route.params;
+      setId(id);
+      fetchData(id);
+    }
+  }, [isEdit, route.params]);
+
+  const fetchData = async (id) => {
+    try {
+      const itemData = await readFromDB(id, "events");
+      setItem(itemData);
+      setTitle(itemData.title);
+      setDescription(itemData.description);
+      setDate(itemData.date.toDate());
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
+  const emptySubmissionAlert = () => {
     Alert.alert(
       "Empty Submission",
       "Please complete all the required information.",
@@ -32,59 +48,41 @@ export default function AddEvent({ navigation, route }) {
         { text: "OK", onPress: () => console.log("OK Pressed") },
       ]
     );
+  };
 
-  function writeNewEntry() {
-    const newEntry = {
-      userId: auth.currentUser.uid,
-      title: title,
-      description: description,
-      // location: location,
-      // picture: picture,
-      date: date,
-    };
-    writeToDB(newEntry, "events");
-  }
-
-  function saveHandler() {
+  const saveHandler = () => {
     validateInputs();
-  }
+  };
 
-  function validateInputs() {
-    // Validate all the input fields
+  const validateInputs = () => {
     const isEmpty =
-      title.length === 0 ||
-      description.length === 0 ||
-      // location.length === 0 ||
-      date == null;
+      title.length === 0 || description.length === 0 || date == null;
     if (isEmpty) {
       emptySubmissionAlert();
     }
 
     if (!isEmpty) {
-      writeNewEntry();
-      // Navigate back to the previous screen
+      if (isEdit) {
+        const updatedData = { title, description, date };
+        updateToDB(id, updatedData, "events");
+      } else {
+        writeNewEntry();
+      }
       navigation.goBack();
     }
-  }
+  };
 
-  function titleChangeHandler(title) {
+  const titleChangeHandler = (title) => {
     setTitle(title);
-  }
-  function descriptionChangeHandler(description) {
+  };
+
+  const descriptionChangeHandler = (description) => {
     setDescription(description);
-  }
-  function locationChangeHandler(location) {
-    setLocation(location);
-  }
-  function pictureChangeHandler(picture) {
-    setPicture(picture);
-  }
-  function dateChangeHandler(date) {
+  };
+
+  const dateChangeHandler = (date) => {
     setDate(date);
-  }
-  function timeChangeHandler(time) {
-    setTime(time);
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -99,11 +97,8 @@ export default function AddEvent({ navigation, route }) {
           value={description}
           onChangeText={descriptionChangeHandler}
           multiline={true}
-          numberOfLines={5} // need to modify
+          numberOfLines={5}
         />
-        {/* Need to add Location picker */}
-        {/* Need to add Picture picker */}
-
         <DatePicker onDateChange={dateChangeHandler} savedDate={date} />
       </View>
 
