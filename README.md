@@ -8,6 +8,8 @@ BarkBuddy is an innovative social platform designed for pet lovers. The app faci
 
 - **Navigation Transition Architecture**: Implemented a robust navigator transition architecture, ensuring smooth navigation across different screens.
 - **Screen Layouts**: Established basic layouts for the Post, Event, Message, and Profile screens. The Map screen layout is planned for the next iteration.
+- **CRUD**: implemente the CRUD operations in eventscreen.
+
 
 #### Post Screen
 
@@ -18,7 +20,7 @@ BarkBuddy is an innovative social platform designed for pet lovers. The app faci
 
 #### Event Screen
 
-- Layout initiated. Further details and functionalities will be described in the next iteration.
+- waiting for yijing add
 
 #### Message Screen
 
