@@ -5,12 +5,15 @@ import AddEvent from "../screens/AddEvent";
 import { Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import PostScreen from "../screens/PostScreen";
+import CreatPost from "./CreatPost";
 import ImageManager from "./ImageManager";
+import ImageAlbumManager from './ImageAlbumManager';
+import ImageFilterManager from "./ImageFilterManager";
 
 const Stack = createStackNavigator();
 
 export default function PostStack({ navigation }) {
-  
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -18,11 +21,18 @@ export default function PostStack({ navigation }) {
         component={PostScreen}
         options={{
           headerRight: () => (
-            <ImageManager />
+          <Pressable style={{ margin: 10 }} onPress ={()=>navigation.navigate("Album")}>
+            <Ionicons name="add-circle-outline" size={24} color="black" />
+          </Pressable>
           ),
           headerLeft: () => null,
         }}
       />
+      <Stack.Screen 
+        name="Album"
+        component={ImageAlbumManager}
+      />
+      
     </Stack.Navigator>
   );
 }
