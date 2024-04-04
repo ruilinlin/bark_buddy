@@ -5,10 +5,12 @@ import AddEvent from "../screens/AddEvent";
 import { Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import PostScreen from "../screens/PostScreen";
+import ImageManager from "./ImageManager";
 
 const Stack = createStackNavigator();
 
 export default function PostStack({ navigation }) {
+  
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -16,12 +18,7 @@ export default function PostStack({ navigation }) {
         component={PostScreen}
         options={{
           headerRight: () => (
-            <Pressable
-              // onPress={() => navigation.navigate("AddEvent")}
-              style={{ margin: 10 }}
-            >
-              <Ionicons name="add-circle-outline" size={24} color="black" />
-            </Pressable>
+            <ImageManager />
           ),
           headerLeft: () => null,
         }}

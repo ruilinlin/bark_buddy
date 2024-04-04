@@ -1,11 +1,11 @@
-import { Alert, StyleSheet, Text, View } from 'react-native'
+import { Alert, StyleSheet, Text, View,Pressable } from 'react-native'
 import React , {useState}from 'react'
 import * as ImagePicker from "expo-image-picker";
 import { async } from '@firebase/util';
 import { Ionicons } from "@expo/vector-icons";
 
 export default function ImageManager(recieveImageURI) {
-  const [status, requestPermission] = ImagePicker.useCemeraPermission();
+  const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const [imageUri,setImageUri] = useState('');
 
   async function vertifyPermission(){
