@@ -1,14 +1,71 @@
 import { StyleSheet, Text, View, Alert } from "react-native";
-import React, { useState } from "react";
-import GradientBackground from "../components/Background";
+import React, { useEffect, useState } from "react";
+import GradientBackground from "../components/DarkBackGround";
 import Input from "../components/Input";
 import PressableButton from "../components/PressableButton";
 import { colors } from "../helper/Color";
+import DropdownBox from "../components/DropdownBox";
+import axios from "axios";
+import { cityApiKey } from "@env";
 
 export default function EditUser() {
   const [name, setName] = useState("");
-  const [petNum, setPetNum] = useState("");
-  const [pet, setPet] = useState([]);
+  // const [pet, setPet] = useState([]);
+  const [country, setCountry] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+  const [countryList, setCountryList] = useState([]);
+  // let countryList = [];
+  const [stateList, setStateList] = useState([]);
+  const [cityList, setCityList] = useState([]);
+
+  useEffect(() => {
+    async function fetchCountries() {
+      try {
+        const response = await axios.get(
+          "https://api.countrystatecity.in/v1/countries",
+          {
+            headers: {
+              "X-CSCAPI-KEY": cityApiKey,
+            },
+          }
+        );
+        const countries = response.data.map((country) => ({
+          value: country.iso2,
+          label: country.name,
+        }));
+        setCountryList(countries);
+      } catch (error) {
+        console.log("Error fetching countries:", error);
+      }
+    }
+    fetchCountries();
+  }, []);
+
+  useEffect(() => {
+    async function fetchStates(countryCode) {
+      try {
+        const response = await axios.get(
+          `https://api.countrystatecity.in/v1/countries/${countryCode}/states`,
+          {
+            headers: {
+              "X-CSCAPI-KEY": cityApiKey,
+            },
+          }
+        );
+        const states = response.data.map((state) => ({
+          value: state.iso2,
+          label: state.name,
+        }));
+        setStateList(states);
+        console.log(stateList);
+      } catch (error) {
+        console.log("Error fetching states:", error);
+        setStateList([]); // Clear the state list in case of an error
+      }
+    }
+    fetchStates(country);
+  }, [country]);
 
   const emptySubmissionAlert = () =>
     Alert.alert(
@@ -38,23 +95,23 @@ export default function EditUser() {
       ]
     );
 
-  const invalidPetNumAlert = () =>
-    Alert.alert("Invalid Pet Number", "Pet Number must be a number >= 0.", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      { text: "OK", onPress: () => console.log("OK Pressed") },
-    ]);
+  // const invalidPetNumAlert = () =>
+  //   Alert.alert("Invalid Pet Number", "Pet Number must be a number >= 0.", [
+  //     {
+  //       text: "Cancel",
+  //       onPress: () => console.log("Cancel Pressed"),
+  //       style: "cancel",
+  //     },
+  //     { text: "OK", onPress: () => console.log("OK Pressed") },
+  //   ]);
 
   function nameChangeHandler(name) {
     setName(name);
   }
 
-  function petNumChangeHandler(petNum) {
-    setPetNum(petNum);
-  }
+  // function petNumChangeHandler(petNum) {
+  //   setPetNum(petNum);
+  // }
 
   function saveHandler() {
     validateInputs();
@@ -68,21 +125,21 @@ export default function EditUser() {
     const isNameValid = /^[a-zA-Z0-9_]{4,16}$/.test(name); // Check if username matches the pattern
 
     // Validate petNum
-    const isPetNumValid = /^\d+$/.test(petNum);
+    // const isPetNumValid = /^\d+$/.test(petNum);
 
     if (!isNameValid) {
       invalidNameAlert();
     }
 
-    if (!isPetNumValid) {
-      invalidPetNumAlert();
-    }
+    // if (!isPetNumValid) {
+    //   invalidPetNumAlert();
+    // }
 
     if (isEmpty) {
       emptySubmissionAlert();
     }
 
-    if (!isEmpty && isNameValid && isPetNumValid) {
+    if (!isEmpty && isNameValid) {
       // save the info to the database and then navigate to the Tabs
       try {
         // Write new entry to the database
@@ -94,35 +151,53 @@ export default function EditUser() {
   }
 
   return (
-    <GradientBackground>
-      <View style={styles.container}>
-        <View style={styles.inputsContainer}>
-          <Input label="Name *" value={name} onChangeText={nameChangeHandler} />
-          {/* Need to add Picture picker */}
-          <Input
-            label="How many puppies do you have? *"
-            value={petNum}
-            onChangeText={petNumChangeHandler}
-          />
-        </View>
-        <View style={styles.downside}>
-          <View style={styles.buttonsContainer}>
-            <PressableButton
-              backgroundColor={colors.backgrounddark}
-              // onPress={() => navigation.goBack()}
-            >
-              <Text style={styles.text}>Cancel</Text>
-            </PressableButton>
-            <PressableButton
-              backgroundColor={colors.backgroundlight}
-              onPress={saveHandler}
-            >
-              <Text style={styles.text}>Save</Text>
-            </PressableButton>
-          </View>
+    // <GradientBackground>
+    <View style={styles.container}>
+      <View style={styles.inputsContainer}>
+        <Input label="Name *" value={name} onChangeText={nameChangeHandler} />
+        {/* Need to add Picture picker */}
+        <Text>Your current living place *</Text>
+        <DropdownBox
+          data={countryList}
+          placeholder="Select Country"
+          value={country}
+          setValue={setCountry}
+        />
+        <DropdownBox
+          data={stateList}
+          placeholder="Select State"
+          value={city}
+          setValue={setCity}
+        />
+        {/* <DropdownBox
+          // items={city}
+          // setValue={cityChangeHandler}
+          placeholder="Select City"
+        /> */}
+        {/* <Input
+          label="How many puppies do you have? *"
+          value={petNum}
+          onChangeText={petNumChangeHandler}
+        /> */}
+      </View>
+      <View style={styles.downside}>
+        <View style={styles.buttonsContainer}>
+          <PressableButton
+            backgroundColor={colors.backgrounddark}
+            // onPress={() => navigation.goBack()}
+          >
+            <Text style={styles.text}>Cancel</Text>
+          </PressableButton>
+          <PressableButton
+            backgroundColor={colors.backgroundlight}
+            onPress={saveHandler}
+          >
+            <Text style={styles.text}>Save</Text>
+          </PressableButton>
         </View>
       </View>
-    </GradientBackground>
+    </View>
+    // </GradientBackground>
   );
 }
 
