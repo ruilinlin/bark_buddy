@@ -7,7 +7,11 @@ import { colors } from "../helper/Color";
 import DropdownBox from "../components/DropdownBox";
 import axios from "axios";
 import { cityApiKey } from "@env";
-import { writeToDB } from "../firebase-files/firestoreHelper";
+import {
+  searchUsersByUserId,
+  writeToDB,
+  updateToDB,
+} from "../firebase-files/firestoreHelper";
 import { auth } from "../firebase-files/firebaseSetup";
 
 export default function EditUser({ navigation }) {
@@ -21,10 +25,30 @@ export default function EditUser({ navigation }) {
   const [countryList, setCountryList] = useState([]);
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
+  const [docId, setDocId] = useState("");
 
   // console.log(country);
   // console.log(state);
   // console.log(city);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const userData = await searchUsersByUserId(auth.currentUser.uid); // Fetch user data from DB
+        if (userData) {
+          // If user data exists, pre-fill the input fields
+          setName(userData.name);
+          setCountry(userData.country);
+          setState(userData.state);
+          setCity(userData.city);
+          setDocId(userData.id);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }
+    fetchData();
+  }, []);
 
   useEffect(() => {
     async function fetchCountries() {
@@ -194,7 +218,19 @@ export default function EditUser({ navigation }) {
     if (!isEmpty && isNameValid) {
       // save the info to the database and then navigate to the Tabs
       try {
-        writeNewUser();
+        if (docId) {
+          const updatedData = {
+            userId: auth.currentUser.uid,
+            name: name,
+            country: country,
+            state: state,
+            city: city,
+            // picture: picture,
+          };
+          updateToDB(docId, updatedData, "users");
+        } else {
+          writeNewEntry();
+        }
         navigation.goBack();
       } catch (error) {
         // Handle database error
@@ -212,19 +248,19 @@ export default function EditUser({ navigation }) {
         <Text>Your current living place *</Text>
         <DropdownBox
           data={countryList}
-          placeholder="Select Country"
+          placeholder={country ? `${country}` : "Select Country"}
           setValue={setCountryCode}
           setLabel={setCountry}
         />
         <DropdownBox
           data={stateList}
-          placeholder="Select State"
+          placeholder={state ? `${state}` : "Select State"}
           setValue={setStateCode}
           setLabel={setState}
         />
         <DropdownBox
           data={cityList}
-          placeholder="Select City"
+          placeholder={city ? `${city}` : "Select City"}
           setLabel={setCity}
         />
         {/* <Input

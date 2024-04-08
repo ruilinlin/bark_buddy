@@ -4,7 +4,10 @@ import {
   doc,
   deleteDoc,
   getDoc,
+  getDocs,
   updateDoc,
+  where,
+  query,
 } from "firebase/firestore";
 import { database } from "./firebaseSetup";
 
@@ -40,6 +43,25 @@ export async function readFromDB(id, CollectionName) {
     }
   } catch (error) {
     console.error("Error fetching data: ", error);
+  }
+}
+
+export async function searchUsersByUserId(currentUser) {
+  try {
+    const usersRef = collection(database, "users");
+    const q = query(usersRef, where("userId", "==", currentUser));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.size === 0) {
+      // No matching user found
+      return null;
+    }
+    // Get the first one, also should be the only one
+    const userDoc = querySnapshot.docs[0];
+    return { id: userDoc.id, ...userDoc.data() };
+  } catch (error) {
+    console.error("Error searching users:", error);
+    throw error;
   }
 }
 
