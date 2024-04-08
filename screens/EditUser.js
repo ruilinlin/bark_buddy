@@ -7,8 +7,10 @@ import { colors } from "../helper/Color";
 import DropdownBox from "../components/DropdownBox";
 import axios from "axios";
 import { cityApiKey } from "@env";
+import { writeToDB } from "../firebase-files/firestoreHelper";
+import { auth } from "../firebase-files/firebaseSetup";
 
-export default function EditUser() {
+export default function EditUser({ navigation }) {
   const [name, setName] = useState("");
   // const [pet, setPet] = useState([]);
   const [country, setCountry] = useState("");
@@ -151,9 +153,25 @@ export default function EditUser() {
     validateInputs();
   }
 
+  function writeNewUser() {
+    const newUser = {
+      userId: auth.currentUser.uid,
+      name: name,
+      country: country,
+      state: state,
+      city: city,
+      // picture: picture,
+    };
+    writeToDB(newUser, "users");
+  }
+
   function validateInputs() {
     // Validate all the input fields
-    const isEmpty = name.length === 0;
+    const isEmpty =
+      name.length === 0 ||
+      country.length === 0 ||
+      state.length === 0 ||
+      city.length === 0;
 
     // Validate username
     const isNameValid = /^[a-zA-Z0-9_]{4,16}$/.test(name); // Check if username matches the pattern
@@ -176,10 +194,11 @@ export default function EditUser() {
     if (!isEmpty && isNameValid) {
       // save the info to the database and then navigate to the Tabs
       try {
-        // Write new entry to the database
+        writeNewUser();
+        navigation.goBack();
       } catch (error) {
-        console.error("Error saving to database:", error);
         // Handle database error
+        console.error("Error saving to database:", error);
       }
     }
   }
@@ -218,7 +237,7 @@ export default function EditUser() {
         <View style={styles.buttonsContainer}>
           <PressableButton
             backgroundColor={colors.backgrounddark}
-            // onPress={() => navigation.goBack()}
+            onPress={() => navigation.goBack()}
           >
             <Text style={styles.text}>Cancel</Text>
           </PressableButton>
