@@ -42,12 +42,16 @@ export default function EditUser({ navigation }) {
           setState(userData.state);
           setCity(userData.city);
           setDocId(userData.id);
+          setCountryCode(userData.countryCode);
+          setStateCode(userData.stateCode);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     }
     fetchData();
+    // fetchStates(countryCode);
+    // fetchCities(countryCode, stateCode);
   }, []);
 
   useEffect(() => {
@@ -73,59 +77,113 @@ export default function EditUser({ navigation }) {
     fetchCountries();
   }, []);
 
-  useEffect(() => {
-    async function fetchStates(countryCode) {
-      try {
-        const response = await axios.get(
-          `https://api.countrystatecity.in/v1/countries/${countryCode}/states`,
-          {
-            headers: {
-              "X-CSCAPI-KEY": cityApiKey,
-            },
-          }
-        );
-        const states = response.data.map((state) => ({
-          value: state.iso2,
-          label: state.name,
-        }));
-        setStateList(states);
-        // console.log(stateList);
-      } catch (error) {
-        // console.log("Error fetching states:", error);
-        setStateList([]); // Clear the state list in case of an error
-      }
+  async function fetchStates(countryCode) {
+    try {
+      const response = await axios.get(
+        `https://api.countrystatecity.in/v1/countries/${countryCode}/states`,
+        {
+          headers: {
+            "X-CSCAPI-KEY": cityApiKey,
+          },
+        }
+      );
+      const states = response.data.map((state) => ({
+        value: state.iso2,
+        label: state.name,
+      }));
+      setStateList(states);
+    } catch (error) {
+      console.error("Error fetching states:", error);
+      setStateList([]);
     }
-    // console.log("it is country", country);
-    // console.log("it is country code", countryCode);
-    fetchStates(countryCode);
+  }
+
+  async function fetchCities(countryCode, stateCode) {
+    try {
+      const response = await axios.get(
+        `https://api.countrystatecity.in/v1/countries/${countryCode}/states/${stateCode}/cities`,
+        {
+          headers: {
+            "X-CSCAPI-KEY": cityApiKey,
+          },
+        }
+      );
+      const cities = response.data.map((city) => ({
+        value: city.id,
+        label: city.name,
+      }));
+      setCityList(cities);
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+      setCityList([]);
+    }
+  }
+
+  useEffect(() => {
+    if (countryCode) {
+      fetchStates(countryCode);
+    }
   }, [countryCode]);
 
   useEffect(() => {
-    async function fetchStates(countryCode, stateCode) {
-      try {
-        const response = await axios.get(
-          `https://api.countrystatecity.in/v1/countries/${countryCode}/states/${stateCode}/cities`,
-          {
-            headers: {
-              "X-CSCAPI-KEY": cityApiKey,
-            },
-          }
-        );
-        const cities = response.data.map((city) => ({
-          value: city.id,
-          label: city.name,
-        }));
-        setCityList(cities);
-        // console.log(cityList);
-      } catch (error) {
-        // console.log("Error fetching states:", error);
-        setStateList([]); // Clear the state list in case of an error
-      }
+    if (countryCode && stateCode) {
+      fetchCities(countryCode, stateCode);
     }
-    // console.log("it is state", state);
-    // console.log("it is state code", stateCode);
-    fetchStates(countryCode, stateCode);
-  }, [stateCode]);
+  }, [countryCode, stateCode]);
+
+  // useEffect(() => {
+  //   async function fetchStates(countryCode) {
+  //     try {
+  //       const response = await axios.get(
+  //         `https://api.countrystatecity.in/v1/countries/${countryCode}/states`,
+  //         {
+  //           headers: {
+  //             "X-CSCAPI-KEY": cityApiKey,
+  //           },
+  //         }
+  //       );
+  //       const states = response.data.map((state) => ({
+  //         value: state.iso2,
+  //         label: state.name,
+  //       }));
+  //       setStateList(states);
+  //       // console.log(stateList);
+  //     } catch (error) {
+  //       // console.log("Error fetching states:", error);
+  //       setStateList([]); // Clear the state list in case of an error
+  //     }
+  //   }
+  //   // console.log("it is country", country);
+  //   // console.log("it is country code", countryCode);
+  //   fetchStates(countryCode);
+  // }, [countryCode]);
+
+  // useEffect(() => {
+  //   async function fetchCities(countryCode, stateCode) {
+  //     try {
+  //       const response = await axios.get(
+  //         `https://api.countrystatecity.in/v1/countries/${countryCode}/states/${stateCode}/cities`,
+  //         {
+  //           headers: {
+  //             "X-CSCAPI-KEY": cityApiKey,
+  //           },
+  //         }
+  //       );
+  //       const cities = response.data.map((city) => ({
+  //         value: city.id,
+  //         label: city.name,
+  //       }));
+  //       setCityList(cities);
+  //       // console.log(cityList);
+  //     } catch (error) {
+  //       // console.log("Error fetching states:", error);
+  //       setCityList([]); // Clear the state list in case of an error
+  //     }
+  //   }
+  //   // console.log("it is state", state);
+  //   // console.log("it is state code", stateCode);
+  //   fetchCities(countryCode, stateCode);
+  // }, [stateCode]);
 
   const emptySubmissionAlert = () =>
     Alert.alert(
@@ -182,7 +240,9 @@ export default function EditUser({ navigation }) {
       userId: auth.currentUser.uid,
       name: name,
       country: country,
+      countryCode: countryCode,
       state: state,
+      stateCode: stateCode,
       city: city,
       // picture: picture,
     };
@@ -223,13 +283,15 @@ export default function EditUser({ navigation }) {
             userId: auth.currentUser.uid,
             name: name,
             country: country,
+            countryCode: countryCode,
             state: state,
+            stateCode: stateCode,
             city: city,
             // picture: picture,
           };
           updateToDB(docId, updatedData, "users");
         } else {
-          writeNewEntry();
+          writeNewUser();
         }
         navigation.goBack();
       } catch (error) {
