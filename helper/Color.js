@@ -11,4 +11,5 @@ export const colors = {
   commentsfontcolor: "black",
   shadowColor: "#000",
   lightavatarborder: "#d291bc",
+  // header:'rgba(129, 90, 122, 0.5)',
 };

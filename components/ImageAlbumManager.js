@@ -1,9 +1,13 @@
-import { useState } from 'react';
-import { Button, Image, View, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Image, View, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function ImageAlbumManager() {
   const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    pickImage();
+  }, []); // The empty array means this effect runs once after the initial render
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -21,10 +25,12 @@ export default function ImageAlbumManager() {
     }
   };
 
+  // Optionally, you can handle what happens if the user cancels the selection
+  // by adding logic after checking `result.canceled`
+
   return (
     <View style={styles.container}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      {image && <Image source={{ uri: image }} style={styles.image} />}
+      {image ? <Image source={{ uri: image }} style={styles.image} /> : null}
     </View>
   );
 }

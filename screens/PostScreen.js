@@ -4,16 +4,17 @@ import {PostComments} from '../components/PostComments'
 import PressableButton from '../components/PressableButton'
 import Topbar from '../components/Topbar'
 import { StyleSheet,Image, Text, View, FlatList,Button,SafeAreaView,Alert, Pressable, ScrollView,Dimensions} from 'react-native'
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import { colors } from '../helper/Color';
 import { useNavigation } from '@react-navigation/core';
+import { Animated } from 'react-native';
+import DynamicHeader from '../components/DynamicHeader'
 
 
 export default function PostScreen() {
   const navigation =useNavigation();
   const [ModalVisible, setModalVisible] = useState(false);
-
-// lack message and subcollection  
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   const posts = [{id: '1', name: 'test', avatar: require("../assets/favicon.png")},
                 {id: '2', name: 'test', avatar: require("../assets/favicon.png")},
@@ -35,9 +36,11 @@ export default function PostScreen() {
   }
 
   return (
-    <GradientBackground>
-      <SafeAreaView style={styles.container}>
-        <ScrollView horizontal style={styles.storiesContainer}>
+    <GradientBackground colors={colors}>
+      <View style={styles.container}>
+          <DynamicHeader title="Post" scrollY={scrollY} colors={colors}/>
+          
+          <ScrollView horizontal style={styles.storiesContainer}>
           {stories.map((story)=>(
           <View key={story.id} style={styles.story}>
             <Image source={story.avatar} style={styles.storyAvatar}/>
@@ -52,14 +55,19 @@ export default function PostScreen() {
           renderItem={({ item }) => (
             <PostItem postItemname={item.name} onCommentClick={handleCommentClick} />
           )}
-          keyExtractor={item => item.id}/>       
-           {/* ListFooterComponent = {
-           <PressableButton title={"See All Comments Here"} onPress={handleClickComment} />
-           } */}
+          keyExtractor={item => item.id}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: false }
+          )}
+          scrollEventThrottle={16}
+          />  
+               
+
          {ModalVisible && (
            <PostComments comments={comments} setModalVisible={setModalVisible}/>
          )}
-      </SafeAreaView>
+      </View>
     </GradientBackground>
   );
 }
@@ -71,7 +79,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   storiesContainer: {
-    // flex:1,
+    marginTop:35,
+    marginBottom:15,
   },
   listContainer:{
     marginTop:0,
