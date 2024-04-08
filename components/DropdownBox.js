@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
-export default function DropdownBox({ data, placeholder, value, setValue }) {
+export default function DropdownBox({
+  data,
+  placeholder,
+  value,
+  setValue,
+  setLabel,
+}) {
   const [isFocus, setIsFocus] = useState(false);
 
   return (
@@ -23,8 +29,12 @@ export default function DropdownBox({ data, placeholder, value, setValue }) {
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={(item) => {
-          setValue(item.value);
-          console.log("it is value: ", item.value);
+          if (setValue) {
+            setValue(item.value);
+          }
+          setLabel(item.label);
+          // console.log("it is value: ", item.value);
+          // console.log("it is label: ", item.label);
           setIsFocus(false);
           console.log;
         }}

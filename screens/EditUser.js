@@ -12,12 +12,17 @@ export default function EditUser() {
   const [name, setName] = useState("");
   // const [pet, setPet] = useState([]);
   const [country, setCountry] = useState("");
+  const [countryCode, setCountryCode] = useState("");
   const [state, setState] = useState("");
+  const [stateCode, setStateCode] = useState("");
   const [city, setCity] = useState("");
   const [countryList, setCountryList] = useState([]);
-  // let countryList = [];
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
+
+  // console.log(country);
+  // console.log(state);
+  // console.log(city);
 
   useEffect(() => {
     async function fetchCountries() {
@@ -36,7 +41,7 @@ export default function EditUser() {
         }));
         setCountryList(countries);
       } catch (error) {
-        console.log("Error fetching countries:", error);
+        // console.log("Error fetching countries:", error);
       }
     }
     fetchCountries();
@@ -58,14 +63,43 @@ export default function EditUser() {
           label: state.name,
         }));
         setStateList(states);
-        console.log(stateList);
+        // console.log(stateList);
       } catch (error) {
-        console.log("Error fetching states:", error);
+        // console.log("Error fetching states:", error);
         setStateList([]); // Clear the state list in case of an error
       }
     }
-    fetchStates(country);
-  }, [country]);
+    // console.log("it is country", country);
+    // console.log("it is country code", countryCode);
+    fetchStates(countryCode);
+  }, [countryCode]);
+
+  useEffect(() => {
+    async function fetchStates(countryCode, stateCode) {
+      try {
+        const response = await axios.get(
+          `https://api.countrystatecity.in/v1/countries/${countryCode}/states/${stateCode}/cities`,
+          {
+            headers: {
+              "X-CSCAPI-KEY": cityApiKey,
+            },
+          }
+        );
+        const cities = response.data.map((city) => ({
+          value: city.id,
+          label: city.name,
+        }));
+        setCityList(cities);
+        // console.log(cityList);
+      } catch (error) {
+        // console.log("Error fetching states:", error);
+        setStateList([]); // Clear the state list in case of an error
+      }
+    }
+    // console.log("it is state", state);
+    // console.log("it is state code", stateCode);
+    fetchStates(countryCode, stateCode);
+  }, [stateCode]);
 
   const emptySubmissionAlert = () =>
     Alert.alert(
@@ -160,20 +194,20 @@ export default function EditUser() {
         <DropdownBox
           data={countryList}
           placeholder="Select Country"
-          value={country}
-          setValue={setCountry}
+          setValue={setCountryCode}
+          setLabel={setCountry}
         />
         <DropdownBox
           data={stateList}
           placeholder="Select State"
-          value={city}
-          setValue={setCity}
+          setValue={setStateCode}
+          setLabel={setState}
         />
-        {/* <DropdownBox
-          // items={city}
-          // setValue={cityChangeHandler}
+        <DropdownBox
+          data={cityList}
           placeholder="Select City"
-        /> */}
+          setLabel={setCity}
+        />
         {/* <Input
           label="How many puppies do you have? *"
           value={petNum}
