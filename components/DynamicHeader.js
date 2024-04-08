@@ -1,41 +1,47 @@
 import React from 'react';
 import { View, StyleSheet, Animated, Text } from 'react-native';
-
-const DynamicHeader = ({ title, scrollY, colors }) => {
+import { colors } from '../helper/Color';
+import ImageManager from './ImageManager';
+const DynamicHeader = ({ title, scrollY , showAddButton}) => {
   const headerHeight = scrollY.interpolate({
-    inputRange: [-50, 0, 50],
-    outputRange: [90, 90, 0],
+    inputRange: [0, 90],
+    outputRange: [90, 0],
+    extrapolate: 'clamp',
+  });
+
+  const headerOpacity = scrollY.interpolate({
+    inputRange: [0, 90],
+    outputRange: [1, 0],
     extrapolate: 'clamp',
   });
 
   return (
-    <View>
-      <Animated.View
-        style={[
-          styles.animated,
-          { height: headerHeight },
-          { transform: [{ translateY: scrollY }] },
-          {
-            backgroundColor: `rgba(99, 60, 92, 0.4)`, // still can not use gradient header
-          },
-        ]}
-      >
-        <Text style={styles.Text}>{title}</Text>
-      </Animated.View>
-    </View>
+    <Animated.View
+      style={[
+        styles.header,
+        { height: headerHeight },
+        { opacity: headerOpacity },
+      ]}
+    >
+      <Text style={styles.text}>{title}</Text>
+      {showAddButton && <ImageManager />}
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
-  Text: {
-    textAlign: 'center',
-    justifyContent: 'center',
+  header: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+    alignItems: 'center', 
+    backgroundColor: 'rgba(99, 60, 92, 0.4)',
+    paddingTop: 30,
+    paddingHorizontal: 20,
   },
-  animated: {
-    justifyContent: 'center',
-    overflow: 'hidden',
-    alignItems: 'center',
-    justifyContent: 'center',
+  text: {
+    textAlign: 'left',
+    color: colors.lightavatarborder,
+    fontSize: 20,
   },
 });
 

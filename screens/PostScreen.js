@@ -16,6 +16,8 @@ export default function PostScreen() {
   const [ModalVisible, setModalVisible] = useState(false);
   const scrollY = useRef(new Animated.Value(0)).current;
 
+  const showAddButton = true;
+
   const posts = [{id: '1', name: 'test', avatar: require("../assets/favicon.png")},
                 {id: '2', name: 'test', avatar: require("../assets/favicon.png")},
                 ];
@@ -38,7 +40,7 @@ export default function PostScreen() {
   return (
     <GradientBackground colors={colors}>
       <View style={styles.container}>
-          <DynamicHeader title="Post" scrollY={scrollY} colors={colors}/>
+          <DynamicHeader title="Post" scrollY={scrollY} showAddButton={showAddButton}/>
           
           <ScrollView horizontal style={styles.storiesContainer}>
           {stories.map((story)=>(
