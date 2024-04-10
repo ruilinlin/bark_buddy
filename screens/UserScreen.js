@@ -222,9 +222,6 @@ export default function UserScreen() {
           <Text style={styles.Username}>{name}</Text>
           <Text style={styles.location}>{`${country}, ${state}, ${city}`}</Text>
         </View>
-        <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>Puppy is Here</Text>
-        </View>
         <ScrollView horizontal style={styles.petcardContainer}>
           {user.pet.map((pet) => (
             <View key={pet.id.toString()} style={styles.card}>
@@ -334,15 +331,6 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: colors.lightavatarborder,
   },
-  titleContainer: {
-    width: 25,
-    height: 30,
-    marginTop: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    marginBottom: 10,
-  },
   Username: {
     fontSize: 20,
     color: colors.commentsfontcolor,
@@ -368,7 +356,7 @@ const styles = StyleSheet.create({
     height: 200,
     width: "100%",
     alignContent: "center",
-    marginBottom: 30,
+    margin: 30,
   },
   cardInfo: {
     fontSize: 12,
