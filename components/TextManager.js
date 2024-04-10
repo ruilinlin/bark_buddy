@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-export default function Topbar() {
+export default function TextManager() {
   return (
     <View>
-      <Text>Topbar</Text>
+      <Text>TextMnager</Text>
     </View>
   )
 }

@@ -2,8 +2,8 @@ import { Alert, StyleSheet, Text, View,Pressable } from 'react-native'
 import React , {useState}from 'react'
 import * as ImagePicker from "expo-image-picker";
 import { async } from '@firebase/util';
-import { Entypo } from '@expo/vector-icons';
-
+import GradientBackground from '../components/DarkBackGround'
+import { colors } from '../helper/Color';
 export default function ImageManager(recieveImageURI) {
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const [imageUri,setImageUri] = useState('');
@@ -41,9 +41,7 @@ export default function ImageManager(recieveImageURI) {
 
   return (
     <View>
-      <Pressable style={{ margin: 10 }} onPress ={takeImageHandler}>
-      <Entypo name="camera" size={22} color="white" />
-      </Pressable>
+
     </View>
   )
 }

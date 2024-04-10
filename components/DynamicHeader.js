@@ -1,8 +1,10 @@
-import React from 'react';
-import { View, StyleSheet, Animated, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Animated, Text ,Pressable} from 'react-native';
 import { colors } from '../helper/Color';
-import ImageManager from './ImageManager';
-const DynamicHeader = ({ title, scrollY , showAddButton}) => {
+import { Entypo } from '@expo/vector-icons';
+
+const DynamicHeader = ({ title, onPress, scrollY , showAddButton}) => {
+  const [showPostStack,setShowPostStack]= useState(false);
   const headerHeight = scrollY.interpolate({
     inputRange: [0, 90],
     outputRange: [90, 0],
@@ -15,6 +17,7 @@ const DynamicHeader = ({ title, scrollY , showAddButton}) => {
     extrapolate: 'clamp',
   });
 
+
   return (
     <Animated.View
       style={[
@@ -24,7 +27,9 @@ const DynamicHeader = ({ title, scrollY , showAddButton}) => {
       ]}
     >
       <Text style={styles.text}>{title}</Text>
-      {showAddButton && <ImageManager />}
+      {showAddButton && <Pressable style={{ margin: 10 }} onPress ={onPress}>
+      <Entypo name="camera" size={22} color="white" />
+      </Pressable>}
     </Animated.View>
   );
 };

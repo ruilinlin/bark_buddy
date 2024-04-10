@@ -2,7 +2,6 @@ import GradientBackground from '../components/DarkBackGround'
 import PostItem from '../components/PostItem'
 import {PostComments} from '../components/PostComments'
 import PressableButton from '../components/PressableButton'
-import Topbar from '../components/Topbar'
 import { StyleSheet,Image, Text, View, FlatList,Button,SafeAreaView,Alert, Pressable, ScrollView,Dimensions} from 'react-native'
 import React, { useState,useRef } from 'react';
 import { colors } from '../helper/Color';
@@ -11,10 +10,11 @@ import { Animated } from 'react-native';
 import DynamicHeader from '../components/DynamicHeader'
 
 
-export default function PostScreen() {
-  const navigation =useNavigation();
+export default function PostScreen({navigation}) {
+  // const navigation =useNavigation();
   const [ModalVisible, setModalVisible] = useState(false);
   const scrollY = useRef(new Animated.Value(0)).current;
+  const [showPostStack,setShowPostStack]= useState(false); 
 
   const showAddButton = true;
 
@@ -37,10 +37,18 @@ export default function PostScreen() {
     console.log(setModalVisible);
   }
 
+  function handleShowPostStack(){
+    setShowPostStack(true);
+    navigation.navigate("PostNavigator");
+  }
+
   return (
     <GradientBackground colors={colors}>
       <View style={styles.container}>
-          <DynamicHeader title="Post" scrollY={scrollY} showAddButton={showAddButton}/>
+          <DynamicHeader title="Post" scrollY={scrollY} showAddButton={showAddButton} 
+          onPress = {() => {
+            handleShowPostStack();
+          }}/>
           
           <ScrollView horizontal style={styles.storiesContainer}>
           {stories.map((story)=>(
