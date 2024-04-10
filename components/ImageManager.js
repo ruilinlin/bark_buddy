@@ -40,10 +40,14 @@ export default function ImageManager(recieveImageURI) {
   }
 
   return (
-    <View>
+    <View style={styles.Container}>
 
     </View>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  Container:{ 
+    backgroundColor:'rgba(99, 60, 92, 0.4)',
+  },
+})

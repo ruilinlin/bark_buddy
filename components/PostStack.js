@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import PostNavigator from './PostNavigator';
 import PostScreen from '../screens/PostScreen';
 import { createStackNavigator } from '@react-navigation/stack';
+import { colors } from '../helper/Color';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,7 @@ export default function PostStack() {
           options={{
             headerTitle: "Post",
             headerShown: false,
+
           }}
           />
       </Stack.Navigator>
