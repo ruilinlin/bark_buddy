@@ -10,6 +10,7 @@ import {
   Pressable,
   ScrollView,
   Dimensions,
+  Modal,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import LightBackGround from "../components/LightBackGround";
@@ -23,6 +24,11 @@ import {
   writeToDB,
   updateToDB,
 } from "../firebase-files/firestoreHelper";
+import Input from "../components/Input";
+import PressableButton from "../components/PressableButton";
+import axios from "axios";
+import { breedApiKey } from "@env";
+import DropdownBox from "../components/DropdownBox";
 
 export default function UserScreen() {
   const [name, setName] = useState("");
@@ -30,6 +36,16 @@ export default function UserScreen() {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [docId, setDocId] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedPet, setSelectedPet] = useState(null);
+  const [puppyName, setPuppyName] = useState("");
+  const [puppyAge, setPuppyAge] = useState("");
+  const [puppyBread, setPuppyBread] = useState("");
+  const [breedList, setBreedList] = useState([]);
+  const [breedKey, setBreedKey] = useState("");
+
+  // console.log("it is breedLabel", puppyBread);
+  // console.log("it is selectedBreed", breedKey);
 
   useEffect(() => {
     async function fetchData() {
@@ -50,6 +66,72 @@ export default function UserScreen() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    async function fetchBreeds() {
+      const options = {
+        method: "GET",
+        url: "https://dogbreeddb.p.rapidapi.com/",
+        headers: {
+          "X-RapidAPI-Key": breedApiKey,
+          "X-RapidAPI-Host": "dogbreeddb.p.rapidapi.com",
+        },
+      };
+
+      try {
+        const response = await axios.request(options);
+        // console.log(response.data);
+        setBreedList(
+          response.data.map((breed) => ({
+            label: breed.breedName,
+            value: breed.id,
+            img: breed.imgSourceURL,
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+      // try {
+      //   const response = await axios.request(options);
+      //   setBreedList(
+      //     response.data.map((breed) => ({ label: breed.name, value: breed.id }))
+      //   );
+      // } catch (error) {
+      //   console.error("Error fetching breeds:", error);
+      // }
+    }
+    fetchBreeds();
+    // console.log(breedList);
+  }, []);
+
+  const emptySubmissionAlert = () => {
+    Alert.alert(
+      "Empty Submission",
+      "Please complete all the required information.",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ]
+    );
+  };
+
+  const invalidAgeAlert = () =>
+    Alert.alert(
+      "Invalid Age",
+      "No negative number or letters or empty for Age.",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ]
+    );
+
   const user = {
     id: "1",
     name: "test",
@@ -57,8 +139,8 @@ export default function UserScreen() {
     email: "puppylover@gmail.com",
     livein: "Vancouver",
     pet: [
-      { id: 1, name: "puppy one", age: 3, genda: "girl" },
-      { id: 2, name: "puppy two", age: 3, genda: "girl" },
+      { id: 1, name: "puppy one", age: 3, gender: "girl" },
+      { id: 2, name: "puppy two", age: 3, gender: "girl" },
     ],
   };
 
@@ -80,8 +162,50 @@ export default function UserScreen() {
     console.log("clicked");
   }
 
-  function cardClickHandler() {
+  function cardClickHandler(pet) {
     console.log("puppy card clicked");
+    setSelectedPet(pet);
+    setModalVisible(true);
+  }
+
+  const saveHandler = () => {
+    validateInputs();
+  };
+
+  const validateInputs = () => {
+    const isEmpty =
+      puppyName.length === 0 ||
+      puppyAge.length === 0 ||
+      puppyBread.length === 0;
+    if (isEmpty) {
+      emptySubmissionAlert();
+    }
+
+    // Check if the entered value is a positive integer
+    const isValidAge = /^\d+$/.test(puppyAge) && parseInt(puppyAge) > 0;
+    if (!isValidAge) {
+      invalidAgeAlert();
+    }
+
+    if (!isEmpty && isValidAge) {
+      // if (isEdit) {
+      //   const updatedData = { title, description, date };
+      //   updateToDB(id, updatedData, "events");
+      // } else {
+      //   writeNewEntry();
+      // }
+      setModalVisible(false);
+    }
+  };
+
+  function puppyNameChangeHandler(name) {
+    setPuppyName(name);
+  }
+  function puppyAgeChangeHandler(age) {
+    setPuppyAge(age);
+  }
+  function puppyBreedChangeHandler(breed) {
+    setPuppyBreed(breed);
   }
 
   return (
@@ -137,6 +261,53 @@ export default function UserScreen() {
           keyExtractor={(item) => item.id}
           numColumns={3}
         />
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              {/* {selectedPet && (
+                <> */}
+              <Input
+                label="Name *"
+                value={puppyName}
+                onChangeText={puppyNameChangeHandler}
+              />
+              <Input
+                label="Age *"
+                value={puppyAge}
+                onChangeText={puppyAgeChangeHandler}
+              />
+              <Text style={styles.label}>Breed *</Text>
+              <DropdownBox
+                data={breedList}
+                placeholder="Select Breed"
+                value={breedKey}
+                setValue={setBreedKey}
+                setLabel={setPuppyBread}
+              />
+              <View style={styles.buttonsContainer}>
+                <PressableButton
+                  backgroundColor={colors.backgrounddark}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={styles.text}>Cancel</Text>
+                </PressableButton>
+                <PressableButton
+                  backgroundColor={colors.backgroundlight}
+                  onPress={saveHandler}
+                >
+                  <Text style={styles.text}>Save</Text>
+                </PressableButton>
+              </View>
+              {/* </>
+              )} */}
+            </View>
+          </View>
+        </Modal>
       </SafeAreaView>
       <View></View>
     </LightBackGround>
@@ -221,5 +392,31 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,
     color: colors.fontcolortitle,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    // alignItems: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 25,
+    paddingBottom: 55,
+  },
+  buttonsContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 10,
+    margin: 10,
+  },
+  label: {
+    fontSize: 12,
+    color: colors.commentsfontcolor,
+    margin: 5,
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
   },
 });
