@@ -5,23 +5,23 @@ import Swiper from 'react-native-swiper';
 const { width } = Dimensions.get('window');
 
 const ImageViewer = ({ images }) => {
-  // console.log('ImageViewer images prop:', images);
-  return ( 
+  return (
     <Swiper
-      style={{ height: 300, margin: 0, padding: 0 }}
+      style={{ height: 300 }}
       showsButtons={false}
       autoplay={false}
     >
       {images.map((img) => (
         <Image
-          key={img.id}
-          source={img.uri} 
-          style={{ width: width, height: 300, margin: 0 }}
+          key={img.uri} // Using URI as key
+          source={{ uri: img.uri }}
+          style={{ width: width, height: 300 }}
           resizeMode="cover"
         />
       ))}
     </Swiper>
   );
 };
+
 
 export default ImageViewer;

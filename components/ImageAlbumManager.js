@@ -1,48 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, StyleSheet } from 'react-native';
+import { Image, ScrollView, View, StyleSheet, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import FloatingWindow from "./FloatingWindow";
+import { colors } from '../helper/Color';
+import ImageViewer from './PostImageViewer';
 
-export default function ImageAlbumManager() {
-  const [image, setImage] = useState(null);
+export default function ImageAlbumManager({ navigation }) {
+  const [images, setImages] = useState([]);
+
 
   useEffect(() => {
     pickImage();
-  }, []); // The empty array means this effect runs once after the initial render
+  }, []);
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      // aspect: [5, 3],
       quality: 1,
+      selectionLimit: 0,  // Allows multiple selections
     });
 
     console.log(result);
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
+    if (!result.canceled && result.assets) {
+      const imgData = result.assets.map(asset => ({
+        uri: asset.uri 
+      }));
+      setImages(imgData);
+      navigation.navigate('Filter', { images: imgData });
     }
   };
 
-  // Optionally, you can handle what happens if the user cancels the selection
-  // by adding logic after checking `result.canceled`
-
   return (
-    <View style={styles.container}>
-      {image ? <Image source={{ uri: image }} style={styles.image} /> : null}
-    </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      {images.length > 0 && <ImageViewer images={images} />}
+      <FloatingWindow navigation={navigation} />
+    </ScrollView>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row', 
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: colors.lightbackgroundlight,
+    // alignItems: "center",
+    // justifyContent: "center",
+    paddingBottom: 20,
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 400,
+    height: 800,
+    marginVertical: 10,
   },
 });

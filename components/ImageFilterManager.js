@@ -1,13 +1,42 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { View, Image, ScrollView, StyleSheet } from 'react-native';
+import { colors } from '../helper/Color';
+import FloatingWindow from "./FloatingWindow";
+export default function ImageFilterManager({ navigation, route }) {
+  const [images, setImages] = useState([]);
 
-export default function ImageFilterManager({navigation, route}) {
-  // const [warning, set]
+  // Log to debug
+  console.log(route.params);
+
+  useEffect(() => {
+    if (route.params?.images) {
+      setImages(route.params.images);
+    }
+  }, [route.params?.images]);
+
   return (
-    <View>
-      <Text>ImageFilterManager</Text>
-    </View>
-  )
+    <ScrollView contentContainerStyle={styles.Container}>
+      {images.map((img) => (
+        <Image key={img.uri} source={{ uri: img.uri }} style={styles.image} resizeMode="cover" />
+      ))}
+      <FloatingWindow navigation={navigation} />
+    </ScrollView>
+  );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    flexWrap: 'wrap', //  show images in a grid
+  },
+  image: {
+    width: 400,
+    height: 400,
+    marginVertical: 10,
+  },
+  Container: { 
+    flex: 1,
+    backgroundColor: colors.lightbackgroundlight,
+
+  },
+});

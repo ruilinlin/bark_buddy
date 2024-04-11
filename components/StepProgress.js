@@ -21,7 +21,8 @@ const StepProgress = ({ currentStep }) => {
           source={require('../assets/animate/dogwalk.json')}
           autoPlay
           loop
-          style={{ width: 100, height: 100 }} 
+          style={{ width: 80, height: 80 }} 
+         
         />
       </Animated.View>
     </View>
@@ -30,9 +31,10 @@ const StepProgress = ({ currentStep }) => {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
-    width: screenWidth,
-    height: 10, 
+    justifyContent: 'center',
+    // position: 'relative',
+    width: screenWidth-30,
+    height: 5, 
     backgroundColor: colors.backgrounddark, 
   },
   completedStep: {
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
   },
   dog: {
     position: 'absolute',
-    top: -45, // Adjust this value to position the dog correctly above the progress bar
+    top: -45, 
   },
 });
 

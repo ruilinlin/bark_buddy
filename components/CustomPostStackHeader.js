@@ -12,7 +12,7 @@ export default function CustomPostStackHeader() {
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row', 
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center', 
     backgroundColor: 'rgba(99, 60, 92, 0.4)',
     paddingTop: 30,

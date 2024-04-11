@@ -12,6 +12,7 @@ import ImageFilterManager from "./ImageFilterManager";
 import TextManager from "./TextManager";
 import StepProgress from "./StepProgress";
 import { colors } from "../helper/Color";
+
 // const Stack = createStackNavigator();
 
 // Define tab navigator for screens TakePhoto, Filter, and Album
@@ -31,6 +32,7 @@ export default function PostNavigator() {
         component={ImageManager}
         options={{
           headerTitle: () => <StepProgress currentStep={1} totalSteps={4} />,
+          tabBarStyle: { display: 'none' },
           // headerStyle: {
           //   backgroundColor: colors.backgroundlight, 
           // },
@@ -40,14 +42,16 @@ export default function PostNavigator() {
         name="Album"
         component={ImageAlbumManager}
         options={{
-          headerTitle: () => <StepProgress currentStep={2} totalSteps={4} />
+          headerTitle: () => <StepProgress currentStep={2} totalSteps={4} />,
+          tabBarStyle: { display: 'none' },
         }}
       />
       <Tab.Screen 
         name="Filter"
         component={ImageFilterManager}
         options={{
-          headerTitle: () => <StepProgress currentStep={3} totalSteps={4} />
+          headerTitle: () => <StepProgress currentStep={3} totalSteps={4} />,
+          tabBarStyle: { display: 'none' },
         }}
       />
 
@@ -55,7 +59,8 @@ export default function PostNavigator() {
         name="Text"
         component={TextManager}
         options={{
-          headerTitle: () => <StepProgress currentStep={4} totalSteps={4} />
+          headerTitle: () => <StepProgress currentStep={4} totalSteps={4} />,
+          tabBarStyle: { display: 'none' },
         }}
       />
     </Tab.Navigator>

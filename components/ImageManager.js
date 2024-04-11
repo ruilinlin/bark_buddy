@@ -4,7 +4,9 @@ import * as ImagePicker from "expo-image-picker";
 import { async } from '@firebase/util';
 import GradientBackground from '../components/DarkBackGround'
 import { colors } from '../helper/Color';
-export default function ImageManager(recieveImageURI) {
+import FloatingWindow from "./FloatingWindow";
+
+export default function ImageManager({recieveImageURI,navigation}) {
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const [imageUri,setImageUri] = useState('');
 
@@ -41,13 +43,14 @@ export default function ImageManager(recieveImageURI) {
 
   return (
     <View style={styles.Container}>
-
+        <FloatingWindow navigation={navigation} />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  Container:{ 
-    backgroundColor:'rgba(99, 60, 92, 0.4)',
+  Container: { 
+    flex: 1,
+    backgroundColor: colors.lightbackgroundlight,
   },
 })
