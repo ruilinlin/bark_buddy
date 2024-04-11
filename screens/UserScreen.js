@@ -466,14 +466,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   petcardContainer: (numItems) => ({
-    // flex: 1,
+    flex: numItems <= 1 ? 1 : null,
     // height: 200,
     // width: "100%",
     // width: numItems <= 1 ? "100%" : "auto", // Adjust width based on number of items
     alignItems: numItems <= 1 ? "center" : "auto", // Center items if there's only one, otherwise align to start
     justifyContent: numItems <= 1 ? "center" : "auto", // Center items if there's only one, otherwise align to start
-    margin: 30,
-    marginLeft: 0,
+    padding: 30,
+    // marginTop: 30,
+    // marginBottom: 30,
+    // marginLeft: 0,
     // marginLeft: numItems <= 1 ? 0 : 30,
   }),
   cardInfo: {
