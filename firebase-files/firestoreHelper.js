@@ -137,3 +137,20 @@ export async function readAllFromSubCol(
     throw error;
   }
 }
+
+export async function updateToSubCol(
+  parentCollection,
+  parentId,
+  subcollection,
+  subDocId,
+  updatedData
+) {
+  try {
+    const parentDocRef = doc(database, parentCollection, parentId);
+    const subDocRef = doc(collection(parentDocRef, subcollection), subDocId);
+    await updateDoc(subDocRef, updatedData);
+    console.log("Document successfully updated in subcollection!");
+  } catch (err) {
+    console.error("Error updating document in subcollection:", err);
+  }
+}

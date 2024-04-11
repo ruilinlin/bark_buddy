@@ -24,6 +24,7 @@ import {
   writeToSubcollection,
   updateToDB,
   readAllFromSubCol,
+  updateToSubCol,
 } from "../firebase-files/firestoreHelper";
 import Input from "../components/Input";
 import PressableButton from "../components/PressableButton";
@@ -48,6 +49,7 @@ export default function UserScreen() {
   const [breedKey, setBreedKey] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const [puppyList, setPuppyList] = useState([]);
+  const [puppyDocId, setPuppyDocId] = useState("");
 
   // console.log("it is breedLabel", puppyBread);
   // console.log("it is selectedBreed", breedKey);
@@ -60,27 +62,21 @@ export default function UserScreen() {
           // If user data exists, pre-fill the input fields
           console.log("it is userData", userData);
           setUser(userData);
-          // setName(userData.name);
-          // setCountry(userData.country);
-          // setState(userData.state);
-          // setCity(userData.city);
-          // setDocId(userData.id);
-          // if (userData.puppyList && userData.puppyList.length > 0) {
-          //   // If user has puppyList data available, set the user.puppyList state
-          //   setUser({
-          //     ...user,
-          //     pet: userData.puppyList,
-          //   });
-          // }
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     }
     fetchData();
-    fetchPuppyData();
+    // fetchPuppyData();
     console.log("it is user", user);
   }, []);
+
+  useEffect(() => {
+    if (user && user.id) {
+      fetchPuppyData(); // Call fetchPuppyData if user exists and has an id
+    }
+  }, [user]); // Add user as a dependency to the useEffect
 
   // useEffect(() => {
   async function fetchPuppyData() {
@@ -210,7 +206,7 @@ export default function UserScreen() {
     setPuppyAge(pet.age);
     setPuppyBread(pet.breed);
     setBreedKey(pet.breedId);
-    // setSelectedPet(pet);
+    setPuppyDocId(pet.id);
     setIsEdit(true);
     setModalVisible(true);
   }
@@ -254,7 +250,8 @@ export default function UserScreen() {
           breed: puppyBread,
           breedId: breedKey,
         };
-        // updateToDB(id, updatedData, "events");
+        updateToSubCol("users", user.id, "puppyList", puppyDocId, updatedData);
+        fetchPuppyData();
       } else {
         writeNewEntry();
       }
@@ -469,7 +466,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   petcardContainer: (numItems) => ({
-    flex: 1,
+    // flex: 1,
     // height: 200,
     // width: "100%",
     // width: numItems <= 1 ? "100%" : "auto", // Adjust width based on number of items
