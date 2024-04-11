@@ -8,6 +8,7 @@ export default function DropdownBox({
   value,
   setValue,
   setLabel,
+  // onSelectTag, 
 }) {
   const [isFocus, setIsFocus] = useState(false);
 
@@ -36,6 +37,11 @@ export default function DropdownBox({
           // console.log("it is value: ", item.value);
           // console.log("it is label: ", item.label);
           setIsFocus(false);
+        // {data.map((item) => (
+        //   <Pressable key={item.value} onPress={() => onSelectTag(item.value)}>
+        //     <Text style={{ margin: 10 }}>{item.label}</Text>
+        //   </Pressable>
+        // ))}
           console.log;
         }}
       />

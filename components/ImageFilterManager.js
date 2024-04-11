@@ -10,8 +10,10 @@ import FilterGallery from './FilterGallery';
 
 export default function ImageFilterManager({ navigation, route }) {
   const [images, setImages] = useState([])
+  
   // Log to debug
   console.log(route.params);
+// use to show gallery
   const Filters = [{id: '1', uri: require('../assets/bomei_1.png') ,name:"Colosseum"},
                   {id: '2', uri: require('../assets/bomei_2.png') ,name:"Colosseum"},
                   {id: '3', uri: require('../assets/bomei_3.png') ,name:"Colosseum"},
