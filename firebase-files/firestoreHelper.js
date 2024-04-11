@@ -6,6 +6,7 @@ import {
   getDoc,
   getDocs,
   updateDoc,
+  setDoc,
   where,
   query,
 } from "firebase/firestore";
@@ -18,6 +19,31 @@ export async function writeToDB(data, CollectionName) {
     return docRef.id;
   } catch (err) {
     console.log(err);
+  }
+}
+
+export async function writeToSubcollection(
+  data,
+  parentCollection,
+  parentId,
+  subcollection,
+  subDocId = null
+) {
+  try {
+    const parentDocRef = doc(database, parentCollection, parentId);
+
+    if (!subDocId) {
+      // didn't provide subDocId, which means subcollection doesn't exist, create it
+      await addDoc(collection(parentDocRef, subcollection), data);
+    } else {
+      await setDoc(
+        doc(collection(parentDocRef, subcollection), subDocId),
+        data
+      );
+    }
+    console.log("Document successfully written to subcollection!");
+  } catch (error) {
+    console.error("Error writing document to subcollection: ", error);
   }
 }
 

@@ -21,7 +21,7 @@ import ImageViewer from "../components/PostImageViewer";
 import { auth } from "../firebase-files/firebaseSetup";
 import {
   searchUsersByUserId,
-  writeToDB,
+  writeToSubcollection,
   updateToDB,
 } from "../firebase-files/firestoreHelper";
 import Input from "../components/Input";
@@ -45,6 +45,7 @@ export default function UserScreen() {
   const [puppyBread, setPuppyBread] = useState("");
   const [breedList, setBreedList] = useState([]);
   const [breedKey, setBreedKey] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
 
   // console.log("it is breedLabel", puppyBread);
   // console.log("it is selectedBreed", breedKey);
@@ -166,15 +167,33 @@ export default function UserScreen() {
     console.log("clicked");
   }
 
-  function cardClickHandler(pet) {
-    console.log("puppy card clicked");
+  function addCardClickHandler() {
+    console.log("edit card clicked");
+    setIsEdit(false);
+    setModalVisible(true);
+  }
+
+  function editCardClickHandler(pet) {
+    console.log("edit card clicked");
     setSelectedPet(pet);
+    setIsEdit(true);
     setModalVisible(true);
   }
 
   const saveHandler = () => {
     validateInputs();
   };
+
+  function writeNewEntry() {
+    const newPuppy = {
+      name: puppyName,
+      age: puppyAge,
+      breed: puppyBread,
+      breedId: breedKey,
+    };
+
+    writeToSubcollection(newPuppy, "users", user.id, "puppyList");
+  }
 
   const validateInputs = () => {
     const isEmpty =
@@ -192,12 +211,12 @@ export default function UserScreen() {
     }
 
     if (!isEmpty && isValidAge) {
-      // if (isEdit) {
-      //   const updatedData = { title, description, date };
-      //   updateToDB(id, updatedData, "events");
-      // } else {
-      //   writeNewEntry();
-      // }
+      if (isEdit) {
+        const updatedData = { title, description, date };
+        updateToDB(id, updatedData, "events");
+      } else {
+        writeNewEntry();
+      }
       setModalVisible(false);
     }
   };
@@ -240,7 +259,7 @@ export default function UserScreen() {
                 <>
                   {user.puppyList.map((puppy) => (
                     <View key={puppy.id.toString()} style={styles.card}>
-                      <Pressable onPress={() => cardClickHandler(puppy)}>
+                      <Pressable onPress={() => editCardClickHandler(puppy)}>
                         <Image
                           source={puppy.img}
                           style={styles.cardAvatar}
@@ -255,29 +274,30 @@ export default function UserScreen() {
                     </View>
                   ))}
                   {/* Add a card for adding a new puppy */}
-                  <View style={styles.card}>
-                    <Pressable onPress={() => setModalVisible(true)}>
-                      <Text style={styles.addPuppyText}>
-                        Add your puppy here!
-                      </Text>
+                  <View>
+                    <Pressable
+                      onPress={addCardClickHandler}
+                      style={styles.card}
+                    >
+                      <MaterialCommunityIcons
+                        name="dog"
+                        size={24}
+                        color="black"
+                      />
+                      <Text>Add your puppy here!</Text>
                     </Pressable>
                   </View>
                 </>
               ) : (
                 // If pet data is not available, render only one card for adding a new puppy
                 <View>
-                  <Pressable
-                    onPress={() => setModalVisible(true)}
-                    style={styles.card}
-                  >
+                  <Pressable onPress={addCardClickHandler} style={styles.card}>
                     <MaterialCommunityIcons
                       name="dog"
                       size={24}
                       color="black"
                     />
-                    <Text style={styles.addPuppyText}>
-                      Add your puppy here!
-                    </Text>
+                    <Text>Add your puppy here!</Text>
                   </Pressable>
                 </View>
               )}
