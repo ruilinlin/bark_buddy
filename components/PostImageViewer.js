@@ -1,27 +1,33 @@
 import React from 'react';
-import { Image, Dimensions } from 'react-native';
+import { Image, Dimensions,View} from 'react-native';
 import Swiper from 'react-native-swiper';
 
 const { width } = Dimensions.get('window');
 
 const ImageViewer = ({ images }) => {
-  // console.log('ImageViewer images prop:', images);
-  return ( 
+
+  return (
     <Swiper
-      style={{ height: 300, margin: 0, padding: 0 }}
+      style={{ height: 300 }}
       showsButtons={false}
       autoplay={false}
     >
-      {images.map((img) => (
-        <Image
-          key={img.id}
-          source={img.uri} 
-          style={{ width: width, height: 300, margin: 0 }}
-          resizeMode="cover"
-        />
-      ))}
+      {images.map((img, index) => {
+        // Determine if the image source is a local require or a remote URI
+        const imageSource = typeof img.uri === 'string' ? { uri: img.uri } : img.uri;
+        return (
+          <View key={index} style={{ width, height: 300 }}>
+            <Image
+              source={imageSource}
+              style={{ width: width, height: 300 }}
+              resizeMode="cover"
+            />
+          </View>
+        );
+      })}
     </Swiper>
   );
 };
+
 
 export default ImageViewer;
