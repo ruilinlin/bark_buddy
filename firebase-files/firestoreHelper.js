@@ -115,3 +115,25 @@ export async function readAllFromDB(CollectionName) {
     console.error("Error fetching data: ", error);
   }
 }
+
+export async function readAllFromSubCol(
+  parentCollection,
+  parentId,
+  subCollection
+) {
+  try {
+    const parentDocRef = doc(database, parentCollection, parentId);
+    const subCollectionRef = collection(parentDocRef, subCollection);
+    const querySnapshot = await getDocs(subCollectionRef);
+
+    const documents = [];
+    querySnapshot.forEach((doc) => {
+      documents.push({ id: doc.id, ...doc.data() });
+    });
+
+    return documents;
+  } catch (error) {
+    console.error("Error fetching data from subcollection: ", error);
+    throw error;
+  }
+}

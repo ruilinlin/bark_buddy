@@ -23,6 +23,7 @@ import {
   searchUsersByUserId,
   writeToSubcollection,
   updateToDB,
+  readAllFromSubCol,
 } from "../firebase-files/firestoreHelper";
 import Input from "../components/Input";
 import PressableButton from "../components/PressableButton";
@@ -46,6 +47,7 @@ export default function UserScreen() {
   const [breedList, setBreedList] = useState([]);
   const [breedKey, setBreedKey] = useState("");
   const [isEdit, setIsEdit] = useState(false);
+  const [puppyList, setPuppyList] = useState([]);
 
   // console.log("it is breedLabel", puppyBread);
   // console.log("it is selectedBreed", breedKey);
@@ -76,17 +78,40 @@ export default function UserScreen() {
       }
     }
     fetchData();
-    console.log(user);
+    fetchPuppyData();
+    console.log("it is user", user);
   }, []);
+
+  // useEffect(() => {
+  async function fetchPuppyData() {
+    try {
+      if (user && user.id) {
+        // null check for user and user.id
+        const puppyData = await readAllFromSubCol(
+          "users",
+          user.id,
+          "puppyList"
+        );
+        if (puppyData) {
+          setPuppyList(puppyData);
+          console.log("It is puppyList", puppyList);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching puppy data:", error);
+    }
+  }
+  // fetchPuppyData();
+  // }, [user]); // Add user to the dependency array
 
   useEffect(() => {
     async function fetchBreeds() {
       const options = {
         method: "GET",
-        url: "https://dogbreeddb.p.rapidapi.com/",
+        url: "https://api.thedogapi.com/v1/breeds",
         headers: {
           "X-RapidAPI-Key": breedApiKey,
-          "X-RapidAPI-Host": "dogbreeddb.p.rapidapi.com",
+          "X-RapidAPI-Host": "api.thedogapi.com/v1/breeds",
         },
       };
 
@@ -95,9 +120,8 @@ export default function UserScreen() {
         // console.log(response.data);
         setBreedList(
           response.data.map((breed) => ({
-            label: breed.breedName,
+            label: breed.name,
             value: breed.id,
-            img: breed.imgSourceURL,
           }))
         );
       } catch (error) {
@@ -168,14 +192,25 @@ export default function UserScreen() {
   }
 
   function addCardClickHandler() {
-    console.log("edit card clicked");
+    console.log("add card clicked");
+    // Clear input fields and dropdown box
+    setPuppyName("");
+    setPuppyAge("");
+    setPuppyBread("");
+    setBreedKey("");
     setIsEdit(false);
     setModalVisible(true);
   }
 
   function editCardClickHandler(pet) {
     console.log("edit card clicked");
-    setSelectedPet(pet);
+    console.log("it is pet", pet);
+    // Populate input fields and dropdown box with selected puppy's data
+    setPuppyName(pet.name);
+    setPuppyAge(pet.age);
+    setPuppyBread(pet.breed);
+    setBreedKey(pet.breedId);
+    // setSelectedPet(pet);
     setIsEdit(true);
     setModalVisible(true);
   }
@@ -193,6 +228,7 @@ export default function UserScreen() {
     };
 
     writeToSubcollection(newPuppy, "users", user.id, "puppyList");
+    fetchPuppyData();
   }
 
   const validateInputs = () => {
@@ -212,8 +248,13 @@ export default function UserScreen() {
 
     if (!isEmpty && isValidAge) {
       if (isEdit) {
-        const updatedData = { title, description, date };
-        updateToDB(id, updatedData, "events");
+        const updatedData = {
+          name: puppyName,
+          age: puppyAge,
+          breed: puppyBread,
+          breedId: breedKey,
+        };
+        // updateToDB(id, updatedData, "events");
       } else {
         writeNewEntry();
       }
@@ -252,18 +293,26 @@ export default function UserScreen() {
             <ScrollView
               horizontal
               contentContainerStyle={styles.petcardContainer(
-                user.puppyList ? user.puppyList.length : 1
+                puppyList ? puppyList.length : 1
               )}
             >
-              {user.puppyList && user.puppyList.length > 0 ? (
+              {puppyList && puppyList.length > 0 ? (
                 <>
-                  {user.puppyList.map((puppy) => (
-                    <View key={puppy.id.toString()} style={styles.card}>
-                      <Pressable onPress={() => editCardClickHandler(puppy)}>
-                        <Image
+                  {puppyList.map((puppy) => (
+                    <View key={puppy.id.toString()}>
+                      <Pressable
+                        style={styles.card}
+                        onPress={() => editCardClickHandler(puppy)}
+                      >
+                        {/* <Image
                           source={puppy.img}
                           style={styles.cardAvatar}
                           resizeMode="cover"
+                        /> */}
+                        <MaterialCommunityIcons
+                          name="dog"
+                          size={24}
+                          color="black"
                         />
                         <Text style={styles.cardInfo}>{puppy.name}</Text>
                         <Text style={styles.cardInfo}>Age: {puppy.age}</Text>
@@ -424,10 +473,11 @@ const styles = StyleSheet.create({
     // height: 200,
     // width: "100%",
     // width: numItems <= 1 ? "100%" : "auto", // Adjust width based on number of items
-    alignItems: numItems <= 1 ? "center" : "flex-start", // Center items if there's only one, otherwise align to start
-    justifyContent: numItems <= 1 ? "center" : "flex-start", // Center items if there's only one, otherwise align to start
+    alignItems: numItems <= 1 ? "center" : "auto", // Center items if there's only one, otherwise align to start
+    justifyContent: numItems <= 1 ? "center" : "auto", // Center items if there's only one, otherwise align to start
     margin: 30,
-    marginLeft: numItems <= 1 ? 0 : 30,
+    marginLeft: 0,
+    // marginLeft: numItems <= 1 ? 0 : 30,
   }),
   cardInfo: {
     fontSize: 12,
