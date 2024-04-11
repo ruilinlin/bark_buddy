@@ -5,6 +5,7 @@ import FloatingWindow from "./FloatingWindow";
 import { colors } from '../helper/Color';
 import ImageViewer from './PostImageViewer';
 import LottieView from 'lottie-react-native';
+import NextButton from './NextButton';
 
 export default function ImageAlbumManager({ navigation }) {
   const [images, setImages] = useState([]);
@@ -40,8 +41,11 @@ export default function ImageAlbumManager({ navigation }) {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {images.length > 0 && <ImageViewer images={images} />}
+    <ScrollView contentContainerStyle={styles.Container}>
+      {images.map((img) => (
+        <Image key={img.uri} source={{ uri: img.uri }} style={styles.image} resizeMode="cover" />
+      ))}
+
       <View style={styles.nextButtonContainer}>
         <Pressable onPress ={handleNext} style={styles.nextButton}>
         <Animated.View style={styles.nextButtonContainer}>
@@ -52,8 +56,8 @@ export default function ImageAlbumManager({ navigation }) {
           style={{ width: 40, height: 40 }} 
          
         />
-        </Animated.View>
-        <Text style={styles.Text}>Next</Text>
+      </Animated.View>
+        <Text style={styles.Text}>Filter</Text>
         </Pressable>
       </View>
       {/* <FloatingWindow navigation={navigation} /> */}
@@ -61,19 +65,35 @@ export default function ImageAlbumManager({ navigation }) {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row', 
-    flex: 1,
-    backgroundColor: colors.lightbackgroundlight,
-    // alignItems: "center",
-    // justifyContent: "center",
-    paddingBottom: 20,
+    flexDirection: 'row',
+    flexWrap: 'wrap', //  show images in a grid
   },
   image: {
     width: 400,
-    height: 800,
-    marginVertical: 10,
+    height: 450,
+    // marginVertical: 10,
   },
+  Container: { 
+    flex: 1,
+    backgroundColor: colors.lightbackgroundlight,
+  },
+  nextButtonContainer:{
+    // marginTop:30,
+    alignItems:"flex-end",
+  },
+  nextButton:{
+    backgroundColor:"rgba( 136, 116, 163, 0.5)",
+    flexDirection:"row-reverse",
+    width:90,
+    height:40,
+    borderRadius:10,
+    alignItems:"center",
+    margin:10,
+  },
+  Text:{
+    color:colors.lightbackgroundlight,
+    fontSize:14,
+  }
 });
