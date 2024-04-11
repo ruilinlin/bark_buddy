@@ -29,13 +29,15 @@ import PressableButton from "../components/PressableButton";
 import axios from "axios";
 import { breedApiKey } from "@env";
 import DropdownBox from "../components/DropdownBox";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function UserScreen() {
-  const [name, setName] = useState("");
-  const [country, setCountry] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
-  const [docId, setDocId] = useState("");
+  const [user, setUser] = useState(null);
+  // const [name, setName] = useState("");
+  // const [country, setCountry] = useState("");
+  // const [state, setState] = useState("");
+  // const [city, setCity] = useState("");
+  // const [docId, setDocId] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedPet, setSelectedPet] = useState(null);
   const [puppyName, setPuppyName] = useState("");
@@ -53,17 +55,27 @@ export default function UserScreen() {
         const userData = await searchUsersByUserId(auth.currentUser.uid); // Fetch user data from DB
         if (userData) {
           // If user data exists, pre-fill the input fields
-          setName(userData.name);
-          setCountry(userData.country);
-          setState(userData.state);
-          setCity(userData.city);
-          setDocId(userData.id);
+          console.log("it is userData", userData);
+          setUser(userData);
+          // setName(userData.name);
+          // setCountry(userData.country);
+          // setState(userData.state);
+          // setCity(userData.city);
+          // setDocId(userData.id);
+          // if (userData.puppyList && userData.puppyList.length > 0) {
+          //   // If user has puppyList data available, set the user.puppyList state
+          //   setUser({
+          //     ...user,
+          //     pet: userData.puppyList,
+          //   });
+          // }
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     }
     fetchData();
+    console.log(user);
   }, []);
 
   useEffect(() => {
@@ -90,14 +102,6 @@ export default function UserScreen() {
       } catch (error) {
         console.error(error);
       }
-      // try {
-      //   const response = await axios.request(options);
-      //   setBreedList(
-      //     response.data.map((breed) => ({ label: breed.name, value: breed.id }))
-      //   );
-      // } catch (error) {
-      //   console.error("Error fetching breeds:", error);
-      // }
     }
     fetchBreeds();
     // console.log(breedList);
@@ -132,17 +136,17 @@ export default function UserScreen() {
       ]
     );
 
-  const user = {
-    id: "1",
-    name: "test",
-    avatar: require("../assets/favicon.png"),
-    email: "puppylover@gmail.com",
-    livein: "Vancouver",
-    pet: [
-      { id: 1, name: "puppy one", age: 3, gender: "girl" },
-      { id: 2, name: "puppy two", age: 3, gender: "girl" },
-    ],
-  };
+  // const user = {
+  //   id: "1",
+  //   name: "test",
+  //   avatar: require("../assets/favicon.png"),
+  //   email: "puppylover@gmail.com",
+  //   livein: "Vancouver",
+  //   pet: [
+  //     { id: 1, name: "puppy one", age: 3, gender: "girl" },
+  //     { id: 2, name: "puppy two", age: 3, gender: "girl" },
+  //   ],
+  // };
 
   const images = [
     { id: "1", uri: require("../assets/1.png") },
@@ -211,100 +215,143 @@ export default function UserScreen() {
   return (
     <LightBackGround>
       <SafeAreaView style={styles.container}>
-        <View style={styles.userinformationContainer}>
-          <Pressable onPress={avatarClickHandler}>
-            <Image
-              source={require("../assets/favicon.png")}
-              style={styles.avatorContainer}
-              resizeMode="cover"
-            />
-          </Pressable>
-          <Text style={styles.Username}>{name}</Text>
-          <Text style={styles.location}>{`${country}, ${state}, ${city}`}</Text>
-        </View>
-        <ScrollView horizontal style={styles.petcardContainer}>
-          {user.pet.map((pet) => (
-            <View key={pet.id.toString()} style={styles.card}>
-              <Pressable onPress={cardClickHandler}>
+        {user && ( // Check if user is not null
+          <>
+            <View style={styles.userinformationContainer}>
+              <Pressable onPress={avatarClickHandler}>
                 <Image
-                  source={user.avatar}
-                  style={styles.cardAvatar}
+                  source={require("../assets/favicon.png")}
+                  style={styles.avatorContainer}
                   resizeMode="cover"
                 />
-                <Text style={styles.cardInfo}>{pet.name}</Text>
-                <Text style={styles.cardInfo}>Age: {pet.age}</Text>
-                <Text style={styles.cardInfo}>Gender: {pet.genda}</Text>
               </Pressable>
+              <Text style={styles.Username}>{user.name}</Text>
+              <Text
+                style={styles.location}
+              >{`${user.country}, ${user.state}, ${user.city}`}</Text>
             </View>
-          ))}
-        </ScrollView>
-        <FlatList
-          style={styles.listContainer}
-          data={images}
-          renderItem={({ item }) => (
-            <View
-              style={[
-                styles.imageContainer,
-                { width: width / 3 - 5, height: width / 3 },
-              ]}
+            <ScrollView
+              horizontal
+              contentContainerStyle={styles.petcardContainer(
+                user.puppyList ? user.puppyList.length : 1
+              )}
             >
-              <Image
-                source={item.uri}
-                style={{ width: "100%", height: "100%" }}
-                resizeMode="contain"
-              />
-            </View>
-          )}
-          keyExtractor={(item) => item.id}
-          numColumns={3}
-        />
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              {/* {selectedPet && (
+              {user.puppyList && user.puppyList.length > 0 ? (
+                <>
+                  {user.puppyList.map((puppy) => (
+                    <View key={puppy.id.toString()} style={styles.card}>
+                      <Pressable onPress={() => cardClickHandler(puppy)}>
+                        <Image
+                          source={puppy.img}
+                          style={styles.cardAvatar}
+                          resizeMode="cover"
+                        />
+                        <Text style={styles.cardInfo}>{puppy.name}</Text>
+                        <Text style={styles.cardInfo}>Age: {puppy.age}</Text>
+                        <Text style={styles.cardInfo}>
+                          Breed: {puppy.breed}
+                        </Text>
+                      </Pressable>
+                    </View>
+                  ))}
+                  {/* Add a card for adding a new puppy */}
+                  <View style={styles.card}>
+                    <Pressable onPress={() => setModalVisible(true)}>
+                      <Text style={styles.addPuppyText}>
+                        Add your puppy here!
+                      </Text>
+                    </Pressable>
+                  </View>
+                </>
+              ) : (
+                // If pet data is not available, render only one card for adding a new puppy
+                <View>
+                  <Pressable
+                    onPress={() => setModalVisible(true)}
+                    style={styles.card}
+                  >
+                    <MaterialCommunityIcons
+                      name="dog"
+                      size={24}
+                      color="black"
+                    />
+                    <Text style={styles.addPuppyText}>
+                      Add your puppy here!
+                    </Text>
+                  </Pressable>
+                </View>
+              )}
+            </ScrollView>
+
+            <FlatList
+              style={styles.listContainer}
+              data={images}
+              renderItem={({ item }) => (
+                <View
+                  style={[
+                    styles.imageContainer,
+                    { width: width / 3 - 5, height: width / 3 },
+                  ]}
+                >
+                  <Image
+                    source={item.uri}
+                    style={{ width: "100%", height: "100%" }}
+                    resizeMode="contain"
+                  />
+                </View>
+              )}
+              keyExtractor={(item) => item.id}
+              numColumns={3}
+            />
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => setModalVisible(false)}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  {/* {selectedPet && (
                 <> */}
-              <Input
-                label="Name *"
-                value={puppyName}
-                onChangeText={puppyNameChangeHandler}
-              />
-              <Input
-                label="Age *"
-                value={puppyAge}
-                onChangeText={puppyAgeChangeHandler}
-              />
-              <Text style={styles.label}>Breed *</Text>
-              <DropdownBox
-                data={breedList}
-                placeholder="Select Breed"
-                value={breedKey}
-                setValue={setBreedKey}
-                setLabel={setPuppyBread}
-              />
-              <View style={styles.buttonsContainer}>
-                <PressableButton
-                  backgroundColor={colors.backgrounddark}
-                  onPress={() => setModalVisible(false)}
-                >
-                  <Text style={styles.text}>Cancel</Text>
-                </PressableButton>
-                <PressableButton
-                  backgroundColor={colors.backgroundlight}
-                  onPress={saveHandler}
-                >
-                  <Text style={styles.text}>Save</Text>
-                </PressableButton>
-              </View>
-              {/* </>
+                  <Input
+                    label="Name *"
+                    value={puppyName}
+                    onChangeText={puppyNameChangeHandler}
+                  />
+                  <Input
+                    label="Age *"
+                    value={puppyAge}
+                    onChangeText={puppyAgeChangeHandler}
+                  />
+                  <Text style={styles.label}>Breed *</Text>
+                  <DropdownBox
+                    data={breedList}
+                    placeholder="Select Breed"
+                    value={breedKey}
+                    setValue={setBreedKey}
+                    setLabel={setPuppyBread}
+                  />
+                  <View style={styles.buttonsContainer}>
+                    <PressableButton
+                      backgroundColor={colors.backgrounddark}
+                      onPress={() => setModalVisible(false)}
+                    >
+                      <Text style={styles.text}>Cancel</Text>
+                    </PressableButton>
+                    <PressableButton
+                      backgroundColor={colors.backgroundlight}
+                      onPress={saveHandler}
+                    >
+                      <Text style={styles.text}>Save</Text>
+                    </PressableButton>
+                  </View>
+                  {/* </>
               )} */}
-            </View>
-          </View>
-        </Modal>
+                </View>
+              </View>
+            </Modal>
+          </>
+        )}
       </SafeAreaView>
       <View></View>
     </LightBackGround>
@@ -352,12 +399,16 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginTop: 20,
   },
-  petcardContainer: {
-    height: 200,
-    width: "100%",
-    alignContent: "center",
+  petcardContainer: (numItems) => ({
+    flex: 1,
+    // height: 200,
+    // width: "100%",
+    // width: numItems <= 1 ? "100%" : "auto", // Adjust width based on number of items
+    alignItems: numItems <= 1 ? "center" : "flex-start", // Center items if there's only one, otherwise align to start
+    justifyContent: numItems <= 1 ? "center" : "flex-start", // Center items if there's only one, otherwise align to start
     margin: 30,
-  },
+    marginLeft: numItems <= 1 ? 0 : 30,
+  }),
   cardInfo: {
     fontSize: 12,
     color: colors.commentsfontcolor,
