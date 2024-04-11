@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 400,
-    height: 400,
+    height: 450,
     // marginVertical: 10,
   },
   Container: { 

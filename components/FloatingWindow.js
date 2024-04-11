@@ -1,10 +1,33 @@
 // In FloatingWindow.js
-import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React ,{useState, useRef}from 'react';
+import { View, StyleSheet, TouchableOpacity, Text, PanResponder, Animated  } from 'react-native';
 
 const FloatingWindow = ({ navigation }) => {
+  const pan = useRef(new Animated.ValueXY()).current;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: Animated.event(
+        [null, { dx: pan.x, dy: pan.y }],
+        { useNativeDriver: false }
+      ),
+      onPanResponderRelease: () => {
+        Animated.spring(
+          pan, // Auto-multiplexed
+          { toValue: { x: 0, y: 0 }, useNativeDriver: false } // Return to start position
+        ).start();
+      },
+    })
+  ).current;
   return (
-    <View style={styles.floatingContainer}>
+    <Animated.View
+      style={[
+        styles.floatingContainer,
+        { transform: pan.getTranslateTransform() }
+      ]}
+      {...panResponder.panHandlers}
+    >
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Camera')}>
         <Text style={styles.buttonText}>Camera</Text>
       </TouchableOpacity>
@@ -17,7 +40,7 @@ const FloatingWindow = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Text')}>
         <Text style={styles.buttonText}>Text</Text>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 };
 

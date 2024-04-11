@@ -28,24 +28,25 @@ export default function PostNavigator() {
         }}
       /> */}
      <Tab.Screen 
+        name="Album"
+        component={ImageAlbumManager}
+        options={{
+          headerTitle: () => <StepProgress currentStep={1} totalSteps={4} />,
+          tabBarStyle: { display: 'none' },
+        }}
+      />
+     <Tab.Screen 
         name="Camera"
         component={ImageManager}
         options={{
-          headerTitle: () => <StepProgress currentStep={1} totalSteps={4} />,
+          headerTitle: () => <StepProgress currentStep={2} totalSteps={4} />,
           tabBarStyle: { display: 'none' },
           // headerStyle: {
           //   backgroundColor: colors.backgroundlight, 
           // },
         }}
       />
-      <Tab.Screen 
-        name="Album"
-        component={ImageAlbumManager}
-        options={{
-          headerTitle: () => <StepProgress currentStep={2} totalSteps={4} />,
-          tabBarStyle: { display: 'none' },
-        }}
-      />
+
       <Tab.Screen 
         name="Filter"
         component={ImageFilterManager}

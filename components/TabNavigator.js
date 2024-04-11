@@ -15,7 +15,7 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="PostTab"
+        name="Post"
         component={PostStack}
         options={{
           headerTitle: "Posts",

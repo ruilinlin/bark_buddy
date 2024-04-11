@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Image, ScrollView, View, StyleSheet, Text } from 'react-native';
+import { View, Image, ScrollView, StyleSheet, Pressable ,Text, Animated } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import FloatingWindow from "./FloatingWindow";
 import { colors } from '../helper/Color';
 import ImageViewer from './PostImageViewer';
+import LottieView from 'lottie-react-native';
 
 export default function ImageAlbumManager({ navigation }) {
   const [images, setImages] = useState([]);
@@ -12,6 +13,7 @@ export default function ImageAlbumManager({ navigation }) {
   useEffect(() => {
     pickImage();
   }, []);
+
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -33,10 +35,28 @@ export default function ImageAlbumManager({ navigation }) {
     }
   };
 
+  function handleNext(){
+    navigation.navigate('Filter', { images: images });
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {images.length > 0 && <ImageViewer images={images} />}
-      <FloatingWindow navigation={navigation} />
+      <View style={styles.nextButtonContainer}>
+        <Pressable onPress ={handleNext} style={styles.nextButton}>
+        <Animated.View style={styles.nextButtonContainer}>
+        <LottieView
+          source={require('../assets/animate/nextarrow.json')}
+          autoPlay
+          loop
+          style={{ width: 40, height: 40 }} 
+         
+        />
+        </Animated.View>
+        <Text style={styles.Text}>Next</Text>
+        </Pressable>
+      </View>
+      {/* <FloatingWindow navigation={navigation} /> */}
     </ScrollView>
   );
 }
