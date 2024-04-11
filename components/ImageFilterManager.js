@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, ScrollView, StyleSheet } from 'react-native';
+import { View, Image, ScrollView, StyleSheet, Pressable ,Text, Animated } from 'react-native';
 import { colors } from '../helper/Color';
 import FloatingWindow from "./FloatingWindow";
-export default function ImageFilterManager({ navigation, route }) {
-  const [images, setImages] = useState([]);
+// import { Feather } from '@expo/vector-icons';
+import LottieView from 'lottie-react-native';
 
+export default function ImageFilterManager({ navigation, route }) {
+  const [images, setImages] = useState([])
   // Log to debug
   console.log(route.params);
 
@@ -14,11 +16,30 @@ export default function ImageFilterManager({ navigation, route }) {
     }
   }, [route.params?.images]);
 
+  function handleNext(){
+    navigation.navigate('Text', { images: images });
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.Container}>
       {images.map((img) => (
         <Image key={img.uri} source={{ uri: img.uri }} style={styles.image} resizeMode="cover" />
       ))}
+
+      <View style={styles.nextButtonContainer}>
+        <Pressable onPress ={handleNext} style={styles.nextButton}>
+        <Animated.View style={styles.nextButtonContainer}>
+        <LottieView
+          source={require('../assets/animate/nextarrow.json')}
+          autoPlay
+          loop
+          style={{ width: 40, height: 40 }} 
+         
+        />
+      </Animated.View>
+        <Text style={styles.Text}>Next</Text>
+        </Pressable>
+      </View>
       <FloatingWindow navigation={navigation} />
     </ScrollView>
   );
@@ -32,11 +53,28 @@ const styles = StyleSheet.create({
   image: {
     width: 400,
     height: 400,
-    marginVertical: 10,
+    // marginVertical: 10,
   },
   Container: { 
     flex: 1,
     backgroundColor: colors.lightbackgroundlight,
-
   },
+  nextButtonContainer:{
+    // marginTop:30,
+    alignItems:"flex-end",
+  },
+  nextButton:{
+    backgroundColor:"rgba( 136, 116, 163, 0.5)",
+    flexDirection:"row-reverse",
+    width:90,
+    height:40,
+    borderRadius:10,
+    alignItems:"center",
+    margin:10,
+  },
+  Text:{
+
+    color:colors.lightbackgroundlight,
+    fontSize:14,
+  }
 });

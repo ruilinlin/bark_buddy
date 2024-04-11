@@ -17,7 +17,7 @@ export default function ImageAlbumManager({ navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      // aspect: [5, 3],
+      aspect: [3,5],
       quality: 1,
       selectionLimit: 0,  // Allows multiple selections
     });
