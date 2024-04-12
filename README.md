@@ -12,16 +12,15 @@ BarkBuddy is an innovative social platform designed for pet lovers. The app faci
 1. The Dog API: The `UserScreen` utilizes the [The Dog API](https://www.thedogapi.com) to fetch a list of dog breeds.
 2. Country State City API: The [Country State City API](https://countrystatecity.in/docs/api/all-countries/) is used in the `EditUser` component to retrieve lists of countries, states by country ([states-by-country](https://countrystatecity.in/docs/api/states-by-country/)), and cities by state & country ([cities-by-state-country](https://countrystatecity.in/docs/api/cities-by-state-country/)).
 
-- **CRUD**: Implemented more CRUD operations in `UserScreen`. Since the post, message and profile Create operation contains the map, authentication,cemara,we will leave this screen CRUD in iteration 2. ruilin
-- **Camera**: ruilin.
+- **CRUD**: Implemented more CRUD operations in `UserScreen`. And Create operation in Post screen(user can click add button and upload images and text to firebase post collection)
+- **Camera**: Inside the post feature, when user cilck add button it will show series edit page to genarete a post, in this feature, user can select image from album and upload them.But there still have some function sould be update, like selected multiple images, use camera take photo to replace/update the previous selected images ect.I will kkep work on that until iteration3.
 
-#### Post Screen
+#### Post Screen(with CRUD)
 
-- ruilin
 - Introduced a story scroll list at the top, displaying stories posted by friends.
 - Users can view posts from friends and strangers, like posts, and leave comments through a comment modal.
 - Direct access to user profiles by clicking on user avatars.
-- An add button on the right part of the header for creating posts (currently inactive as CRUD operations will be implemented in iteration 2).
+- An add button on the right part of the header for creating posts (currently inactive as CRUD operations will be implemented in iteration 3).
 
 #### Event Screen(with CRUD)
 
@@ -45,7 +44,6 @@ BarkBuddy is an innovative social platform designed for pet lovers. The app faci
 
 ### Planned Features for Iteration 3
 
-- ruilin
 - **Post Screen**: Integration with Firebase for creating and displaying posts, including comment functionalities.
 - **Message Screen**: Decision on implementing a messaging or invitation system, followed by CRUD operation development.
 - **Profile Screen**: Implementation of fetching and displaying posts from Firebase.
@@ -62,6 +60,7 @@ Our team members have made contributions to the development of BarkBuddy, each b
 
 - **Login/Signup Screen**: Developed by Yijing Wu, providing a seamless entry point for new and returning users, and for authentication.
 - **Post Screen**: Developed by Ruilin Sun, enabling users to share and engage with content related to their pets.
+- **Create Post Screen**: Developed by Ruilin Sun, enable user to selected image and input text to create their post.
 - **User Screen**: Modified by Yijing Wu, updates include changing the Avatar and Puppy Cards to Pressable components, implementing a modal for editing/adding puppy information, and adding conditional rendering for the style of ScrollView to improve user interaction.
 - **Firebase Integration for Users**: Completed by Yijing Wu, saved the information users added for their basic profile and their dog information to the 'users' collection and 'puppyList' subcollection in Firebase and displayed these information by fetching it from Firebase.
 
