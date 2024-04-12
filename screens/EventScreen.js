@@ -6,7 +6,7 @@ import EventDetail from "./EventDetail";
 import AddEvent from "./AddEvent";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { auth, database } from "../firebase-files/firebaseSetup";
-
+import { colors } from "../helper/Color";
 export default function EventScreen({ navigation, selectedScreen }) {
   const [events, setEvents] = useState([]);
 
@@ -75,7 +75,7 @@ export default function EventScreen({ navigation, selectedScreen }) {
     />
   );
   return (
-    <GradientBackground>
+    <GradientBackground colors={colors}>
       <View>
         <FlatList
           data={events}

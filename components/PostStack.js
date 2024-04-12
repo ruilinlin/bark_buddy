@@ -1,31 +1,38 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import EventScreen from "../screens/EventScreen";
-import AddEvent from "../screens/AddEvent";
-import { Pressable } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import PostScreen from "../screens/PostScreen";
+import React, { useState } from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import PostNavigator from './PostNavigator';
+import PostScreen from '../screens/PostScreen';
+import { createStackNavigator } from '@react-navigation/stack';
+import { colors } from '../helper/Color';
 
 const Stack = createStackNavigator();
 
-export default function PostStack({ navigation }) {
+export default function PostStack() {
+   const [showPostScreen, setShowPostScreen] = useState(false);
+
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="post"
-        component={PostScreen}
-        options={{
-          headerRight: () => (
-            <Pressable
-              // onPress={() => navigation.navigate("AddEvent")}
-              style={{ margin: 10 }}
-            >
-              <Ionicons name="add-circle-outline" size={24} color="black" />
-            </Pressable>
-          ),
-          headerLeft: () => null,
-        }}
-      />
-    </Stack.Navigator>
+    // <NavigationContainer>
+      <Stack.Navigator initialRouteName="Posts">
+        <Stack.Screen
+          name="Posts"
+          component={PostScreen}
+          options={{
+            headerTitle: "Posts",
+            headerShown: false,
+          }}
+          
+          />
+        <Stack.Screen
+          name="PostNavigator"
+          component={PostNavigator}
+          options={{
+            headerTitle: "Post",
+            headerShown: false,
+
+          }}
+          />
+      </Stack.Navigator>
+    // </NavigationContainer>
   );
 }

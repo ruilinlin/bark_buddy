@@ -1,18 +1,22 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer, useNavigationState } from '@react-navigation/native';
 import PostScreen from "../screens/PostScreen";
 import PostStack from "./PostStack";
 import MapScreen from "../screens/MapScreen";
 import MessageScreen from "../screens/MessageScreen";
 import UserScreen from "../screens/UserScreen";
 import EventStack from "./EventStack";
+import UserProfileStack from "./UserProfileStack";
 
 const Tab = createBottomTabNavigator();
+
 export default function TabNavigator() {
+  
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Posts"
+        name="Post"
         component={PostStack}
         options={{
           headerTitle: "Posts",
@@ -41,10 +45,10 @@ export default function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="User"
-        component={UserScreen}
+        name="Profile"
+        component={UserProfileStack}
         options={{
-          headerTitle: "User",
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
