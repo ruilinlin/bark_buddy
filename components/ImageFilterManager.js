@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Image, ScrollView, StyleSheet, Pressable ,Text, Animated } from 'react-native';
 import { colors } from '../helper/Color';
 import FloatingWindow from "./FloatingWindow";
-import NextButton from './NextButton';
 import FilterGallery from './FilterGallery';
-// import ImageViewer from './PostImageViewer';
-// import { Feather } from '@expo/vector-icons';
-// import LottieView from 'lottie-react-native';
+import LottieView from 'lottie-react-native';
+import NextButton from './NextButton';
+
 
 export default function ImageFilterManager({ navigation, route }) {
   const [images, setImages] = useState([])
@@ -36,22 +35,53 @@ export default function ImageFilterManager({ navigation, route }) {
     console.log("Selected filter:", filterId);
   };
 
+  function handleBack(){
+    navigation.navigate('Album');
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.Container}>
       {images.map((img) => (
         <Image key={img.uri} source={{ uri: img.uri }} style={styles.image} resizeMode="cover" />
       ))}
 
-      <NextButton handleNext={handleNext} style={styles.nextButtonContainer} text="Text" />
-     
+    <View style={styles.buttonContainer}>
+
+    <Pressable onPress={handleBack} style={styles.backButton}>
+        <Animated.View>
+          <LottieView
+            source={require('../assets/animate/nextarrow.json')} // Assuming you have a back arrow animation
+            autoPlay
+            loop
+            style={{ width: 40, height: 40 }}
+          />
+        </Animated.View>
+        <Text style={styles.text}>Back</Text>
+      </Pressable>
+
+
+      <Pressable onPress={handleNext} style={styles.nextButton}>
+        <Animated.View>
+          <LottieView
+            source={require('../assets/animate/nextarrow.json')}
+            autoPlay
+            loop
+            style={{ width: 40, height: 40 }}
+          />
+        </Animated.View>
+        <Text style={styles.text}>Next</Text>
+      </Pressable>
+      </View>
+
+    {/* </View>
       <View style={styles.floatingContainer}>
         <FloatingWindow navigation={navigation} />
-      </View>
+      </View> */}
 
       <View style={styles.FilterContainer}>
         <FilterGallery filters={Filters} onSelectFilter={handleSelectFilter} />
       </View> 
-  
+      
     </ScrollView>
   );
 }
@@ -73,7 +103,7 @@ const styles = StyleSheet.create({
     // marginVertical: 10,
   },
   FilterContainer:{
-    marginTop:30,
+    marginTop:5,
     // width: 200,
     // height: 200,
     borderColor:colors.backgroundshallow,
@@ -86,5 +116,34 @@ const styles = StyleSheet.create({
     padding: 10,
     // Add z-index if needed to ensure it's above all other content
     zIndex: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: "space-around",
+    // alignItems: 'center',
+    marginHorizontal: 10, 
+  },
+  nextButton: {
+    backgroundColor: "rgba(136, 116, 163, 0.5)",
+    flexDirection: 'row-reverse',
+    width: 90,
+    height: 40,
+    borderRadius: 10,
+    alignItems: 'center',
+    margin: 30,
+    marginRight:170,
+  },
+  text: {
+    // color: colors.backgroundlight,
+    fontSize: 14,
+  },
+  backButton: {
+    backgroundColor: "rgba(136, 116, 163, 0.5)",
+    flexDirection: 'row-reverse',
+    width: 90,
+    height: 40,
+    borderRadius: 10,
+    alignItems: 'center',
+    margin: 30,
   },
 });

@@ -10,18 +10,16 @@ import NextButton from './NextButton';
 export default function ImageAlbumManager({ navigation }) {
   const [images, setImages] = useState([]);
 
-
   useEffect(() => {
     pickImage();
   }, []);
-
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [3,5],
-      quality: 1,
+      quality: 0,
       selectionLimit: 0,  // Allows multiple selections
     });
 
@@ -32,7 +30,7 @@ export default function ImageAlbumManager({ navigation }) {
         uri: asset.uri 
       }));
       setImages(imgData);
-      navigation.navigate('Filter', { images: imgData });
+      // navigation.navigate('Filter', { images: imgData });
     }
   };
 
@@ -40,60 +38,88 @@ export default function ImageAlbumManager({ navigation }) {
     navigation.navigate('Filter', { images: images });
   }
 
+  function handleBack(){
+    navigation.navigate('Camera');
+  }
+
   return (
-    <ScrollView contentContainerStyle={styles.Container}>
+    <ScrollView contentContainerStyle={styles.container}>
       {images.map((img) => (
         <Image key={img.uri} source={{ uri: img.uri }} style={styles.image} resizeMode="cover" />
       ))}
+  
+      <View style={styles.buttonContainer}>
 
-      <View style={styles.nextButtonContainer}>
-        <Pressable onPress ={handleNext} style={styles.nextButton}>
-        <Animated.View style={styles.nextButtonContainer}>
-        <LottieView
-          source={require('../assets/animate/nextarrow.json')}
-          autoPlay
-          loop
-          style={{ width: 40, height: 40 }} 
-         
-        />
-      </Animated.View>
-        <Text style={styles.Text}>Filter</Text>
+      <Pressable onPress={handleBack} style={styles.backButton}>
+          <Animated.View>
+            <LottieView
+              source={require('../assets/animate/nextarrow.json')} // Assuming you have a back arrow animation
+              autoPlay
+              loop
+              style={{ width: 40, height: 40 }}
+            />
+          </Animated.View>
+          <Text style={styles.text}>Back</Text>
         </Pressable>
+
+
+        <Pressable onPress={handleNext} style={styles.nextButton}>
+          <Animated.View>
+            <LottieView
+              source={require('../assets/animate/nextarrow.json')}
+              autoPlay
+              loop
+              style={{ width: 40, height: 40 }}
+            />
+          </Animated.View>
+          <Text style={styles.text}>Next</Text>
+        </Pressable>
+  
+
       </View>
-      {/* <FloatingWindow navigation={navigation} /> */}
     </ScrollView>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    flexWrap: 'wrap', //  show images in a grid
-  },
-  image: {
-    width: 400,
-    height: 450,
-    // marginVertical: 10,
-  },
-  Container: { 
-    flex: 1,
-    backgroundColor: colors.lightbackgroundlight,
-  },
-  nextButtonContainer:{
-    // marginTop:30,
-    alignItems:"flex-end",
-  },
-  nextButton:{
-    backgroundColor:"rgba( 136, 116, 163, 0.5)",
-    flexDirection:"row-reverse",
-    width:90,
-    height:40,
-    borderRadius:10,
-    alignItems:"center",
-    margin:10,
-  },
-  Text:{
-    color:colors.lightbackgroundlight,
-    fontSize:14,
-  }
-});
+} 
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      flexWrap: 'wrap', // show images in a grid
+      flex: 1,
+      backgroundColor: colors.lightbackgroundlight,
+    },
+    image: {
+      width: 400,
+      height: 450,
+      // marginVertical: 10,
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      justifyContent: "space-around",
+      // alignItems: 'center',
+      marginHorizontal: 10, 
+    },
+    nextButton: {
+      backgroundColor: "rgba(136, 116, 163, 0.5)",
+      flexDirection: 'row-reverse',
+      width: 90,
+      height: 40,
+      borderRadius: 10,
+      alignItems: 'center',
+      margin: 30,
+      marginRight:170,
+    },
+    text: {
+      // color: colors.backgroundlight,
+      fontSize: 14,
+    },
+    backButton: {
+      backgroundColor: "rgba(136, 116, 163, 0.5)",
+      flexDirection: 'row-reverse',
+      width: 90,
+      height: 40,
+      borderRadius: 10,
+      alignItems: 'center',
+      margin: 30,
+    },
+  });
+  
