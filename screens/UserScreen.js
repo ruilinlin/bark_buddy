@@ -32,6 +32,7 @@ import { breedApiKey } from "@env";
 import DropdownBox from "../components/DropdownBox";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
+import AlbumManager from "../components/AlbumManager";
 
 export default function UserScreen() {
   const [user, setUser] = useState(null);
@@ -49,7 +50,9 @@ export default function UserScreen() {
   const [isEdit, setIsEdit] = useState(false);
   const [puppyList, setPuppyList] = useState([]);
   const [puppyDocId, setPuppyDocId] = useState("");
+  const [imageURI, setImageURI] = useState("");
 
+  // console.log(imageURI);
   // console.log("it is breedLabel", puppyBread);
   // console.log("it is selectedBreed", breedKey);
 
@@ -202,9 +205,11 @@ export default function UserScreen() {
 
   const { width, height } = Dimensions.get("window");
 
-  function avatarClickHandler() {
-    console.log("clicked");
-  }
+  // function avatarClickHandler() {
+  //   console.log("clicked");
+  //   AlbumManager();
+  //   <ImageManager receiveImageURI={receiveImageURI} />;
+  // }
 
   function addCardClickHandler() {
     console.log("add card clicked");
@@ -288,19 +293,18 @@ export default function UserScreen() {
     setPuppyBreed(breed);
   }
 
+  // function receiveImageURI(pickedImageUri) {
+  //   setImageURI(pickedImageUri);
+  //   console.log(pickedImageUri);
+  // }
+
   return (
     <LightBackGround>
       <SafeAreaView style={styles.container}>
         {user ? ( // Check if user is not null
           <>
             <View style={styles.userinformationContainer}>
-              <Pressable onPress={avatarClickHandler}>
-                <Image
-                  source={require("../assets/dog-lover.png")}
-                  style={styles.avatorContainer}
-                  resizeMode="cover"
-                />
-              </Pressable>
+              <AlbumManager imageURI={imageURI} setImageURI={setImageURI} />
               <Text style={styles.Username}>{user.name}</Text>
               <Text
                 style={styles.location}
@@ -460,15 +464,6 @@ const styles = StyleSheet.create({
     height: 150,
     marginTop: 30,
     alignItems: "center",
-  },
-  avatorContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: colors.lightavatarborder,
-    marginBottom: 20,
-    borderWidth: 5,
-    borderColor: colors.lightavatarborder,
   },
   Username: {
     fontSize: 20,
