@@ -2,16 +2,22 @@
 
 BarkBuddy is an innovative social platform designed for pet lovers. The app facilitates connections between pet owners, allowing them to share stories, participate in events, and communicate through messages. Our goal is to build a vibrant community where users can find support, friendship, and inspiration for their furry friends.
 
-## Iteration 1 Overview
+## Iteration 2 Overview
 
 ### Current Achievements
 
-- **Navigation Transition Architecture**: Implemented a robust navigator transition architecture, ensuring smooth navigation across different screens.
-- **Screen Layouts**: Established basic layouts for the Post, Event, Message, and Profile screens. The Map screen layout is planned for the next iteration.
-- **CRUD**: implemente the CRUD operations in eventscreen.Since the post, message and profile Create operation contains the map, authentication,cemara,we will leave this screen CRUD in iteration 2.
+- **Authentication**: Implemented Firebase Authentication and validate user information during certain CRUD operations.
+- **External API**:
+
+1. The Dog API: The `UserScreen` utilizes the [The Dog API](https://www.thedogapi.com) to fetch a list of dog breeds.
+2. Country State City API: The [Country State City API](https://countrystatecity.in/docs/api/all-countries/) is used in the `EditUser` component to retrieve lists of countries, states by country ([states-by-country](https://countrystatecity.in/docs/api/states-by-country/)), and cities by state & country ([cities-by-state-country](https://countrystatecity.in/docs/api/cities-by-state-country/)).
+
+- **CRUD**: Implemented more CRUD operations in `UserScreen`. Since the post, message and profile Create operation contains the map, authentication,cemara,we will leave this screen CRUD in iteration 2. ruilin
+- **Camera**: ruilin.
 
 #### Post Screen
 
+- ruilin
 - Introduced a story scroll list at the top, displaying stories posted by friends.
 - Users can view posts from friends and strangers, like posts, and leave comments through a comment modal.
 - Direct access to user profiles by clicking on user avatars.
@@ -32,32 +38,31 @@ BarkBuddy is an innovative social platform designed for pet lovers. The app faci
 
 #### Profile Screen
 
-- Conditional rendering based on user authentication.
-- Information collection process for new users to facilitate automatic profile creation.
+- Conditional rendering based on user state.
+- Prompt the user to add basic profile info if we cannot find its corresponding doc in firebase.
+- Implemented create, read and update to user profile info through UserScreen and EditUser.
 - Display of recent posts (using hardcoded data currently).
 
-### Planned Features for Iteration 2
+### Planned Features for Iteration 3
 
+- ruilin
 - **Post Screen**: Integration with Firebase for creating and displaying posts, including comment functionalities.
 - **Message Screen**: Decision on implementing a messaging or invitation system, followed by CRUD operation development.
 - **Profile Screen**: Implementation of fetching and displaying posts from Firebase.
 
 ## CRUD Operations
 
-Currently, CRUD operations have been implemented for the Events collection. This allows for the creation, reading, updating, and deletion of event data, enabling dynamic interaction with event information within the BarkBuddy platform.
+<!-- Currently, CRUD operations have been implemented for the Events collection, Users collection and Posts collection. This allows for the creation, reading, updating, and deletion of event data, enabling dynamic interaction with event information within the BarkBuddy platform. -->
 
 ## Screenshots and Contributions
 
 ### Contributions
 
-Our team members have made significant contributions to the development of BarkBuddy, each bringing their expertise to different aspects of the application:
+Our team members have made contributions to the development of BarkBuddy, each bringing their expertise to different aspects of the application:
 
-- **Login/Signup Screen**: Developed by Yijing Wu, providing a seamless entry point for new and returning users.
 - **Post Screen**: Developed by Ruilin Sun, enabling users to share and engage with content related to their pets.
-- **Event Screen**: Developed by Yijing Wu, allowing users to discover and create pet-related events.
-- **Message Screen**: Developed by Ruilin Sun, facilitating direct communication between users.
-- **Profile Screen**: Developed by Ruilin Sun, offering a personalized space for users to showcase their pets and stories.
-- **Firebase Integration for Events**: Completed by Yijing Wu, ensuring robust backend support for event management.
+- **User Screen**: Modified by Yijing Wu, updates include changing the Avatar and Puppy Cards to Pressable components, implementing a modal for editing/adding puppy information, and adding conditional rendering for the style of ScrollView to improve user interaction.
+- **Firebase Integration for Users**: Completed by Yijing Wu, saved the information users added for their basic profile and their dog information to the 'users' collection and 'puppyList' subcollection in Firebase and displayed these information by fetching it from Firebase.
 
 ### Screenshots
 
@@ -70,19 +75,19 @@ Below are some screenshots showcasing the current UI and functionalities of the 
 ![MyEvents Screen](image/MyEvents.PNG)
 ![AddEvent Screen](image/AddEvent.PNG)
 ![Message Screen](image/Messages.PNG)
-![UserProfile Screen](image/User.PNG)
+![User Screen](image/User.PNG)
+![User Puppy Modal](image/UserPuppyModal.PNG)
+![EditUser Screen](image/EditUser.PNG)
 
 ## Data Model
 
 The Firestore rule:
 
-We didn't change it from the initial setting because the authentication part is remained for the next iteration.
-
 ```firebase
 rules_version = '2';
 
 service cloud.firestore {
-match /databases/{database}/documents {
+  match /databases/{database}/documents {
 
     // This rule allows anyone with your Firestore database reference to view, edit,
     // and delete all data in your Firestore database. It is useful for getting
@@ -94,10 +99,9 @@ match /databases/{database}/documents {
     // all client requests to your Firestore database will be denied until you Update
     // your rules
     match /{document=**} {
-      allow read, write: if request.time < timestamp.date(2024, 4, 25);
+    	allow create ,read ,update ,delete: if request.auth != null;
     }
-
-}
+  }
 }
 ```
 
@@ -109,8 +113,26 @@ Users Collection (Email and Password are handled by Authentication)
   "userId": "",
   "name": "",
   "avatar": "",
-  "location": "",
-  "petNumbers": 0
+  "city": "",
+  "state": "",
+  "country": "",
+  "stateCode": "",
+  "countryCode": "",
+  "puppyList": [
+    {
+      "name": "",
+      "age": "",
+      "breed": "",
+      "breedId": ""
+    },
+    {
+      "name": "",
+      "age": "",
+      "breed": "",
+      "breedId": ""
+    },
+    ...
+  ]
 }
 
 Posts Collection
@@ -145,4 +167,4 @@ Events Collection
 
 ## Notice
 
-To prevent potential version conflict, you can run "npx expo install react-native-gesture-handler " before running on an Android device.
+To prevent potential version conflict, you can run "npx expo install react-native-gesture-handler ", or try between react-native-gesture-handler@~2.14.0 and react-native-gesture-handler@~2.16.0.
