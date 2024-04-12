@@ -7,6 +7,7 @@ import MapScreen from "../screens/MapScreen";
 import MessageScreen from "../screens/MessageScreen";
 import UserScreen from "../screens/UserScreen";
 import EventStack from "./EventStack";
+import UserProfileStack from "./UserProfileStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -44,10 +45,10 @@ export default function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name="User"
-        component={UserScreen}
+        name="Profile"
+        component={UserProfileStack}
         options={{
-          headerTitle: "User",
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
