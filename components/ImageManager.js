@@ -16,13 +16,14 @@ export default function ImageManager({ receiveImageURI, navigation }) {
     if (status.granted) {
       return true;
     }
-    try {
+    // try {
       const permissionResponse = await requestPermission();
       return permissionResponse.granted;
-    } catch (err) {
-      console.log(err);
-      Alert.alert("Error", "Failed to obtain camera permissions");
-    }
+    // } 
+    // catch (err) {
+    //   console.log(err);
+    //   Alert.alert("Error", "Failed to obtain camera permissions");
+    // }
   }
 
   async function takeImageHandler() {

@@ -36,7 +36,7 @@ export default function PostNavigator() {
         }}
       />
 {/*still need to finish the camera function */}
-      {/* <Tab.Screen 
+      <Tab.Screen 
         name="Camera"
         component={ImageManager}
         options={{
@@ -46,7 +46,7 @@ export default function PostNavigator() {
           //   backgroundColor: colors.backgroundlight, 
           // },
         }}
-      /> */}
+      />
 
 
 
