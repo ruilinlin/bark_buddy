@@ -35,7 +35,8 @@ export default function PostNavigator() {
           tabBarStyle: { display: 'none' },
         }}
       />
-     <Tab.Screen 
+{/*still need to finish the camera function */}
+      <Tab.Screen 
         name="Camera"
         component={ImageManager}
         options={{
@@ -46,6 +47,8 @@ export default function PostNavigator() {
           // },
         }}
       />
+
+
 
       <Tab.Screen 
         name="Filter"
