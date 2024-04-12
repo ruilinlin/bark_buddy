@@ -22,7 +22,6 @@ import { auth } from "../firebase-files/firebaseSetup";
 import {
   searchUsersByUserId,
   writeToSubcollection,
-  updateToDB,
   readAllFromSubCol,
   updateToSubCol,
 } from "../firebase-files/firestoreHelper";
@@ -32,6 +31,7 @@ import axios from "axios";
 import { breedApiKey } from "@env";
 import DropdownBox from "../components/DropdownBox";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function UserScreen() {
   const [user, setUser] = useState(null);
@@ -41,7 +41,6 @@ export default function UserScreen() {
   // const [city, setCity] = useState("");
   // const [docId, setDocId] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedPet, setSelectedPet] = useState(null);
   const [puppyName, setPuppyName] = useState("");
   const [puppyAge, setPuppyAge] = useState("");
   const [puppyBread, setPuppyBread] = useState("");
@@ -54,29 +53,49 @@ export default function UserScreen() {
   // console.log("it is breedLabel", puppyBread);
   // console.log("it is selectedBreed", breedKey);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const userData = await searchUsersByUserId(auth.currentUser.uid); // Fetch user data from DB
-        if (userData) {
-          // If user data exists, pre-fill the input fields
-          console.log("it is userData", userData);
-          setUser(userData);
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+    }, [])
+  );
+
+  async function fetchData() {
+    try {
+      const userData = await searchUsersByUserId(auth.currentUser.uid);
+      if (userData) {
+        setUser(userData);
       }
+    } catch (error) {
+      // Alert.alert(
+      //   "Please edit your profile via the button located in the top-right corner!"
+      // );
+      console.error("Error fetching user data:", error);
     }
+  }
+
+  useEffect(() => {
+    // async function fetchData() {
+    //   try {
+    //     const userData = await searchUsersByUserId(auth.currentUser.uid); // Fetch user data from DB
+    //     if (userData) {
+    //       // If user data exists, pre-fill the input fields
+    //       console.log("it is userData", userData);
+    //       setUser(userData);
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching user data:", error);
+    //   }
+    // }
     fetchData();
     // fetchPuppyData();
     console.log("it is user", user);
   }, []);
 
-  useEffect(() => {
-    if (user && user.id) {
-      fetchPuppyData(); // Call fetchPuppyData if user exists and has an id
-    }
-  }, [user]); // Add user as a dependency to the useEffect
+  // useEffect(() => {
+  //   if (user && user.id) {
+  //     fetchPuppyData(); // Call fetchPuppyData if user exists and has an id
+  //   }
+  // }, [user]); // Add user as a dependency to the useEffect
 
   // useEffect(() => {
   async function fetchPuppyData() {
@@ -272,12 +291,12 @@ export default function UserScreen() {
   return (
     <LightBackGround>
       <SafeAreaView style={styles.container}>
-        {user && ( // Check if user is not null
+        {user ? ( // Check if user is not null
           <>
             <View style={styles.userinformationContainer}>
               <Pressable onPress={avatarClickHandler}>
                 <Image
-                  source={require("../assets/favicon.png")}
+                  source={require("../assets/dog-lover.png")}
                   style={styles.avatorContainer}
                   resizeMode="cover"
                 />
@@ -417,6 +436,13 @@ export default function UserScreen() {
               </View>
             </Modal>
           </>
+        ) : (
+          <View style={styles.promptContainer}>
+            <Text style={styles.promptText}>
+              Please enter your basic information via the button located in the
+              top-right corner.
+            </Text>
+          </View>
         )}
       </SafeAreaView>
       <View></View>
@@ -526,5 +552,20 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: "flex-start",
     alignItems: "flex-start",
+  },
+  promptContainer: {
+    backgroundColor: colors.lightavatarborder,
+    height: "20%",
+    width: "80%",
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "50%",
+    padding: 20,
+    alignSelf: "center",
+  },
+  promptText: {
+    color: colors.fontcolor,
+    fontSize: 20,
   },
 });
