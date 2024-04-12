@@ -60,6 +60,7 @@ BarkBuddy is an innovative social platform designed for pet lovers. The app faci
 
 Our team members have made contributions to the development of BarkBuddy, each bringing their expertise to different aspects of the application:
 
+- **Login/Signup Screen**: Developed by Yijing Wu, providing a seamless entry point for new and returning users, and for authentication.
 - **Post Screen**: Developed by Ruilin Sun, enabling users to share and engage with content related to their pets.
 - **User Screen**: Modified by Yijing Wu, updates include changing the Avatar and Puppy Cards to Pressable components, implementing a modal for editing/adding puppy information, and adding conditional rendering for the style of ScrollView to improve user interaction.
 - **Firebase Integration for Users**: Completed by Yijing Wu, saved the information users added for their basic profile and their dog information to the 'users' collection and 'puppyList' subcollection in Firebase and displayed these information by fetching it from Firebase.
