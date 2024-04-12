@@ -50,7 +50,7 @@ export default function ImageFilterManager({ navigation, route }) {
     <Pressable onPress={handleBack} style={styles.backButton}>
         <Animated.View>
           <LottieView
-            source={require('../assets/animate/nextarrow.json')} // Assuming you have a back arrow animation
+            source={require('../assets/animate/nextarrow.json')} 
             autoPlay
             loop
             style={{ width: 40, height: 40 }}

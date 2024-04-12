@@ -53,13 +53,13 @@ export default function ImageAlbumManager({ navigation }) {
       <Pressable onPress={handleBack} style={styles.backButton}>
           <Animated.View>
             <LottieView
-              source={require('../assets/animate/nextarrow.json')} // Assuming you have a back arrow animation
+              source={require('../assets/animate/nextarrow.json')} 
               autoPlay
               loop
               style={{ width: 40, height: 40 }}
             />
           </Animated.View>
-          <Text style={styles.text}>Back</Text>
+          <Text style={styles.text}>Take by Camera</Text>
         </Pressable>
 
 
@@ -106,7 +106,7 @@ export default function ImageAlbumManager({ navigation }) {
       borderRadius: 10,
       alignItems: 'center',
       margin: 30,
-      marginRight:170,
+      marginRight:100,
     },
     text: {
       // color: colors.backgroundlight,
@@ -115,7 +115,7 @@ export default function ImageAlbumManager({ navigation }) {
     backButton: {
       backgroundColor: "rgba(136, 116, 163, 0.5)",
       flexDirection: 'row-reverse',
-      width: 90,
+      width: 150,
       height: 40,
       borderRadius: 10,
       alignItems: 'center',

@@ -63,15 +63,16 @@ export default function ImageManager({ receiveImageURI, navigation }) {
   }
 
   return (
-    <View style={styles.Container}>
-    <View style={styles.CameraButtonContainer}>
-      {/* <FloatingWindow navigation={navigation} /> */}
-      <Pressable style={styles.button} onPress={takeImageHandler}>
-        <Entypo name="camera" size={21} color="#8e4585" />
-        <Text>Take Photo</Text>
-      </Pressable>
-    </View>
 
+    // <View style={styles.CameraButtonContainer}>
+    //   {/* <FloatingWindow navigation={navigation} /> */}
+    //   <Pressable style={styles.button} onPress={takeImageHandler}>
+    //     <Entypo name="camera" size={21} color="#8e4585" />
+    //     <Text>Take Photo</Text>
+    //   </Pressable>
+    // </View>
+    <View style={styles.Container}>
+      <Text>"STILL NEED TO WORKING, JUST JUMP THIS CAMERA SCREEN"</Text>
     <View style={styles.buttonContainer}>
       <Pressable onPress={handleNext} style={styles.nextButton}>
       <Animated.View>
@@ -88,7 +89,7 @@ export default function ImageManager({ receiveImageURI, navigation }) {
     <Pressable onPress={handleBack} style={styles.backButton}>
           <Animated.View>
             <LottieView
-              source={require('../assets/animate/nextarrow.json')} // Assuming you have a back arrow animation
+              source={require('../assets/animate/nextarrow.json')} 
               autoPlay
               loop
               style={{ width: 40, height: 40 }}
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     margin: 30,
-    marginRight:270,
+    marginRight:400,
     // marginTop:600,
   },
   text: {
@@ -146,5 +147,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     margin: 30,
+    marginLeft:400,
   },
 });
