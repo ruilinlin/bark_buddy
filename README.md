@@ -48,7 +48,7 @@ BarkBuddy is an innovative social platform designed for pet lovers. The app faci
 - **Message Screen**: Decision on implementing a messaging or invitation system, followed by CRUD operation development.
 - **Profile Screen**: Implementation of fetching and displaying posts from Firebase.
 
-## CRUD Operations
+<!-- ## CRUD Operations -->
 
 <!-- Currently, CRUD operations have been implemented for the Events collection, Users collection and Posts collection. This allows for the creation, reading, updating, and deletion of event data, enabling dynamic interaction with event information within the BarkBuddy platform. -->
 
@@ -68,19 +68,23 @@ Our team members have made contributions to the development of BarkBuddy, each b
 
 Below are some screenshots showcasing the current UI and functionalities of the BarkBuddy app. These images provide a glimpse into the user experience and interface design of our platform.
 
-![Login Screen](image/Login.PNG)
-![Register Screen](image/Register.PNG)
-![Post Screen](image/Post.PNG)
-![Post Screen](image/Post_1.png)
-![Post Screen](image/Post_2.png)
-![Post Screen](image/Post_3.png)
-![Events Screen](image/Events.PNG)
-![MyEvents Screen](image/MyEvents.PNG)
-![AddEvent Screen](image/AddEvent.PNG)
-![Message Screen](image/Messages.PNG)
-![User Screen](image/User.PNG)
-![User Puppy Modal](image/UserPuppyModal.PNG)
-![EditUser Screen](image/EditUser.PNG)
+<img src="image/Login.PNG" alt="Login Screen" width="30%">
+<img src="image/Register.PNG" alt="Register Screen" width="30%">
+<img src="image/Post.PNG" alt="Post Screen" width="30%">
+<img src="image/Post_1.png" alt="Post Screen" width="30%">
+<img src="image/Post_2.png" alt="Post Screen" width="30%">
+<img src="image/Post_3.png" alt="Post Screen" width="30%">
+<img src="image/Events.PNG" alt="Events Screen" width="30%">
+<img src="image/MyEvents.PNG" alt="MyEvents Screen" width="30%">
+<img src="image/AddEvent.PNG" alt="AddEvent Screen" width="30%">
+<img src="image/Messages.PNG" alt="Message Screen" width="30%">
+<img src="image/User.PNG" alt="User Screen" width="30%">
+<img src="image/UserPuppyModal.PNG" alt="User Puppy Modal" width="30%">
+<img src="image/BreedList.PNG" alt="Breed List" width="30%">
+<img src="image/EditUser.PNG" alt="EditUser Screen" width="30%">
+<img src="image/CountryList.PNG" alt="Country List" width="30%">
+<img src="image/StateList.PNG" alt="State List" width="30%">
+<img src="image/CityList.PNG" alt="City List" width="30%">
 
 ## Data Model
 
