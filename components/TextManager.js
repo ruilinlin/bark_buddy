@@ -66,6 +66,7 @@ export default function TextManager({ navigation, route }) {
       return;
     }
     addNewPost();
+    navigation.navigate('Posts');
   };
 
   function handleBack(){
