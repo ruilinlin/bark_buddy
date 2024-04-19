@@ -5,6 +5,7 @@ import FloatingWindow from "./FloatingWindow";
 import FilterGallery from './FilterGallery';
 import LottieView from 'lottie-react-native';
 import NextButton from './NextButton';
+import ImageViewer from './PostImageViewer';
 
 
 export default function ImageFilterManager({ navigation, route }) {
@@ -25,6 +26,9 @@ export default function ImageFilterManager({ navigation, route }) {
     if (route.params?.images) {
       setImages(route.params.images);
     }
+    // else(){
+    //   console.log("ask permission again");
+    // }
   }, [route.params?.images]);
 
   function handleNext(){
@@ -41,10 +45,7 @@ export default function ImageFilterManager({ navigation, route }) {
 
   return (
     <ScrollView contentContainerStyle={styles.Container}>
-      {images.map((img) => (
-        <Image key={img.uri} source={{ uri: img.uri }} style={styles.image} resizeMode="cover" />
-      ))}
-
+      <ImageViewer images={images}/>
     <View style={styles.buttonContainer}>
 
     <Pressable onPress={handleBack} style={styles.backButton}>
