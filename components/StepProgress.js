@@ -9,7 +9,7 @@ const screenWidth = Dimensions.get('window').width;
 const StepProgress = ({ currentStep }) => {
   const steps = [
     { name: "Album", icon: { library: 'MaterialIcons', name: 'filter', size: 16 } },
-    { name: "Camera", icon: { library: 'Entypo', name: 'camera', size: 16 } }, 
+    // { name: "Camera", icon: { library: 'Entypo', name: 'camera', size: 16 } }, 
     { name: "Filter", icon: { library: 'Ionicons', name: 'color-filter-sharp', size: 16 } },
     { name: "Text", icon: { library: 'MaterialIcons', name: 'text-fields', size: 16 } },
   ];
@@ -30,7 +30,7 @@ const StepProgress = ({ currentStep }) => {
     }
   };
 
-  const totalSteps = 4;
+  const totalSteps = 3;
   const completedWidth = (screenWidth / totalSteps) * currentStep;
   const dogPosition = (screenWidth / totalSteps) * currentStep - (screenWidth / totalSteps) / 2 - 20;
 

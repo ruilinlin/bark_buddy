@@ -38,6 +38,24 @@ export default function ImageAlbumManager({ navigation }) {
     }
   };
 
+  const takePhoto = async () => {
+    try {
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+      });
+
+      if (result.cancelled) {
+        Alert.alert('Cancelled', 'Camera session was cancelled');
+        return;
+      }
+
+      setImages([...images, { uri: result.uri, deletable: true }]);
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Error', 'An error occurred while taking the photo');
+    }
+  };
+
   function handleNext(){
     navigation.navigate('Filter', { images: images });
   }
@@ -81,6 +99,8 @@ export default function ImageAlbumManager({ navigation }) {
           <Pressable onPress={pickImage} style={styles.addButton}>
             <Text style={styles.addButtonText}>Add</Text>
           </Pressable>
+
+
         </ScrollView>
         {/* <ScrollView horizontal contentContainerStyle={styles.previewImagesContainer}>
           {images.map((img, index) => (
@@ -105,6 +125,11 @@ export default function ImageAlbumManager({ navigation }) {
           </Animated.View>
           <Text style={styles.text}>Take by Camera</Text>
         </Pressable>
+
+        <Pressable onPress={takePhoto} style={styles.cameraButton}>
+            <MaterialIcons name="photo-camera" size={24} color="black" />
+          </Pressable>
+
         <Pressable onPress={handleNext} style={styles.nextButton}>
           <Animated.View>
             <LottieView
@@ -190,5 +215,12 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: 10,
+  },
+  cameraButton: {
+    backgroundColor: 'lightblue',
+    padding: 10,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
