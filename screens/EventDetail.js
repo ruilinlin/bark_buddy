@@ -7,26 +7,34 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, database } from "../firebase-files/firebaseSetup";
 import { readFromDB, deleteFromDB } from "../firebase-files/firestoreHelper";
 import { getAddressFromCoordinates } from "../components/LocationManager";
+import { mapsApiKey } from "@env";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function EventDetail({ navigation, route }) {
   const { id, userId } = route.params;
   const [item, setItem] = useState(null);
   const [location, setLocation] = useState("");
+  const [image, setImage] = useState("");
 
   const isCurrentUserOwner = userId === auth.currentUser.uid;
-
+  const fetchData = async () => {
+    try {
+      const itemData = await readFromDB(id, "events");
+      setItem(itemData); // Set the fetched data to the state
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
   useEffect(() => {
-    // Define an asynchronous fetchData function
-    const fetchData = async () => {
-      try {
-        const itemData = await readFromDB(id, "events");
-        setItem(itemData); // Set the fetched data to the state
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
     fetchData();
   }, [id]); // Dependency array to trigger the effect when id changes
+
+  // Refresh data when the screen focuses
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+    }, [])
+  );
 
   // const joinHandler = () => {
   //   Alert.alert("Successfully Joined!");
@@ -54,6 +62,8 @@ export default function EventDetail({ navigation, route }) {
           item?.location.latitude,
           item?.location.longitude
         );
+        const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${item?.location.latitude},${item?.location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${item?.location.latitude},${item?.location.longitude}&key=${mapsApiKey}`;
+        setImage(imageUrl);
         setLocation(address);
       } catch (error) {
         console.error("Error fetching address:", error);
@@ -63,19 +73,17 @@ export default function EventDetail({ navigation, route }) {
     getLocation();
   }, [item]);
 
-  // // You can now use these variables as needed
-  console.log("item:", item);
-  // console.log("Description:", description);
-  // console.log("Title:", title);
+  // console.log("item:", item);
 
   return (
     <GradientBackground colors={colors}>
       <View>
         <Image
           style={styles.image}
-          source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
-          resizeMode="cover" // cropped by size
+          source={image ? { uri: image } : null}
+          resizeMode="cover"
         />
+
         <View style={styles.overlay}>
           <Text style={styles.overlayText}>
             {date?.toDate().toString().substring(0, 21)}
@@ -129,7 +137,7 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     aspectRatio: 2, // set the height 1/2 as its width
-    borderRadius: 5,
+    // borderRadius: 5,
   },
   overlay: {
     position: "absolute",
