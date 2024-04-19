@@ -52,7 +52,7 @@ export default function EventDetail({ navigation, route }) {
   // console.log("Title:", title);
 
   return (
-    <GradientBackground>
+    <GradientBackground colors={colors}>
       <View>
         <Image
           style={styles.image}

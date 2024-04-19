@@ -31,7 +31,6 @@ export default function EventScreen({ navigation, selectedScreen }) {
         querySnapshot.forEach((doc) => {
           // Check if location and imageUrl exist, if not, assign default values
           const data = doc.data();
-          console.log(data);
           const eventData = {
             ...data,
             id: doc.id,
@@ -42,7 +41,6 @@ export default function EventScreen({ navigation, selectedScreen }) {
           // store this data in a new array
           newArray.push(eventData);
         });
-        console.log(newArray);
         //updating the events array with the new array
         setEvents(newArray);
       },
