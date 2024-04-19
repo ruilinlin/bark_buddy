@@ -17,7 +17,10 @@ export default function MapScreen() {
         const fetchedEvents = [];
         for (const doc of querySnapshot.docs) {
           const data = doc.data();
-          fetchedEvents.push(data.location);
+          fetchedEvents.push({
+            title: data.title,
+            location: data.location,
+          });
         }
 
         setEvents(fetchedEvents);
@@ -58,14 +61,19 @@ export default function MapScreen() {
     <>
       {currentLocation ? (
         <MapView style={styles.map} initialRegion={currentLocation}>
-          <Marker coordinate={currentLocation} pinColor="red" />
+          <Marker
+            coordinate={currentLocation}
+            title="Your current location"
+            pinColor="red"
+          />
           {events.map((event, index) => (
             <Marker
               key={index}
               coordinate={{
-                latitude: event.latitude,
-                longitude: event.longitude,
+                latitude: event.location.latitude,
+                longitude: event.location.longitude,
               }}
+              title={event.title}
               pinColor="blue"
             />
           ))}
