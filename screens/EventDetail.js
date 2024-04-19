@@ -8,6 +8,7 @@ import { auth, database } from "../firebase-files/firebaseSetup";
 import { readFromDB, deleteFromDB } from "../firebase-files/firestoreHelper";
 import { getAddressFromCoordinates } from "../components/LocationManager";
 import { mapsApiKey } from "@env";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function EventDetail({ navigation, route }) {
   const { id, userId } = route.params;
@@ -16,19 +17,24 @@ export default function EventDetail({ navigation, route }) {
   const [image, setImage] = useState("");
 
   const isCurrentUserOwner = userId === auth.currentUser.uid;
-
+  const fetchData = async () => {
+    try {
+      const itemData = await readFromDB(id, "events");
+      setItem(itemData); // Set the fetched data to the state
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
   useEffect(() => {
-    // Define an asynchronous fetchData function
-    const fetchData = async () => {
-      try {
-        const itemData = await readFromDB(id, "events");
-        setItem(itemData); // Set the fetched data to the state
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
     fetchData();
   }, [id]); // Dependency array to trigger the effect when id changes
+
+  // Refresh data when the screen focuses
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+    }, [])
+  );
 
   // const joinHandler = () => {
   //   Alert.alert("Successfully Joined!");
