@@ -6,10 +6,12 @@ import GradientBackground from "../components/DarkBackGround";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, database } from "../firebase-files/firebaseSetup";
 import { readFromDB, deleteFromDB } from "../firebase-files/firestoreHelper";
+import { getAddressFromCoordinates } from "../components/LocationManager";
 
 export default function EventDetail({ navigation, route }) {
   const { id, userId } = route.params;
   const [item, setItem] = useState(null);
+  const [location, setLocation] = useState("");
 
   const isCurrentUserOwner = userId === auth.currentUser.uid;
 
@@ -26,9 +28,9 @@ export default function EventDetail({ navigation, route }) {
     fetchData();
   }, [id]); // Dependency array to trigger the effect when id changes
 
-  const joinHandler = () => {
-    Alert.alert("Successfully Joined!");
-  };
+  // const joinHandler = () => {
+  //   Alert.alert("Successfully Joined!");
+  // };
 
   const editHandler = () => {
     navigation.navigate("AddEvent", {
@@ -45,14 +47,29 @@ export default function EventDetail({ navigation, route }) {
   const description = item?.description;
   const title = item?.title;
   const date = item?.date;
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        const address = await getAddressFromCoordinates(
+          item?.location.latitude,
+          item?.location.longitude
+        );
+        setLocation(address);
+      } catch (error) {
+        console.error("Error fetching address:", error);
+        return null;
+      }
+    };
+    getLocation();
+  }, [item]);
 
   // // You can now use these variables as needed
-  console.log("Date:", date);
+  console.log("item:", item);
   // console.log("Description:", description);
   // console.log("Title:", title);
 
   return (
-    <GradientBackground>
+    <GradientBackground colors={colors}>
       <View>
         <Image
           style={styles.image}
@@ -68,11 +85,11 @@ export default function EventDetail({ navigation, route }) {
           <Text style={styles.eventName}>{title}</Text>
           <View style={styles.container}>
             <View style={styles.eventDetailContainer}>
-              <Text style={styles.eventDetail}>Location: Location1</Text>
+              <Text style={styles.eventDetail}>Location: {location}</Text>
               <Text style={styles.eventDetail}>
                 Time: {date?.toDate().toString().substring(0, 21)}
               </Text>
-              <Text style={styles.eventDetail}>Organizer: {userId}</Text>
+              {/* <Text style={styles.eventDetail}>Organizer: {userId}</Text> */}
             </View>
             <View style={styles.buttonContainer}>
               {isCurrentUserOwner && (

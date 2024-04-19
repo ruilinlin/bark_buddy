@@ -24,7 +24,7 @@ export default function DatePicker({ onDateChange, savedDate }) {
   return (
     <View>
       <Input
-        label="Date and Time*"
+        label="Date and Time *"
         value={
           date
             ? date.toString().substring(0, 21)

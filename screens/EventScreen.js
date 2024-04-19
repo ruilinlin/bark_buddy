@@ -7,11 +7,14 @@ import AddEvent from "./AddEvent";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { auth, database } from "../firebase-files/firebaseSetup";
 import { colors } from "../helper/Color";
+import { getAddressFromCoordinates } from "../components/LocationManager";
+import { mapsApiKey } from "@env";
+
 export default function EventScreen({ navigation, selectedScreen }) {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    // set up a listener to get realtime data from firestore - only after the first render
+    // Set up a listener to get realtime data from firestore
     const unsubscribe = onSnapshot(
       query(
         collection(database, "events"),
@@ -19,49 +22,44 @@ export default function EventScreen({ navigation, selectedScreen }) {
           ? null
           : where("userId", "==", auth.currentUser.uid)
       ),
-      (querySnapshot) => {
+      async (querySnapshot) => {
         if (querySnapshot.empty) {
-          setEvents([]);
           Alert.alert("You need to add an event");
-          return;
         }
-        // loop through this querySnapshot (forEach) => a bunch of docSnapshot
-        // call .data() on each documentsnapshot
-        let newArray = [];
-        querySnapshot.forEach((doc) => {
-          // Check if location and imageUrl exist, if not, assign default values
+        const fetchedEvents = [];
+        for (const doc of querySnapshot.docs) {
           const data = doc.data();
-          console.log(data);
-          const eventData = {
-            ...data,
-            id: doc.id,
-            location: data.location || "Location",
-            imageUrl:
-              data.imageUrl || "https://reactnative.dev/img/tiny_logo.png",
-          };
-          // store this data in a new array
-          newArray.push(eventData);
-        });
-        console.log(newArray);
-        //updating the events array with the new array
-        setEvents(newArray);
+          if (data && data.location) {
+            try {
+              const location = await getAddressFromCoordinates(
+                data.location.latitude,
+                data.location.longitude
+              );
+              const eventData = {
+                ...data,
+                id: doc.id,
+                location: location,
+                imageUrl: `https://maps.googleapis.com/maps/api/staticmap?center=${data.location.latitude},${data.location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${data.location.latitude},${data.location.longitude}&key=${mapsApiKey}`,
+              };
+              fetchedEvents.push(eventData);
+            } catch (error) {
+              console.error("Error fetching address:", error);
+            }
+          }
+        }
+
+        setEvents(fetchedEvents);
       },
       (error) => {
-        Alert.alert(error.message);
+        Alert.alert("Error", error.message);
       }
     );
+
     return () => {
       console.log("unsubscribe");
       unsubscribe();
     };
   }, [selectedScreen]);
-
-  // const eventDataToDisplay = selectedScreen === "Event" ? events : events;
-
-  // function itemPressHandler(eventItem) {
-  //   console.log(eventItem);
-  //   navigation.navigate("EventDetail", { data: eventItem, selectedScreen });
-  // }
 
   const renderItem = ({ item }) => (
     <EventItem
@@ -74,6 +72,7 @@ export default function EventScreen({ navigation, selectedScreen }) {
       selectedScreen={selectedScreen}
     />
   );
+
   return (
     <GradientBackground colors={colors}>
       <View>
