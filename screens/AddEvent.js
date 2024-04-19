@@ -10,6 +10,7 @@ import {
   writeToDB,
   updateToDB,
 } from "../firebase-files/firestoreHelper";
+import LocationManager from "../components/LocationManager";
 
 export default function AddEvent({ navigation, route }) {
   const isEdit = route.params !== undefined;
@@ -18,6 +19,9 @@ export default function AddEvent({ navigation, route }) {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(null);
   const [item, setItem] = useState(null);
+  const [location, setLocation] = useState(null); // State to store chosen location
+
+  // console.log("it is the received location", location);
 
   useEffect(() => {
     if (isEdit) {
@@ -37,6 +41,10 @@ export default function AddEvent({ navigation, route }) {
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
+  };
+
+  const handleLocationSelected = (chosenLocation) => {
+    setLocation(chosenLocation); // Update the location state with the chosen location
   };
 
   const emptySubmissionAlert = () => {
@@ -59,8 +67,7 @@ export default function AddEvent({ navigation, route }) {
       userId: auth.currentUser.uid,
       title: title,
       description: description,
-      // location: location,
-      // picture: picture,
+      location: location,
       date: date,
     };
     writeToDB(newEntry, "events");
@@ -72,7 +79,10 @@ export default function AddEvent({ navigation, route }) {
 
   const validateInputs = () => {
     const isEmpty =
-      title.length === 0 || description.length === 0 || date == null;
+      title.length === 0 ||
+      description.length === 0 ||
+      date == null ||
+      location == null;
     if (isEmpty) {
       emptySubmissionAlert();
     }
@@ -116,6 +126,7 @@ export default function AddEvent({ navigation, route }) {
           numberOfLines={5}
         />
         <DatePicker onDateChange={dateChangeHandler} savedDate={date} />
+        <LocationManager onLocationSelected={handleLocationSelected} />
       </View>
 
       <View style={styles.downside}>
@@ -144,7 +155,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   inputsContainer: {
-    flex: 4,
+    flex: 8,
     paddingHorizontal: 20,
     marginBottom: 20,
   },

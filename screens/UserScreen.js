@@ -59,6 +59,7 @@ export default function UserScreen() {
   useFocusEffect(
     React.useCallback(() => {
       fetchData();
+      console.log("it is updated user", user);
     }, [])
   );
 
@@ -94,11 +95,11 @@ export default function UserScreen() {
     console.log("it is user", user);
   }, []);
 
-  // useEffect(() => {
-  //   if (user && user.id) {
-  //     fetchPuppyData(); // Call fetchPuppyData if user exists and has an id
-  //   }
-  // }, [user]); // Add user as a dependency to the useEffect
+  useEffect(() => {
+    if (user && user.id) {
+      fetchPuppyData(); // Call fetchPuppyData if user exists and has an id
+    }
+  }, [user]); // Add user as a dependency to the useEffect
 
   // useEffect(() => {
   async function fetchPuppyData() {
