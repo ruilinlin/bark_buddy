@@ -6,6 +6,7 @@ import { colors } from '../helper/Color';
 import ImageViewer from './PostImageViewer';
 import LottieView from 'lottie-react-native';
 import NextButton from './NextButton';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function ImageAlbumManager({ navigation }) {
   const [images, setImages] = useState([]);
@@ -17,20 +18,41 @@ export default function ImageAlbumManager({ navigation }) {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
+      presentationStyle: ImagePicker.UIImagePickerPresentationStyle.AUTOMATIC,
+      UIImagePickerPresentationStyle:'formSheet',
+      // allowsEditing: true,
       aspect: [3,5],
       quality: 0,
-      selectionLimit: 0,  // Allows multiple selections
+      selectionLimit: 0,
+      allowsMultipleSelection: true, 
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.canceled && result.assets) {
       const imgData = result.assets.map(asset => ({
         uri: asset.uri 
       }));
-      setImages(imgData);
+      setImages([...images, ...imgData]);
       // navigation.navigate('Filter', { images: imgData });
+    }
+  };
+
+  const takePhoto = async () => {
+    try {
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+      });
+
+      if (result.canceled) {
+        Alert.alert('Cancelled', 'Camera session was cancelled');
+        return;
+      }
+
+      setImages([...images, { uri: result.uri, deletable: true }]);
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Error', 'An error occurred while taking the photo');
     }
   };
 
@@ -42,18 +64,60 @@ export default function ImageAlbumManager({ navigation }) {
     navigation.navigate('Camera');
   }
 
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {images.map((img) => (
-        <Image key={img.uri} source={{ uri: img.uri }} style={styles.image} resizeMode="cover" />
-      ))}
-  
-      <View style={styles.buttonContainer}>
+  function toggleDeletable(index) {
+    const updatedImages = [...images];
+    updatedImages[index].deletable = !updatedImages[index].deletable;
+    setImages(updatedImages);
+  }
 
-      <Pressable onPress={handleBack} style={styles.backButton}>
+  function deleteImage(index) {
+    const updatedImages = [...images];
+    updatedImages.splice(index, 1);
+    setImages(updatedImages);
+  }
+
+  return (
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <ImageViewer images={images} />
+        <ScrollView horizontal showsHorizontalScrollIndicator={true} style={styles.thumbnailContainer}>
+          {images.map((img, index) => (
+            <Pressable key={index} onPress={() => toggleDeletable(index)}>
+              <View style={styles.thumbnailWrapper}>
+                <Image
+                  source={{ uri: img.uri }}
+                  style={styles.thumbnail}
+                />
+                {img.deletable && (
+                  <Pressable onPress={() => deleteImage(index)} style={styles.deleteIcon}>
+                    <MaterialIcons name="delete-forever" size={24} color="black" />
+                  </Pressable>
+                )}
+              </View>
+            </Pressable>
+          ))}
+          <Pressable onPress={pickImage} style={styles.addButton}>
+            <Text style={styles.addButtonText}>Add</Text>
+          </Pressable>
+
+
+        </ScrollView>
+        {/* <ScrollView horizontal contentContainerStyle={styles.previewImagesContainer}>
+          {images.map((img, index) => (
+            <Pressable key={index} onPress={() => console.log('Preview image pressed', index)}>
+              <Image
+                source={{ uri: img.uri }}
+                style={styles.previewImage}
+              />
+            </Pressable>
+          ))}
+        </ScrollView> */}
+      </ScrollView>
+      <View style={styles.buttonContainer}>
+        <Pressable onPress={handleBack} style={styles.backButton}>
           <Animated.View>
             <LottieView
-              source={require('../assets/animate/nextarrow.json')} 
+              source={require('../assets/animate/nextarrow.json')}
               autoPlay
               loop
               style={{ width: 40, height: 40 }}
@@ -62,8 +126,12 @@ export default function ImageAlbumManager({ navigation }) {
           <Text style={styles.text}>Take by Camera</Text>
         </Pressable>
 
+        <Pressable onPress={takePhoto} style={styles.cameraButton}>
+            <MaterialIcons name="photo-camera" size={24} color="black" />
+          </Pressable>
 
-        <Pressable onPress={handleNext} style={styles.nextButton}>
+        <NextButton onPress={handleNext} text={"Next"}/>
+        {/* <Pressable onPress={handleNext} style={styles.nextButton}>
           <Animated.View>
             <LottieView
               source={require('../assets/animate/nextarrow.json')}
@@ -73,53 +141,87 @@ export default function ImageAlbumManager({ navigation }) {
             />
           </Animated.View>
           <Text style={styles.text}>Next</Text>
-        </Pressable>
-  
-
+        </Pressable> */}
       </View>
-    </ScrollView>
+    </View>
   );
-} 
-  const styles = StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      flexWrap: 'wrap', // show images in a grid
-      flex: 1,
-      backgroundColor: colors.lightbackgroundlight,
-    },
-    image: {
-      width: 400,
-      height: 450,
-      // marginVertical: 10,
-    },
-    buttonContainer: {
-      flexDirection: 'row',
-      justifyContent: "space-around",
-      // alignItems: 'center',
-      marginHorizontal: 10, 
-    },
-    nextButton: {
-      backgroundColor: "rgba(136, 116, 163, 0.5)",
-      flexDirection: 'row-reverse',
-      width: 90,
-      height: 40,
-      borderRadius: 10,
-      alignItems: 'center',
-      margin: 30,
-      marginRight:100,
-    },
-    text: {
-      // color: colors.backgroundlight,
-      fontSize: 14,
-    },
-    backButton: {
-      backgroundColor: "rgba(136, 116, 163, 0.5)",
-      flexDirection: 'row-reverse',
-      width: 150,
-      height: 40,
-      borderRadius: 10,
-      alignItems: 'center',
-      margin: 30,
-    },
-  });
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+  },
+  thumbnailContainer: {
+    flexDirection: 'row',
+    padding: 10,
+  },
+  thumbnailWrapper: {
+    position: 'relative',
+    marginRight: 10,
+  },
+  thumbnail: {
+    width: 100,
+    height: 150,
+  },
+  deleteIcon: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    borderRadius: 12,
+    padding: 2,
+  },
+  addButton: {
+    backgroundColor: 'lightgray',
+    padding: 10,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addButtonText: {
+    color: 'black',
+  },
+  previewImagesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+  },
+  // previewImage: {
+  //   width: 50,
+  //   height: 50,
+  //   marginHorizontal: 5,
+  // },
   
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+  },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'lightblue',
+    padding: 10,
+    borderRadius: 5,
+  },
+  nextButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'lightgreen',
+    padding: 10,
+    borderRadius: 5,
+  },
+  text: {
+    marginLeft: 10,
+  },
+  cameraButton: {
+    backgroundColor: 'lightblue',
+    padding: 10,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

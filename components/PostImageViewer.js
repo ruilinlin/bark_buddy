@@ -8,7 +8,7 @@ const ImageViewer = ({ images }) => {
 
   return (
     <Swiper
-      style={{ height: 300 }}
+      style={{ height: 400 }}
       showsButtons={false}
       autoplay={false}
     >
@@ -16,10 +16,10 @@ const ImageViewer = ({ images }) => {
         // Determine if the image source is a local require or a remote URI
         const imageSource = typeof img.uri === 'string' ? { uri: img.uri } : img.uri;
         return (
-          <View key={index} style={{ width, height: 300 }}>
+          <View key={index} style={{ width, height: 400 }}>
             <Image
               source={imageSource}
-              style={{ width: width, height: 300 }}
+              style={{ width: width, height: 400 }}
               resizeMode="cover"
             />
           </View>

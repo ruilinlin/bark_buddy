@@ -68,23 +68,29 @@ Our team members have made contributions to the development of BarkBuddy, each b
 
 Below are some screenshots showcasing the current UI and functionalities of the BarkBuddy app. These images provide a glimpse into the user experience and interface design of our platform.
 
-<img src="image/Login.PNG" alt="Login Screen" width="30%">
-<img src="image/Register.PNG" alt="Register Screen" width="30%">
-<img src="image/Post.PNG" alt="Post Screen" width="30%">
-<img src="image/Post_1.png" alt="Post Screen" width="30%">
-<img src="image/Post_2.png" alt="Post Screen" width="30%">
-<img src="image/Post_3.png" alt="Post Screen" width="30%">
-<img src="image/Events.PNG" alt="Events Screen" width="30%">
-<img src="image/MyEvents.PNG" alt="MyEvents Screen" width="30%">
-<img src="image/AddEvent.PNG" alt="AddEvent Screen" width="30%">
-<img src="image/Messages.PNG" alt="Message Screen" width="30%">
-<img src="image/User.PNG" alt="User Screen" width="30%">
-<img src="image/UserPuppyModal.PNG" alt="User Puppy Modal" width="30%">
-<img src="image/BreedList.PNG" alt="Breed List" width="30%">
-<img src="image/EditUser.PNG" alt="EditUser Screen" width="30%">
-<img src="image/CountryList.PNG" alt="Country List" width="30%">
-<img src="image/StateList.PNG" alt="State List" width="30%">
-<img src="image/CityList.PNG" alt="City List" width="30%">
+| Login | Register | Post |
+|---------|---------|---------|
+| <img src="image/Login.PNG" alt="Login Screen" width="100%"> | <img src="image/Register.PNG" alt="Register Screen" width="100%"> | <img src="image/Post.PNG" alt="Post Screen" width="100%"> |
+
+| Add Post | Add Post | Add Post |
+|---------|---------|---------|
+| <img src="image/Post_1.png" alt="Post Screen" width="100%"> | <img src="image/Post_2.png" alt="Post Screen" width="100%"> | <img src="image/Post_3.png" alt="Post Screen" width="100%"> |
+
+| Events | My Events | Add Event |
+|---------|---------|---------|
+| <img src="image/Events.PNG" alt="Events Screen" width="100%"> | <img src="image/MyEvents.PNG" alt="MyEvents Screen" width="100%"> | <img src="image/AddEvent.PNG" alt="AddEvent Screen" width="100%"> |
+
+| Message | User Profile | Add Puppy Modal |
+|---------|---------|---------|
+| <img src="image/Messages.PNG" alt="Message Screen" width="100%"> | <img src="image/User.PNG" alt="User Screen" width="100%"> | <img src="image/UserPuppyModal.PNG" alt="User Puppy Modal" width="100%"> |
+
+| Breed List | Edit User |  |
+|---------|---------|---------|
+| <img src="image/BreedList.PNG" alt="Breed List" width="100%"> | <img src="image/EditUser.PNG" alt="EditUser Screen" width="100%"> ||
+
+| Country List | State List | City List |
+|---------|---------|---------|
+| <img src="image/CountryList.PNG" alt="Country List" width="100%"> | <img src="image/StateList.PNG" alt="State List" width="100%"> | <img src="image/CityList.PNG" alt="City List" width="100%"> |
 
 ## Data Model
 
