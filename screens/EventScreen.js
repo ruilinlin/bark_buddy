@@ -8,6 +8,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { auth, database } from "../firebase-files/firebaseSetup";
 import { colors } from "../helper/Color";
 import { getAddressFromCoordinates } from "../components/LocationManager";
+import { mapsApiKey } from "@env";
 
 export default function EventScreen({ navigation, selectedScreen }) {
   const [events, setEvents] = useState([]);
@@ -38,8 +39,7 @@ export default function EventScreen({ navigation, selectedScreen }) {
                 ...data,
                 id: doc.id,
                 location: location,
-                imageUrl:
-                  data.imageUrl || "https://reactnative.dev/img/tiny_logo.png",
+                imageUrl: `https://maps.googleapis.com/maps/api/staticmap?center=${data.location.latitude},${data.location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${data.location.latitude},${data.location.longitude}&key=${mapsApiKey}`,
               };
               fetchedEvents.push(eventData);
             } catch (error) {
