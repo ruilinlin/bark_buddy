@@ -44,7 +44,7 @@ export default function ImageAlbumManager({ navigation }) {
         allowsEditing: true,
       });
 
-      if (result.cancelled) {
+      if (result.canceled) {
         Alert.alert('Cancelled', 'Camera session was cancelled');
         return;
       }
@@ -130,7 +130,8 @@ export default function ImageAlbumManager({ navigation }) {
             <MaterialIcons name="photo-camera" size={24} color="black" />
           </Pressable>
 
-        <Pressable onPress={handleNext} style={styles.nextButton}>
+        <NextButton onPress={handleNext} text={"Next"}/>
+        {/* <Pressable onPress={handleNext} style={styles.nextButton}>
           <Animated.View>
             <LottieView
               source={require('../assets/animate/nextarrow.json')}
@@ -140,7 +141,7 @@ export default function ImageAlbumManager({ navigation }) {
             />
           </Animated.View>
           <Text style={styles.text}>Next</Text>
-        </Pressable>
+        </Pressable> */}
       </View>
     </View>
   );
