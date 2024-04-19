@@ -2,9 +2,37 @@ import React, { useState, useEffect } from "react";
 import { Text, Button, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { database } from "../firebase-files/firebaseSetup";
 
 export default function MapScreen() {
   const [currentLocation, setCurrentLocation] = useState(null);
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    // Set up a listener to get all the latlng of events
+    const unsubscribe = onSnapshot(
+      query(collection(database, "events")),
+      async (querySnapshot) => {
+        const fetchedEvents = [];
+        for (const doc of querySnapshot.docs) {
+          const data = doc.data();
+          fetchedEvents.push(data.location);
+        }
+
+        setEvents(fetchedEvents);
+        console.log(fetchedEvents);
+      },
+      (error) => {
+        Alert.alert("Error", error.message);
+      }
+    );
+
+    return () => {
+      console.log("unsubscribe");
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     // Request permission to access the device's location
@@ -30,7 +58,17 @@ export default function MapScreen() {
     <>
       {currentLocation ? (
         <MapView style={styles.map} initialRegion={currentLocation}>
-          <Marker coordinate={currentLocation} />
+          <Marker coordinate={currentLocation} pinColor="red" />
+          {events.map((event, index) => (
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: event.latitude,
+                longitude: event.longitude,
+              }}
+              pinColor="blue"
+            />
+          ))}
         </MapView>
       ) : (
         <Text>Please wait ...</Text>
