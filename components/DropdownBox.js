@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import { colors } from "../helper/Color";
 
 export default function DropdownBox({
   data,
@@ -8,7 +9,7 @@ export default function DropdownBox({
   value,
   setValue,
   setLabel,
-  // onSelectTag, 
+  // onSelectTag,
 }) {
   const [isFocus, setIsFocus] = useState(false);
 
@@ -38,11 +39,11 @@ export default function DropdownBox({
           // console.log("it is label: ", item.label);
           setIsFocus(false);
 
-        // {data.map((item) => (
-        //   <Pressable key={item.value} onPress={() => onSelectTag(item.value)}>
-        //     <Text style={{ margin: 10 }}>{item.label}</Text>
-        //   </Pressable>
-        // ))}
+          // {data.map((item) => (
+          //   <Pressable key={item.value} onPress={() => onSelectTag(item.value)}>
+          //     <Text style={{ margin: 10 }}>{item.label}</Text>
+          //   </Pressable>
+          // ))}
           console.log;
         }}
       />
@@ -84,4 +85,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-

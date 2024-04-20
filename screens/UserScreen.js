@@ -362,7 +362,7 @@ export default function UserScreen() {
                 </View>
               )}
             </ScrollView>
-
+            <Text style={styles.titleText}>Recent Post</Text>
             <FlatList
               style={styles.listContainer}
               data={images}
@@ -474,7 +474,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 110,
     borderRadius: 20,
-    backgroundColor: colors.lightavatarborder,
+    backgroundColor: colors.backgroundlight,
     marginLeft: 30,
     marginTop: 20,
   },
@@ -513,6 +513,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,
     color: colors.fontcolortitle,
+    margin: 10,
   },
   centeredView: {
     flex: 1,

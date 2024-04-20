@@ -1,6 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer, useNavigationState } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigationState,
+} from "@react-navigation/native";
 import PostScreen from "../screens/PostScreen";
 import PostStack from "./PostStack";
 import MapScreen from "../screens/MapScreen";
@@ -12,7 +15,6 @@ import UserProfileStack from "./UserProfileStack";
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
-  
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -37,13 +39,13 @@ export default function TabNavigator() {
           headerTitle: "Map",
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Messages"
         component={MessageScreen}
         options={{
           headerTitle: "Messages",
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={UserProfileStack}
