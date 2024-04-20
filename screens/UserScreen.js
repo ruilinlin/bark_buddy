@@ -33,6 +33,7 @@ import DropdownBox from "../components/DropdownBox";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import AlbumManager from "../components/AlbumManager";
+import GradientBackground from "../components/DarkBackGround";
 
 export default function UserScreen() {
   const [user, setUser] = useState(null);
@@ -180,18 +181,6 @@ export default function UserScreen() {
       ]
     );
 
-  // const user = {
-  //   id: "1",
-  //   name: "test",
-  //   avatar: require("../assets/favicon.png"),
-  //   email: "puppylover@gmail.com",
-  //   livein: "Vancouver",
-  //   pet: [
-  //     { id: 1, name: "puppy one", age: 3, gender: "girl" },
-  //     { id: 2, name: "puppy two", age: 3, gender: "girl" },
-  //   ],
-  // };
-
   const images = [
     { id: "1", uri: require("../assets/1.png") },
     { id: "2", uri: require("../assets/2.png") },
@@ -300,7 +289,8 @@ export default function UserScreen() {
   // }
 
   return (
-    <LightBackGround>
+    // <LightBackGround>
+    <GradientBackground colors={colors}>
       <SafeAreaView style={styles.container}>
         {user ? ( // Check if user is not null
           <>
@@ -333,7 +323,7 @@ export default function UserScreen() {
                         <MaterialCommunityIcons
                           name="dog"
                           size={24}
-                          color="black"
+                          color="white"
                         />
                         <Text style={styles.cardInfo}>{puppy.name}</Text>
                         <Text style={styles.cardInfo}>Age: {puppy.age}</Text>
@@ -352,9 +342,9 @@ export default function UserScreen() {
                       <MaterialCommunityIcons
                         name="dog"
                         size={24}
-                        color="black"
+                        color="white"
                       />
-                      <Text>Add your puppy here!</Text>
+                      <Text style={styles.cardInfo}>Add your puppy here!</Text>
                     </Pressable>
                   </View>
                 </>
@@ -365,9 +355,9 @@ export default function UserScreen() {
                     <MaterialCommunityIcons
                       name="dog"
                       size={24}
-                      color="black"
+                      color="white"
                     />
-                    <Text>Add your puppy here!</Text>
+                    <Text style={styles.cardInfo}>Add your puppy here!</Text>
                   </Pressable>
                 </View>
               )}
@@ -451,7 +441,8 @@ export default function UserScreen() {
         )}
       </SafeAreaView>
       <View></View>
-    </LightBackGround>
+      {/* </LightBackGround> */}
+    </GradientBackground>
   );
 }
 
@@ -468,7 +459,7 @@ const styles = StyleSheet.create({
   },
   Username: {
     fontSize: 20,
-    color: colors.commentsfontcolor,
+    color: colors.fontcolor,
     paddingLeft: 10,
   },
   cardAvatar: {
@@ -502,7 +493,7 @@ const styles = StyleSheet.create({
   }),
   cardInfo: {
     fontSize: 12,
-    color: colors.commentsfontcolor,
+    color: colors.fontcolor,
   },
   listContainer: {
     // flex:2,
@@ -517,7 +508,7 @@ const styles = StyleSheet.create({
   },
   location: {
     fontSize: 12,
-    color: colors.commentsfontcolor,
+    color: colors.fontcolor,
   },
   titleText: {
     fontSize: 20,
