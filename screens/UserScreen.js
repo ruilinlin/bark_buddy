@@ -32,7 +32,7 @@ import { breedApiKey } from "@env";
 import DropdownBox from "../components/DropdownBox";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
-import AlbumManager from "../components/AlbumManager";
+import AvatarManager from "../components/AvatarManager";
 
 export default function UserScreen() {
   const [user, setUser] = useState(null);
@@ -305,7 +305,7 @@ export default function UserScreen() {
         {user ? ( // Check if user is not null
           <>
             <View style={styles.userinformationContainer}>
-              <AlbumManager imageURI={imageURI} setImageURI={setImageURI} />
+              <AvatarManager />
               <Text style={styles.Username}>{user.name}</Text>
               <Text
                 style={styles.location}
