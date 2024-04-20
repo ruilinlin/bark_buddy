@@ -11,6 +11,7 @@ import {
   updateToDB,
 } from "../firebase-files/firestoreHelper";
 import LocationManager from "../components/LocationManager";
+import NotificationManager from "../components/NotificationManager";
 
 export default function AddEvent({ navigation, route }) {
   const isEdit = route.params !== undefined;
@@ -131,6 +132,7 @@ export default function AddEvent({ navigation, route }) {
           onLocationSelected={handleLocationSelected}
           initialLocation={isEdit ? location : null}
         />
+        <NotificationManager date={date} />
       </View>
 
       <View style={styles.downside}>
