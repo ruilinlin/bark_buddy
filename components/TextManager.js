@@ -12,16 +12,24 @@ import ImageViewer from './PostImageViewer';
 
 export default function TextManager({ navigation, route }) {
   const [images, setImages] = useState([]);
+  const [imageUri, setImageUri] = useState([]);
   const [description, setDescription] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
 
+  // useEffect(() => {
+  //   if (route.params?.images) {
+  //     setImages(route.params.images);
+  //   }
+  //   // else(){
+  //   //   console.log("ask permission again");
+  //   // }
+  // }, [route.params?.images]);
+
   useEffect(() => {
     if (route.params?.images) {
+      setImageUri(route.params.images.map(img => img.uri)); 
       setImages(route.params.images);
     }
-    // else(){
-    //   console.log("ask permission again");
-    // }
   }, [route.params?.images]);
 
   console.log(images)
@@ -46,7 +54,7 @@ export default function TextManager({ navigation, route }) {
   // Add a new post to Firestore with image URLs
   const addNewPost = async () => {
     try {
-      const imageUrls = await Promise.all(images.map(imgUri => uploadImage(imgUri)));
+      const imageUrls = await Promise.all(imageUri.map(imgUri => uploadImage(imgUri)));
       const newPost = {
         userId: auth.currentUser.uid,
         images: imageUrls,
