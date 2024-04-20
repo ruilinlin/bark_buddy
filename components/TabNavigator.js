@@ -37,6 +37,7 @@ export default function TabNavigator() {
         component={MapScreen}
         options={{
           headerTitle: "Map",
+          headerShown: false,
         }}
       />
       {/* <Tab.Screen

@@ -315,15 +315,10 @@ export default function UserScreen() {
                         style={styles.card}
                         onPress={() => editCardClickHandler(puppy)}
                       >
-                        {/* <Image
-                          source={puppy.img}
+                        <Image
+                          source={require("../assets/dog-lover.png")}
                           style={styles.cardAvatar}
                           resizeMode="cover"
-                        /> */}
-                        <MaterialCommunityIcons
-                          name="dog"
-                          size={24}
-                          color="white"
                         />
                         <Text style={styles.cardInfo}>{puppy.name}</Text>
                         <Text style={styles.cardInfo}>Age: {puppy.age}</Text>
@@ -339,10 +334,10 @@ export default function UserScreen() {
                       onPress={addCardClickHandler}
                       style={styles.card}
                     >
-                      <MaterialCommunityIcons
-                        name="dog"
-                        size={24}
-                        color="white"
+                      <Image
+                        source={require("../assets/dog-lover.png")}
+                        style={styles.cardAvatar}
+                        resizeMode="cover"
                       />
                       <Text style={styles.cardInfo}>Add your puppy here!</Text>
                     </Pressable>
@@ -352,10 +347,10 @@ export default function UserScreen() {
                 // If pet data is not available, render only one card for adding a new puppy
                 <View>
                   <Pressable onPress={addCardClickHandler} style={styles.card}>
-                    <MaterialCommunityIcons
-                      name="dog"
-                      size={24}
-                      color="white"
+                    <Image
+                      source={require("../assets/dog-lover.png")}
+                      style={styles.cardAvatar}
+                      resizeMode="cover"
                     />
                     <Text style={styles.cardInfo}>Add your puppy here!</Text>
                   </Pressable>
@@ -467,6 +462,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 50,
     backgroundColor: colors.lightavatarborder,
+    margin: 5,
   },
   card: {
     alignItems: "center",
