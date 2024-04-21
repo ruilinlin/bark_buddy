@@ -77,7 +77,7 @@ export default function EventDetail({ navigation, route }) {
 
   return (
     <GradientBackground colors={colors}>
-      <View>
+      <View style={styles.allContainer}>
         <Image
           style={styles.image}
           source={image ? { uri: image } : null}
@@ -130,6 +130,7 @@ export default function EventDetail({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  allContainer: { marginTop: "25%" },
   eventInfo: {
     marginVertical: 25,
     marginHorizontal: 15,

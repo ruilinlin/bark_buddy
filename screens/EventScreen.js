@@ -75,7 +75,7 @@ export default function EventScreen({ navigation, selectedScreen }) {
 
   return (
     <GradientBackground colors={colors}>
-      <View>
+      <View style={styles.container}>
         <FlatList
           data={events}
           renderItem={renderItem}
@@ -86,4 +86,6 @@ export default function EventScreen({ navigation, selectedScreen }) {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: { marginTop: "20%" },
+});
