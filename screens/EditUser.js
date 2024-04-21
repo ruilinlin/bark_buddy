@@ -280,7 +280,7 @@ export default function EditUser({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: "50%",
     backgroundColor: colors.lightbackgroundlight,
   },
   inputsContainer: {

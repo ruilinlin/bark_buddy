@@ -158,7 +158,7 @@ export default function AddEvent({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: "20%",
     backgroundColor: colors.lightbackgroundlight,
   },
   inputsContainer: {
