@@ -60,6 +60,7 @@ export default function EventStack({ navigation }) {
         component={AddEvent}
         options={{
           headerTitle: "Add An Event",
+          headerShown: false,
         }}
       />
       <Stack.Screen

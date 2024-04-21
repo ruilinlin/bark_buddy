@@ -28,7 +28,11 @@ export default function UserProfileStack({ navigation }) {
           ),
         }}
       />
-      <Stack.Screen name="EditUser" component={EditUser} />
+      <Stack.Screen
+        name="EditUser"
+        component={EditUser}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }
