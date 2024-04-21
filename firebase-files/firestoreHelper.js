@@ -11,6 +11,7 @@ import {
   query,
 } from "firebase/firestore";
 import { database } from "./firebaseSetup";
+import { async } from "@firebase/util";
 
 export async function writeToDB(data, CollectionName) {
   try {
@@ -55,6 +56,24 @@ export async function deleteFromDB(id, CollectionName) {
     console.log(err);
   }
 }
+
+// export async function readFromDBbyCollectionName(CollectionName) {
+//   try {
+//     const docRef = firestore().collection(CollectionName); 
+//     // const docRef = doc(database, CollectionName);
+//     const docSnap = await getDoc(docRef);
+
+//     if (docSnap.exists()) {
+//       console.log("Document data:", docSnap.data());
+//       return { id: docSnap.id, ...docSnap.data() };
+//     } else {
+//       console.log("No such document!");
+//     }
+//   } catch (error) {
+//     console.error("Error fetching data: ", error);
+//   }
+// }
+
 
 export async function readFromDB(id, CollectionName) {
   try {
@@ -152,5 +171,17 @@ export async function updateToSubCol(
     console.log("Document successfully updated in subcollection!");
   } catch (err) {
     console.error("Error updating document in subcollection:", err);
+  }
+}
+
+
+export async function addNewAttribute(userId, data) {
+  try {
+    const docRef = doc(database, 'users', userId); 
+    console.log(userId);
+    await setDoc(docRef, { avatar: data }, { merge: true }); 
+    console.log("New attribute added successfully!");
+  } catch (err) {
+    console.error("Error writing new attribute in collection:", err);
   }
 }
