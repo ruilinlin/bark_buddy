@@ -45,7 +45,9 @@ export default function ImageFilterManager({ navigation, route }) {
 
   return (
     <ScrollView contentContainerStyle={styles.Container}>
+      <View style={styles.contentContainer}>
       <ImageViewer images={images}/>
+      </View>
     <View style={styles.buttonContainer}>
 
     <Pressable onPress={handleBack} style={styles.backButton}>
@@ -94,6 +96,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.lightbackgroundlight,
   },
+  contentContainer:{
+    flex:3,
+  },
   nextButtonContainer:{
     // marginTop:30,
     alignItems:"flex-end",
@@ -105,6 +110,7 @@ const styles = StyleSheet.create({
   },
   FilterContainer:{
     marginBottom:20,
+    flex:2,
     // width: 200,
     // height: 200,
     borderColor:colors.backgroundshallow,
@@ -123,6 +129,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     // alignItems: 'center',
     marginHorizontal: 10, 
+    flex:1,
   },
   nextButton: {
     backgroundColor: "rgba(136, 116, 163, 0.5)",
