@@ -18,7 +18,6 @@ import { colors } from "../helper/Color";
 import PostItem from "../components/PostItem";
 import ImageViewer from "../components/PostImageViewer";
 // import LinearGradient from 'react-native-linear-gradient';
-import { auth } from "../firebase-files/firebaseSetup";
 import {
   searchUsersByUserId,
   writeToSubcollection,
@@ -26,6 +25,8 @@ import {
   updateToSubCol,
   addNewAttribute,
 } from "../firebase-files/firestoreHelper";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { auth, database } from "../firebase-files/firebaseSetup";
 import Input from "../components/Input";
 import PressableButton from "../components/PressableButton";
 import axios from "axios";
@@ -52,6 +53,7 @@ export default function UserScreen() {
   const [puppyList, setPuppyList] = useState([]);
   const [puppyDocId, setPuppyDocId] = useState("");
   const [imageURI, setImageURI] = useState("");
+  const [recentPost, setRecentPost] =useState([]);
 
   useEffect(() => {
     if (imageURI) {
@@ -83,6 +85,43 @@ export default function UserScreen() {
       console.error("Error fetching user data:", error);
     }
   }
+
+
+  useEffect(() => {
+    // Set up a listener to get realtime data from firestore
+    const unsubscribe = onSnapshot(
+      query(
+        collection(database, "Posts"),
+        where("userId", "==", auth.currentUser.uid)
+      ),
+      (querySnapshot) => {
+        if (querySnapshot.empty) {
+          Alert.alert("You need to add a post");
+        }
+        const fetchedRecentPosts = []; // Initialize the array to store fetched posts
+        for (const doc of querySnapshot.docs) {
+          const data = doc.data();
+          const RecentPostData = {
+            ...data,
+            id: doc.id
+          };
+          fetchedRecentPosts.push(RecentPostData); 
+        }
+        setRecentPost(fetchedRecentPosts); 
+        console.log("Recent Post is",recentPost)
+      },
+      (error) => {
+        Alert.alert("Error", error.message);
+      }
+    );
+  
+    // Clean up the subscription
+    return () => {
+      console.log("Unsubscribing from Firestore");
+      unsubscribe();
+    };
+  }, []);
+
 
   useEffect(() => {
     // async function fetchData() {
@@ -384,7 +423,7 @@ export default function UserScreen() {
 
             <FlatList
               style={styles.listContainer}
-              data={images}
+              data={recentPost}
               renderItem={({ item }) => (
                 <View
                   style={[
@@ -393,7 +432,7 @@ export default function UserScreen() {
                   ]}
                 >
                   <Image
-                    source={item.uri}
+                    source={item.images}
                     style={{ width: "100%", height: "100%" }}
                     resizeMode="contain"
                   />
