@@ -29,10 +29,22 @@ export async function getAddressFromCoordinates(latitude, longitude) {
   }
 }
 
-export default function LocationManager({ onLocationSelected }) {
+export default function LocationManager({
+  onLocationSelected,
+  initialLocation,
+}) {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [address, setAddress] = useState("");
   const [chosenLocation, setChosenLocation] = useState(null);
+
+  useEffect(() => {
+    // Set currentLocation to initialLocation if provided
+    if (initialLocation) {
+      setCurrentLocation(initialLocation);
+      console.log("it is current", currentLocation);
+      console.log("it is chosen", chosenLocation);
+    }
+  }, [initialLocation]);
 
   useEffect(() => {
     // Fetch the address based on chosen location
@@ -54,22 +66,24 @@ export default function LocationManager({ onLocationSelected }) {
 
   useEffect(() => {
     // Request permission to access the device's location
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        console.log("Permission to access location was denied");
-        return;
-      }
+    if (!initialLocation) {
+      (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          console.log("Permission to access location was denied");
+          return;
+        }
 
-      // Get the device's current location
-      let location = await Location.getCurrentPositionAsync({});
-      setCurrentLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
-    })();
+        // Get the device's current location
+        let location = await Location.getCurrentPositionAsync({});
+        setCurrentLocation({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        });
+      })();
+    }
   }, []);
 
   useEffect(() => {
@@ -92,7 +106,7 @@ export default function LocationManager({ onLocationSelected }) {
   useEffect(() => {
     // Pass the chosen location to the parent component
     onLocationSelected(chosenLocation || currentLocation);
-  }, [chosenLocation, currentLocation, onLocationSelected]);
+  }, [chosenLocation, currentLocation]);
 
   return (
     <View style={styles.container}>

@@ -11,6 +11,7 @@ import {
   updateToDB,
 } from "../firebase-files/firestoreHelper";
 import LocationManager from "../components/LocationManager";
+import NotificationManager from "../components/NotificationManager";
 
 export default function AddEvent({ navigation, route }) {
   const isEdit = route.params !== undefined;
@@ -38,6 +39,7 @@ export default function AddEvent({ navigation, route }) {
       setTitle(itemData.title);
       setDescription(itemData.description);
       setDate(itemData.date.toDate());
+      setLocation(itemData.location);
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
@@ -89,7 +91,7 @@ export default function AddEvent({ navigation, route }) {
 
     if (!isEmpty) {
       if (isEdit) {
-        const updatedData = { title, description, date };
+        const updatedData = { title, description, date, location };
         updateToDB(id, updatedData, "events");
       } else {
         writeNewEntry();
@@ -126,7 +128,11 @@ export default function AddEvent({ navigation, route }) {
           numberOfLines={5}
         />
         <DatePicker onDateChange={dateChangeHandler} savedDate={date} />
-        <LocationManager onLocationSelected={handleLocationSelected} />
+        <LocationManager
+          onLocationSelected={handleLocationSelected}
+          initialLocation={isEdit ? location : null}
+        />
+        <NotificationManager date={date} />
       </View>
 
       <View style={styles.downside}>

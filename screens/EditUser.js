@@ -14,7 +14,7 @@ import {
 } from "../firebase-files/firestoreHelper";
 import { auth } from "../firebase-files/firebaseSetup";
 
-export default function EditUser({ navigation }) {
+export default function EditUser({ navigation}) {
   const [name, setName] = useState("");
   // const [pet, setPet] = useState([]);
   const [country, setCountry] = useState("");
@@ -26,6 +26,7 @@ export default function EditUser({ navigation }) {
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
   const [docId, setDocId] = useState("");
+  // const [avatar, setAvatarUri] = useState("");
 
   // console.log(country);
   // console.log(state);
@@ -44,6 +45,7 @@ export default function EditUser({ navigation }) {
           setDocId(userData.id);
           setCountryCode(userData.countryCode);
           setStateCode(userData.stateCode);
+          // setAvatarUri(imageUri);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -244,6 +246,7 @@ export default function EditUser({ navigation }) {
       state: state,
       stateCode: stateCode,
       city: city,
+      avatar:setAvatarUri,
       // picture: picture,
     };
     writeToDB(newUser, "users");
