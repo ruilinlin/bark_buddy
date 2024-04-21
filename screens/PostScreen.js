@@ -20,7 +20,7 @@ import { colors } from "../helper/Color";
 import { useNavigation } from "@react-navigation/core";
 import { Animated } from "react-native";
 import DynamicHeader from "../components/DynamicHeader";
-import { readAllFromDB } from "../firebase-files/firestoreHelper";
+import { readAllFromDB ,searchUsersByUserId} from "../firebase-files/firestoreHelper";
 import { useFocusEffect } from "@react-navigation/native";
 import { onSnapshot, collection, query } from "firebase/firestore";
 import { auth, database } from "../firebase-files/firebaseSetup";
@@ -31,6 +31,8 @@ export default function PostScreen({ navigation }) {
   const scrollY = useRef(new Animated.Value(0)).current;
   const [showPostStack, setShowPostStack] = useState(false);
   const [postData, setPostData] = useState([]);
+  const [userName, setUserName] = useState(null);
+  const [userAvatar, setUserAvatar] = useState(null);
 
   // async function fetchData() {
   //   try {
@@ -73,7 +75,7 @@ export default function PostScreen({ navigation }) {
               id: doc.id,
             };
             fetchedPosts.push(PostData);
-            // console.log(PostData);
+            console.log(PostData);
           }
           setPostData(fetchedPosts);
         } catch (error) {
@@ -88,6 +90,44 @@ export default function PostScreen({ navigation }) {
     // Clean up the listener when the component unmounts
     return () => unsubscribe();
   }, []); // Empty dependency array to run effect only once when component mounts
+
+  useEffect(() => {
+    // Set up a listener to get realtime data from Firestore
+    const unsubscribe = onSnapshot(
+      query(collection(database, "users")),
+      async (querySnapshot) => {
+        try {
+          if (querySnapshot.empty) {
+            Alert.alert("There is no user inside users collection");
+            return;
+          }
+          const fetchedusername = [];
+          const fetchduseravatar = [];
+          for (const doc of querySnapshot.docs) {
+            const data = doc.data();
+            const UserData = {
+              ...data,
+              id: doc.id,
+            };
+            fetchedusername.push(UserData.name);
+            fetchduseravatar.push(UserData.avatar);
+            console.log(UserData);
+          }
+          setUserName(fetchedusername);
+          setUserAvatar(fetchduseravatar);
+        } catch (error) {
+          console.error("Error fetching userInformation:", error);
+        }
+      },
+      (error) => {
+        Alert.alert("Error", error.message);
+      }
+    );
+
+    // Clean up the listener when the component unmounts
+    return () => unsubscribe();
+  }, []); // Empty dependency array to run effect only once when component mounts
+
 
   const showAddButton = true;
 
@@ -165,7 +205,7 @@ export default function PostScreen({ navigation }) {
           data={postData}
           renderItem={({ item }) => (
             <PostItem
-              postItemname={item.name}
+              postItemname={userName}
               images={item.images}
               describe={item.description}
               likenumbers={item.likeNumbers}
