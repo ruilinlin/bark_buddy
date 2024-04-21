@@ -454,6 +454,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Username: {
+    fontFamily: "PhilosopherBold",
     fontSize: 20,
     color: colors.fontcolor,
     paddingLeft: 10,
@@ -489,6 +490,7 @@ const styles = StyleSheet.create({
     // marginLeft: numItems <= 1 ? 0 : 30,
   }),
   cardInfo: {
+    fontFamily: "PhilosopherRegular",
     fontSize: 12,
     color: colors.fontcolor,
   },
@@ -504,10 +506,12 @@ const styles = StyleSheet.create({
     margin: 1,
   },
   location: {
+    fontFamily: "PhilosopherRegular",
     fontSize: 12,
     color: colors.fontcolor,
   },
   titleText: {
+    fontFamily: "PhilosopherBold",
     fontSize: 20,
     color: colors.fontcolortitle,
     margin: 10,

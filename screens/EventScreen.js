@@ -87,5 +87,5 @@ export default function EventScreen({ navigation, selectedScreen }) {
 }
 
 const styles = StyleSheet.create({
-  container: { marginTop: "20%" },
+  container: { marginTop: "25%" },
 });

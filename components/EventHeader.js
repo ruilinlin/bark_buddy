@@ -18,6 +18,8 @@ export default function EventHeader({ selectedScreen, setSelectedScreen }) {
           style={{
             color:
               selectedScreen === "Event" ? "white" : colors.backgroundlight,
+            fontFamily: "PhilosopherBold",
+            fontSize: 18,
           }}
         >
           Events
@@ -31,6 +33,8 @@ export default function EventHeader({ selectedScreen, setSelectedScreen }) {
           style={{
             color:
               selectedScreen === "MyEvents" ? "white" : colors.backgroundlight,
+            fontFamily: "PhilosopherBold",
+            fontSize: 18,
           }}
         >
           My Events

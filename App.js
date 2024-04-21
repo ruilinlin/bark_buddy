@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-
 import { useFonts } from "expo-font";
 import { AppLoading } from "expo";
 import { StatusBar } from "expo-status-bar";
@@ -19,6 +18,12 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    PhilosopherRegular: require("./assets/fonts/Philosopher-Regular.ttf"),
+    PhilosopherBold: require("./assets/fonts/Philosopher-Bold.ttf"),
+    AfterSmileRegular: require("./assets/fonts/AfterSmileRegular.otf"),
+  });
+
   useEffect(() => {
     const sunscription = Notifications.addNotificationReceivedListener(
       (notification) => {

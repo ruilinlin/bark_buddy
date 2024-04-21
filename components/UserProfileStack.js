@@ -18,6 +18,7 @@ export default function UserProfileStack({ navigation }) {
         component={UserScreen}
         options={{
           // header: () => <HeaderWithBlur />,
+          headerTitleStyle: { fontFamily: "PhilosopherBold", fontSize: 25 },
           headerTransparent: true,
           headerTintColor: colors.backgroundlight,
           headerRight: () => (

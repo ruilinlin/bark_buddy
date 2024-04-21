@@ -176,6 +176,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   text: {
+    fontFamily: "PhilosopherBold",
     color: "#ffffff",
     fontWeight: "bold",
     width: "90%",
