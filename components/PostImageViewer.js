@@ -3,8 +3,8 @@ import { Image, Dimensions,View} from 'react-native';
 import Swiper from 'react-native-swiper';
 
 const { width } = Dimensions.get('window');
-
 const ImageViewer = ({ images }) => {
+  const { width } = Dimensions.get('window');  // Ensure 'Dimensions' is imported from 'react-native'
 
   return (
     <Swiper
@@ -12,14 +12,24 @@ const ImageViewer = ({ images }) => {
       showsButtons={false}
       autoplay={false}
     >
-      {images.map((img, index) => {
-        // Determine if the image source is a local require or a remote URI
-        const imageSource = typeof img.uri === 'string' ? { uri: img.uri } : img.uri;
+      {images.map((image, index) => {
+        // Check if image is a string or an object and set imageSource accordingly
+        let imageSource = {};
+        if (typeof image === 'string') {
+          imageSource = { uri: image }; 
+        } else if (typeof image === 'object' && image.uri) {
+          imageSource = { uri: image.uri }; // If it's an object, use the uri property
+        } else {
+          // Log an error or handle the case where image data is not in expected format
+          console.error("Invalid image data", image);
+          return null; // Skip rendering this image
+        }
+
         return (
           <View key={index} style={{ width, height: 400 }}>
             <Image
               source={imageSource}
-              style={{ width: width, height: 400 }}
+              style={{ width: '100%', height: '100%' }}
               resizeMode="cover"
             />
           </View>
@@ -29,5 +39,5 @@ const ImageViewer = ({ images }) => {
   );
 };
 
-
 export default ImageViewer;
+

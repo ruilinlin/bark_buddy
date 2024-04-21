@@ -8,18 +8,13 @@ import ImageViewer from './PostImageViewer';
 import { useNavigation } from '@react-navigation/core';
 import {fetchDataList} from "../firebase-files/firestoreHelper"
 
-export default function PostItem({postItemname,onCommentClick}) {
+export default function PostItem({postItemname,images,describe,likenumbers,commentsnumbers,onCommentClick}) {
   const navigation = useNavigation(); 
   const [liked, setLiked] = useState(false);
   const [isClickComments, setIsClickComments] =useState(false);
-  const describe = "Here is my favorate avatar genarate by my dog!"
-  const likenumbers = "90"
-  const commentsnumbers ="90"
-  const images = [{id: '1', uri: require('../assets/1.png') },
-                  {id: '2', uri: require('../assets/2.png') },
-                  {id: '3', uri: require('../assets/3.png') },]
                   
   const {width}= Dimensions.get("window");
+  console.log(images);
 
   // const [userId, setUserId] = useState("");
   // const [likenumbers,setLikeNumbers] = useState(0);
@@ -70,6 +65,7 @@ export default function PostItem({postItemname,onCommentClick}) {
           <Text style={styles.Username}>{postItemname}</Text>
         </View >
         <ImageViewer images={images} />
+
       </View >
 
       <View style={styles.userinformationContainer}>
@@ -109,15 +105,14 @@ const styles = StyleSheet.create({
     marginBottom:20,
   },
   userinformationContainer: {
+    marginTop:10,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%', 
     paddingLeft: 10, 
   },
-  othercomments:{
 
-  },
   Username:{
     fontSize:16,
     color:colors.fontcolortitle,
@@ -140,7 +135,7 @@ const styles = StyleSheet.create({
     fontSize:11,
     color:colors.fontcolortitle,
     marginBottom:10,
-    margin:10,
+    margin:5,
   },
   textgenaral:{
     fontSize:14,

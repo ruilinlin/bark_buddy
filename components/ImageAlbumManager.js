@@ -56,7 +56,6 @@ export default function ImageAlbumManager({ navigation }) {
       // Update the image URI and pass it to the parent component
       // receiveImageURI(result.uri);
       setImageUri(result.uri);
-      console.log(result)
       setImages([...images, { uri: result.uri, deletable: true }]);
     } catch (error) {
       console.log(error);
@@ -80,9 +79,16 @@ export default function ImageAlbumManager({ navigation }) {
 
     if (!result.canceled && result.assets) {
       const imgData = result.assets.map(asset => ({
-        uri: asset.uri
+        uri: asset.uri,
+        height: asset.height,
+        width: asset.width,
+        // mimeType: asset.mimeType,
+        // fileSize: asset.fileSize,
+        // fileName: asset.fileName
       }));
+    
       setImages([...images, ...imgData]);
+      console.log(result)
       // navigation.navigate('Filter', { images: imgData });
     }
   };
