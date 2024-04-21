@@ -206,6 +206,7 @@ export default function PostScreen({ navigation }) {
           renderItem={({ item }) => (
             <PostItem
               postItemname={userName}
+              avatar={userAvatar}
               images={item.images}
               describe={item.description}
               likenumbers={item.likeNumbers}

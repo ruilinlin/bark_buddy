@@ -18,6 +18,7 @@ import { fetchDataList } from "../firebase-files/firestoreHelper";
 
 export default function PostItem({
   postItemname,
+  avatar,
   images,
   describe,
   likenumbers,
@@ -29,6 +30,8 @@ export default function PostItem({
   const [isClickComments, setIsClickComments] = useState(false);
 
   const { width } = Dimensions.get("window");
+
+  console.log(postItemname);
   // console.log(images);
 
   // const [userId, setUserId] = useState("");
@@ -71,7 +74,9 @@ export default function PostItem({
         <View style={styles.userinformationContainer}>
           <Pressable onPress={() => navigation.navigate("User")}>
             <Image
-              source={require("../assets/favicon.png")}
+              source={
+                avatar ? { uri: avatar } : require("../assets/dog-lover.png")
+              }
               style={styles.avatorContainer}
               resizeMode="cover"
             />
