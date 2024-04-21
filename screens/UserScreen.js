@@ -36,6 +36,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import AvatarManager from "../components/AvatarManager";
 import GradientBackground from "../components/DarkBackGround";
+import RecentPostAlbum from "../components/RecentPostAlbum";
 
 export default function UserScreen() {
   const [user, setUser] = useState(null);
@@ -97,32 +98,41 @@ export default function UserScreen() {
       ),
       (querySnapshot) => {
         if (querySnapshot.empty) {
-          Alert.alert("You need to add a post");
+          if (querySnapshot.metadata.hasPendingWrites) {
+            // This condition ensures that the alert is only shown 
+            // when there are no pending writes, preventing premature alerts
+            Alert.alert("You need to add a post");
+          }
         }
         const fetchedRecentPosts = []; // Initialize the array to store fetched posts
         for (const doc of querySnapshot.docs) {
           const data = doc.data();
-          const RecentPostData = {
-            ...data,
-            id: doc.id
-          };
-          fetchedRecentPosts.push(RecentPostData); 
+          
+          if (data.images && data.images.length > 0) {
+            // Create a new object with only the images data
+            const recentImageData = {
+              images: data.images,
+              id: doc.id
+            };
+            fetchedRecentPosts.push(recentImageData); 
+          }
+          console.log("fetch post by uid data is", fetchedRecentPosts);
         }
         setRecentPost(fetchedRecentPosts); 
-        console.log("Recent Post is",recentPost)
+        console.log("Recent Post is", recentPost)
       },
       (error) => {
         Alert.alert("Error", error.message);
       }
-    );
-  
-    // Clean up the subscription
+    ); 
+    
     return () => {
       console.log("Unsubscribing from Firestore");
       unsubscribe();
     };
   }, []);
-
+  
+  
 
   useEffect(() => {
     fetchData();
@@ -215,17 +225,6 @@ export default function UserScreen() {
       ]
     );
 
-  const images = [
-    { id: "1", uri: require("../assets/1.png") },
-    { id: "2", uri: require("../assets/2.png") },
-    { id: "3", uri: require("../assets/3.png") },
-    { id: "4", uri: require("../assets/1.png") },
-    { id: "5", uri: require("../assets/2.png") },
-    { id: "6", uri: require("../assets/3.png") },
-    { id: "7", uri: require("../assets/2.png") },
-    { id: "8", uri: require("../assets/3.png") },
-    { id: "9", uri: require("../assets/3.png") },
-  ];
 
   const { width, height } = Dimensions.get("window");
 
@@ -397,26 +396,36 @@ export default function UserScreen() {
               )}
             </ScrollView>
             <Text style={styles.titleText}>Recent Post</Text>
-            <FlatList
+            {/* <FlatList
               style={styles.listContainer}
               data={recentPost}
               renderItem={({ item }) => (
-                <View
-                  style={[
-                    styles.imageContainer,
-                    { width: width / 3 - 5, height: width / 3 },
-                  ]}
-                >
-                  <Image
-                    source={item.images}
-                    style={{ width: "100%", height: "100%" }}
-                    resizeMode="contain"
-                  />
+                <View style={styles.row}>
+                  {item.images.map((imageUri, index) => (
+                    <View
+                      key={index}
+                      style={[
+                        styles.imageContainer,
+                        { width: width / 3 - 5, height: width / 3 },
+                        { aspectRatio: 1 }, 
+                      ]}
+                    >
+                      <Image
+                        source={{ uri: imageUri }}
+                        style={{ width: "100%", height: "100%", resizeMode: "cover" }}
+                        resizeMode="contain"
+                      />
+                    </View>
+                  ))}
                 </View>
               )}
               keyExtractor={(item) => item.id}
               numColumns={3}
-            />
+            /> */}
+
+            <RecentPostAlbum recentPosts={recentPost} />
+
+
             <Modal
               animationType="slide"
               transparent={true}

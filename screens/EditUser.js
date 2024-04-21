@@ -178,7 +178,7 @@ export default function EditUser({ navigation}) {
       state: state,
       stateCode: stateCode,
       city: city,
-      avatar:setAvatarUri,
+      // avatar:setAvatarUri,
       // picture: picture,
     };
     writeToDB(newUser, "users");
