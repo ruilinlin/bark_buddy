@@ -24,6 +24,7 @@ import {
   writeToSubcollection,
   readAllFromSubCol,
   updateToSubCol,
+  addNewAttribute,
 } from "../firebase-files/firestoreHelper";
 import Input from "../components/Input";
 import PressableButton from "../components/PressableButton";
@@ -32,7 +33,7 @@ import { breedApiKey } from "@env";
 import DropdownBox from "../components/DropdownBox";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
-import AlbumManager from "../components/AlbumManager";
+import AvatarManager from "../components/AvatarManager";
 
 export default function UserScreen() {
   const [user, setUser] = useState(null);
@@ -52,6 +53,11 @@ export default function UserScreen() {
   const [puppyDocId, setPuppyDocId] = useState("");
   const [imageURI, setImageURI] = useState("");
 
+  useEffect(() => {
+    if (imageURI) {
+      addNewAttribute(user.id, imageURI);
+    }
+  }, [imageURI]);
   // console.log(imageURI);
   // console.log("it is breedLabel", puppyBread);
   // console.log("it is selectedBreed", breedKey);
@@ -68,6 +74,7 @@ export default function UserScreen() {
       const userData = await searchUsersByUserId(auth.currentUser.uid);
       if (userData) {
         setUser(userData);
+        console.log(user);
       }
     } catch (error) {
       // Alert.alert(
@@ -298,14 +305,16 @@ export default function UserScreen() {
   //   setImageURI(pickedImageUri);
   //   console.log(pickedImageUri);
   // }
-
+  function receiveImageURI(takenImageUri) {
+    setImageURI(takenImageUri);
+  }
   return (
     <LightBackGround>
       <SafeAreaView style={styles.container}>
         {user ? ( // Check if user is not null
           <>
             <View style={styles.userinformationContainer}>
-              <AlbumManager imageURI={imageURI} setImageURI={setImageURI} />
+              <AvatarManager receiveImageURI={receiveImageURI} />
               <Text style={styles.Username}>{user.name}</Text>
               <Text
                 style={styles.location}

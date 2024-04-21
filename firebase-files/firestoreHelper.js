@@ -11,6 +11,7 @@ import {
   query,
 } from "firebase/firestore";
 import { database } from "./firebaseSetup";
+import { async } from "@firebase/util";
 
 export async function writeToDB(data, CollectionName) {
   try {
@@ -152,5 +153,17 @@ export async function updateToSubCol(
     console.log("Document successfully updated in subcollection!");
   } catch (err) {
     console.error("Error updating document in subcollection:", err);
+  }
+}
+
+
+export async function addNewAttribute(userId, data) {
+  try {
+    const docRef = doc(database, 'users', userId); 
+    console.log(userId);
+    await setDoc(docRef, { avatar: data }, { merge: true }); 
+    console.log("New attribute added successfully!");
+  } catch (err) {
+    console.error("Error writing new attribute in collection:", err);
   }
 }
