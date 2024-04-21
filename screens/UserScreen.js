@@ -554,6 +554,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   promptText: {
+    fontFamily: "PhilosopherBold",
     color: colors.fontcolor,
     fontSize: 20,
   },
