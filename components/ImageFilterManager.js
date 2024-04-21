@@ -78,7 +78,7 @@ export default function ImageFilterManager({ navigation, route }) {
       <View style={styles.floatingContainer}>
         <FloatingWindow navigation={navigation} />
       </View> */}
-
+      <Text style={styles.text}>FilterGallery</Text>
       <View style={styles.FilterContainer}>
         <FilterGallery filters={Filters} onSelectFilter={handleSelectFilter} />
       </View> 
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     // marginVertical: 10,
   },
   FilterContainer:{
-    marginTop:5,
+    marginBottom:20,
     // width: 200,
     // height: 200,
     borderColor:colors.backgroundshallow,
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 10,
     alignItems: 'center',
-    margin: 30,
+    marginTop: 20,
     marginRight:170,
   },
   text: {
@@ -145,6 +145,6 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 10,
     alignItems: 'center',
-    margin: 30,
+    margin: 20,
   },
 });

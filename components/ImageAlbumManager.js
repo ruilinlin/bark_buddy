@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, ScrollView, StyleSheet, Pressable ,Text, Animated } from 'react-native';
+import { View, Image, ScrollView, StyleSheet, Pressable ,Text, Animated , Alert} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import FloatingWindow from "./FloatingWindow";
 import { colors } from '../helper/Color';
@@ -7,61 +7,102 @@ import ImageViewer from './PostImageViewer';
 import LottieView from 'lottie-react-native';
 import NextButton from './NextButton';
 import { MaterialIcons } from '@expo/vector-icons';
+import ImageFilterManager from './ImageFilterManager';
 
 export default function ImageAlbumManager({ navigation }) {
   const [images, setImages] = useState([]);
+  const [status, requestPermission] = ImagePicker.useCameraPermissions();
+  const [imageUri, setImageUri] = useState('');
 
   useEffect(() => {
     pickImage();
+    // takeImageHandler();
   }, []);
+  // Function to verify camera permission
+  async function verifyPermission() {
+    if (status.granted) {
+      return true;
+    }
+    try {
+      const permissionResponse = await requestPermission();
+      return permissionResponse.granted;
+    } catch (err) {
+      console.log(err);
+      Alert.alert("Error", "Failed to obtain camera permissions");
+    }
+  }
+
+  // Function to handle taking an image with the camera
+  async function takeImageHandler() {
+    try {
+      // Check if the app has camera permission
+      const havePermission = await verifyPermission();
+      if (!havePermission) {
+        Alert.alert("Permission required", "We need your permission to open the camera");
+        return;
+      }
+
+      // Launch the camera
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+      });
+
+      // Check if the user canceled the camera session
+      if (result.canceled) {
+        // Alert.alert('Cancelled', 'Camera session was cancelled');
+        return;
+      }
+
+      // Update the image URI and pass it to the parent component
+      // receiveImageURI(result.uri);
+      setImageUri(result.uri);
+      setImages([...images, { uri: result.uri, deletable: true }]);
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Error", "An error occurred while taking the photo");
+    }
+  }
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       presentationStyle: ImagePicker.UIImagePickerPresentationStyle.AUTOMATIC,
-      UIImagePickerPresentationStyle:'formSheet',
+      UIImagePickerPresentationStyle: 'formSheet',
       // allowsEditing: true,
-      aspect: [3,5],
+      aspect: [3, 5],
       quality: 0,
       selectionLimit: 0,
-      allowsMultipleSelection: true, 
+      allowsMultipleSelection: true,
     });
 
     // console.log(result);
 
     if (!result.canceled && result.assets) {
       const imgData = result.assets.map(asset => ({
-        uri: asset.uri 
+        uri: asset.uri,
+        height: asset.height,
+        width: asset.width,
+        // mimeType: asset.mimeType,
+        // fileSize: asset.fileSize,
+        // fileName: asset.fileName
       }));
+    
       setImages([...images, ...imgData]);
+      console.log(result)
       // navigation.navigate('Filter', { images: imgData });
     }
   };
 
-  const takePhoto = async () => {
-    try {
-      const result = await ImagePicker.launchCameraAsync({
-        allowsEditing: true,
-      });
-
-      if (result.canceled) {
-        Alert.alert('Cancelled', 'Camera session was cancelled');
-        return;
-      }
-
-      setImages([...images, { uri: result.uri, deletable: true }]);
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Error', 'An error occurred while taking the photo');
-    }
-  };
-
-  function handleNext(){
-    navigation.navigate('Filter', { images: images });
+  function handleBack(){
+    navigation.navigate('Posts');
   }
 
-  function handleBack(){
-    navigation.navigate('Camera');
+  function handleNext() {
+    if (images.length === 0) {
+      Alert.alert("No Images Selected", "Please select at least one image.");
+    } else {
+      navigation.navigate('Filter', { images: images });
+    }
   }
 
   function toggleDeletable(index) {
@@ -76,10 +117,12 @@ export default function ImageAlbumManager({ navigation }) {
     setImages(updatedImages);
   }
 
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <ImageViewer images={images} />
+
         <ScrollView horizontal showsHorizontalScrollIndicator={true} style={styles.thumbnailContainer}>
           {images.map((img, index) => (
             <Pressable key={index} onPress={() => toggleDeletable(index)}>
@@ -96,52 +139,42 @@ export default function ImageAlbumManager({ navigation }) {
               </View>
             </Pressable>
           ))}
-          <Pressable onPress={pickImage} style={styles.addButton}>
-            <Text style={styles.addButtonText}>Add</Text>
-          </Pressable>
-
-
+            {images.length > 0 && (
+              <Pressable onPress={pickImage} style={styles.addButton}>
+                <Text style={styles.addButtonText}>Add</Text>
+              </Pressable>
+            )}
         </ScrollView>
-        {/* <ScrollView horizontal contentContainerStyle={styles.previewImagesContainer}>
-          {images.map((img, index) => (
-            <Pressable key={index} onPress={() => console.log('Preview image pressed', index)}>
-              <Image
-                source={{ uri: img.uri }}
-                style={styles.previewImage}
-              />
-            </Pressable>
-          ))}
-        </ScrollView> */}
+
       </ScrollView>
       <View style={styles.buttonContainer}>
-        <Pressable onPress={handleBack} style={styles.backButton}>
-          <Animated.View>
-            <LottieView
-              source={require('../assets/animate/nextarrow.json')}
-              autoPlay
-              loop
-              style={{ width: 40, height: 40 }}
-            />
-          </Animated.View>
-          <Text style={styles.text}>Take by Camera</Text>
-        </Pressable>
+      <Pressable onPress={handleBack} style={styles.backButton}>
+        <Animated.View>
+          <LottieView
+            source={require('../assets/animate/nextarrow.json')} 
+            autoPlay
+            loop
+            style={{ width: 40, height: 40 }}
+          />
+        </Animated.View>
+        <Text style={styles.text}>Cancel</Text>
+      </Pressable>
 
-        <Pressable onPress={takePhoto} style={styles.cameraButton}>
-            <MaterialIcons name="photo-camera" size={24} color="black" />
+        <Pressable onPress={takeImageHandler} style={styles.cameraButton}>
+            <MaterialIcons name="photo-camera" size={20} color={colors.lightbackgroundlight} />
           </Pressable>
 
-        <NextButton onPress={handleNext} text={"Next"}/>
-        {/* <Pressable onPress={handleNext} style={styles.nextButton}>
+          <Pressable onPress={handleNext} style={[styles.nextButton, { opacity: images.length > 0 ? 1 : 0.2 }]}>
           <Animated.View>
             <LottieView
               source={require('../assets/animate/nextarrow.json')}
               autoPlay
               loop
-              style={{ width: 40, height: 40 }}
+              style={{ width: 30, height: 40 }}
             />
           </Animated.View>
           <Text style={styles.text}>Next</Text>
-        </Pressable> */}
+        </Pressable>
       </View>
     </View>
   );
@@ -150,6 +183,7 @@ export default function ImageAlbumManager({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.lightbackgroundlight,
   },
   scrollViewContent: {
     flexGrow: 1,
@@ -201,27 +235,40 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   backButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'lightblue',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: "rgba(136, 116, 163, 0.5)",
+    flexDirection: "row-reverse",
+    width: 95,
+    height: 40,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: 'center', 
+    margin: 10,
+    padding: 5, // Ensure content is not squeezed
   },
   nextButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'lightgreen',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: "rgba(136, 116, 163, 0.5)",
+    flexDirection: "row-reverse",
+    width: 90,
+    height: 40,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: 'center', 
+    margin: 10,
+    padding: 5, // Ensure content is not squeezed
   },
   text: {
     marginLeft: 10,
   },
   cameraButton: {
-    backgroundColor: 'lightblue',
-    padding: 10,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+      backgroundColor: "rgba(136, 116, 163, 0.5)",
+      flexDirection: "row-reverse",
+      width: 50,
+      height: 40,
+      borderRadius: 10,
+      alignItems: "center",
+      justifyContent: 'center', 
+      margin: 10,
+      padding: 5, // Ensure content is not squeezed
+
   },
 });
