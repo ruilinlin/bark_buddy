@@ -86,18 +86,6 @@ export default function UserScreen() {
   }
 
   useEffect(() => {
-    // async function fetchData() {
-    //   try {
-    //     const userData = await searchUsersByUserId(auth.currentUser.uid); // Fetch user data from DB
-    //     if (userData) {
-    //       // If user data exists, pre-fill the input fields
-    //       console.log("it is userData", userData);
-    //       setUser(userData);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching user data:", error);
-    //   }
-    // }
     fetchData();
     // fetchPuppyData();
     console.log("it is user", user);
@@ -304,7 +292,10 @@ export default function UserScreen() {
         {user ? ( // Check if user is not null
           <>
             <View style={styles.userinformationContainer}>
-              <AvatarManager receiveImageURI={receiveImageURI} />
+              <AvatarManager
+                receiveImageURI={receiveImageURI}
+                savedImage={user.avatar}
+              />
               <Text style={styles.Username}>{user.name}</Text>
               <Text
                 style={styles.location}
