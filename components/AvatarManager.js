@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { colors } from '../helper/Color';
 
-export default function AvatarManager({}) {
+export default function AvatarManager({receiveImageURI}) {
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [imageUri, setImageUri] = useState(null); // Initialize as null
   // console.log(imageURI);
@@ -37,6 +37,7 @@ export default function AvatarManager({}) {
       // console.log(results.uri);
       if (!results.canceled && results.assets && results.assets.length > 0) {
         const selectedImageUri = results.assets[0].uri; // Access the correct property
+        receiveImageURI(results.assets[0].uri);
         setImageUri(selectedImageUri);
         console.log(selectedImageUri);
       }
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     // backgroundColor:colors.backgroundlight,
     borderColor:colors.backgroundlight,
     borderWidth:3,
-    borderLeftColor:colors.backgrounddark,
+    // borderLeftColor:colors.backgrounddark,
   },
   image: {
     width: 100,
