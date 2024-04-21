@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 30,
+    backgroundColor: colors.lightbackgroundlight,
   },
   inputsContainer: {
     flex: 8,
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   downside: {
-    flex: 1,
+    flex: 2,
     flexDirection: "column",
   },
   text: {

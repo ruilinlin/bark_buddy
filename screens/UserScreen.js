@@ -538,7 +538,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   promptContainer: {
-    backgroundColor: colors.lightavatarborder,
+    backgroundColor: colors.backgroundlight,
     height: "20%",
     width: "80%",
     borderRadius: 20,
