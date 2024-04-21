@@ -35,6 +35,7 @@ import DropdownBox from "../components/DropdownBox";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import AvatarManager from "../components/AvatarManager";
+import GradientBackground from "../components/DarkBackGround";
 
 export default function UserScreen() {
   const [user, setUser] = useState(null);
@@ -124,18 +125,6 @@ export default function UserScreen() {
 
 
   useEffect(() => {
-    // async function fetchData() {
-    //   try {
-    //     const userData = await searchUsersByUserId(auth.currentUser.uid); // Fetch user data from DB
-    //     if (userData) {
-    //       // If user data exists, pre-fill the input fields
-    //       console.log("it is userData", userData);
-    //       setUser(userData);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching user data:", error);
-    //   }
-    // }
     fetchData();
     // fetchPuppyData();
     console.log("it is user", user);
@@ -225,18 +214,6 @@ export default function UserScreen() {
         { text: "OK", onPress: () => console.log("OK Pressed") },
       ]
     );
-
-  // const user = {
-  //   id: "1",
-  //   name: "test",
-  //   avatar: require("../assets/favicon.png"),
-  //   email: "puppylover@gmail.com",
-  //   livein: "Vancouver",
-  //   pet: [
-  //     { id: 1, name: "puppy one", age: 3, gender: "girl" },
-  //     { id: 2, name: "puppy two", age: 3, gender: "girl" },
-  //   ],
-  // };
 
   const images = [
     { id: "1", uri: require("../assets/1.png") },
@@ -348,12 +325,16 @@ export default function UserScreen() {
     setImageURI(takenImageUri);
   }
   return (
-    <LightBackGround>
+    // <LightBackGround>
+    <GradientBackground colors={colors}>
       <SafeAreaView style={styles.container}>
         {user ? ( // Check if user is not null
           <>
             <View style={styles.userinformationContainer}>
-              <AvatarManager receiveImageURI={receiveImageURI} />
+              <AvatarManager
+                receiveImageURI={receiveImageURI}
+                savedImage={user.avatar}
+              />
               <Text style={styles.Username}>{user.name}</Text>
               <Text
                 style={styles.location}
@@ -373,15 +354,10 @@ export default function UserScreen() {
                         style={styles.card}
                         onPress={() => editCardClickHandler(puppy)}
                       >
-                        {/* <Image
-                          source={puppy.img}
+                        <Image
+                          source={require("../assets/dog-lover.png")}
                           style={styles.cardAvatar}
                           resizeMode="cover"
-                        /> */}
-                        <MaterialCommunityIcons
-                          name="dog"
-                          size={24}
-                          color="black"
                         />
                         <Text style={styles.cardInfo}>{puppy.name}</Text>
                         <Text style={styles.cardInfo}>Age: {puppy.age}</Text>
@@ -397,12 +373,12 @@ export default function UserScreen() {
                       onPress={addCardClickHandler}
                       style={styles.card}
                     >
-                      <MaterialCommunityIcons
-                        name="dog"
-                        size={24}
-                        color="black"
+                      <Image
+                        source={require("../assets/dog-lover.png")}
+                        style={styles.cardAvatar}
+                        resizeMode="cover"
                       />
-                      <Text>Add your puppy here!</Text>
+                      <Text style={styles.cardInfo}>Add your puppy here!</Text>
                     </Pressable>
                   </View>
                 </>
@@ -410,17 +386,17 @@ export default function UserScreen() {
                 // If pet data is not available, render only one card for adding a new puppy
                 <View>
                   <Pressable onPress={addCardClickHandler} style={styles.card}>
-                    <MaterialCommunityIcons
-                      name="dog"
-                      size={24}
-                      color="black"
+                    <Image
+                      source={require("../assets/dog-lover.png")}
+                      style={styles.cardAvatar}
+                      resizeMode="cover"
                     />
-                    <Text>Add your puppy here!</Text>
+                    <Text style={styles.cardInfo}>Add your puppy here!</Text>
                   </Pressable>
                 </View>
               )}
             </ScrollView>
-
+            <Text style={styles.titleText}>Recent Post</Text>
             <FlatList
               style={styles.listContainer}
               data={recentPost}
@@ -499,7 +475,8 @@ export default function UserScreen() {
         )}
       </SafeAreaView>
       <View></View>
-    </LightBackGround>
+      {/* </LightBackGround> */}
+    </GradientBackground>
   );
 }
 
@@ -516,7 +493,7 @@ const styles = StyleSheet.create({
   },
   Username: {
     fontSize: 20,
-    color: colors.commentsfontcolor,
+    color: colors.fontcolor,
     paddingLeft: 10,
   },
   cardAvatar: {
@@ -524,6 +501,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 50,
     backgroundColor: colors.lightavatarborder,
+    margin: 5,
   },
   card: {
     alignItems: "center",
@@ -531,7 +509,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 110,
     borderRadius: 20,
-    backgroundColor: colors.lightavatarborder,
+    backgroundColor: colors.backgroundlight,
     marginLeft: 30,
     marginTop: 20,
   },
@@ -550,7 +528,7 @@ const styles = StyleSheet.create({
   }),
   cardInfo: {
     fontSize: 12,
-    color: colors.commentsfontcolor,
+    color: colors.fontcolor,
   },
   listContainer: {
     // flex:2,
@@ -565,11 +543,12 @@ const styles = StyleSheet.create({
   },
   location: {
     fontSize: 12,
-    color: colors.commentsfontcolor,
+    color: colors.fontcolor,
   },
   titleText: {
     fontSize: 20,
     color: colors.fontcolortitle,
+    margin: 10,
   },
   centeredView: {
     flex: 1,
@@ -598,7 +577,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   promptContainer: {
-    backgroundColor: colors.lightavatarborder,
+    backgroundColor: colors.backgroundlight,
     height: "20%",
     width: "80%",
     borderRadius: 20,

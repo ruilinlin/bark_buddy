@@ -1,12 +1,20 @@
 import { View, StyleSheet, Pressable, Image, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
-import { colors } from '../helper/Color';
+import { colors } from "../helper/Color";
 
-export default function AvatarManager({receiveImageURI}) {
+export default function AvatarManager({ receiveImageURI, savedImage }) {
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [imageUri, setImageUri] = useState(null); // Initialize as null
-  // console.log(imageURI);
+
+  console.log("it is imageUri", imageUri);
+  console.log("it is savedImage", savedImage);
+
+  useEffect(() => {
+    if (savedImage) {
+      setImageUri(savedImage);
+    }
+  }, [savedImage]);
 
   async function verifyPermission() {
     if (status.granted) {
@@ -24,7 +32,9 @@ export default function AvatarManager({receiveImageURI}) {
     try {
       const havePermission = await verifyPermission();
       if (!havePermission) {
-        Alert.alert("upload avatar needs access to your Album,please give us permission");
+        Alert.alert(
+          "upload avatar needs access to your Album,please give us permission"
+        );
         return;
       }
 
@@ -70,8 +80,8 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     // backgroundColor:colors.backgroundlight,
-    borderColor:colors.backgroundlight,
-    borderWidth:3,
+    borderColor: colors.backgroundlight,
+    borderWidth: 3,
     // borderLeftColor:colors.backgrounddark,
   },
   image: {

@@ -57,6 +57,24 @@ export async function deleteFromDB(id, CollectionName) {
   }
 }
 
+// export async function readFromDBbyCollectionName(CollectionName) {
+//   try {
+//     const docRef = firestore().collection(CollectionName); 
+//     // const docRef = doc(database, CollectionName);
+//     const docSnap = await getDoc(docRef);
+
+//     if (docSnap.exists()) {
+//       console.log("Document data:", docSnap.data());
+//       return { id: docSnap.id, ...docSnap.data() };
+//     } else {
+//       console.log("No such document!");
+//     }
+//   } catch (error) {
+//     console.error("Error fetching data: ", error);
+//   }
+// }
+
+
 export async function readFromDB(id, CollectionName) {
   try {
     const docRef = doc(database, CollectionName, id);

@@ -8,17 +8,31 @@ import { auth, database, storage } from "../firebase-files/firebaseSetup";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { writeToDB } from "../firebase-files/firestoreHelper";
 import LottieView from 'lottie-react-native';
+import ImageViewer from './PostImageViewer';
+
 export default function TextManager({ navigation, route }) {
   const [images, setImages] = useState([]);
+  const [imageUri, setImageUri] = useState([]);
   const [description, setDescription] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
 
+  // useEffect(() => {
+  //   if (route.params?.images) {
+  //     setImages(route.params.images);
+  //   }
+  //   // else(){
+  //   //   console.log("ask permission again");
+  //   // }
+  // }, [route.params?.images]);
+
   useEffect(() => {
     if (route.params?.images) {
-      setImages(route.params.images.map(img => img.uri)); 
+      setImageUri(route.params.images.map(img => img.uri)); 
+      setImages(route.params.images);
     }
   }, [route.params?.images]);
 
+  console.log(images)
   // Upload image to Firebase Storage and return the URL
   async function uploadImage(uri) {
     try {
@@ -40,7 +54,7 @@ export default function TextManager({ navigation, route }) {
   // Add a new post to Firestore with image URLs
   const addNewPost = async () => {
     try {
-      const imageUrls = await Promise.all(images.map(imgUri => uploadImage(imgUri)));
+      const imageUrls = await Promise.all(imageUri.map(imgUri => uploadImage(imgUri)));
       const newPost = {
         userId: auth.currentUser.uid,
         images: imageUrls,
@@ -76,9 +90,10 @@ export default function TextManager({ navigation, route }) {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-        {images.map((img, index) => (
+      <ImageViewer images={images} />
+        {/* {images.map((img, index) => (
           <Image key={index} source={{ uri: img }} style={styles.image} resizeMode="cover" />
-        ))}
+        ))} */}
         {/* <FloatingWindow navigation={navigation} /> */}
         <Input
           label="Description"

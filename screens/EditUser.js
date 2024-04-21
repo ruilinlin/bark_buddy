@@ -133,60 +133,6 @@ export default function EditUser({ navigation}) {
     }
   }, [countryCode, stateCode]);
 
-  // useEffect(() => {
-  //   async function fetchStates(countryCode) {
-  //     try {
-  //       const response = await axios.get(
-  //         `https://api.countrystatecity.in/v1/countries/${countryCode}/states`,
-  //         {
-  //           headers: {
-  //             "X-CSCAPI-KEY": cityApiKey,
-  //           },
-  //         }
-  //       );
-  //       const states = response.data.map((state) => ({
-  //         value: state.iso2,
-  //         label: state.name,
-  //       }));
-  //       setStateList(states);
-  //       // console.log(stateList);
-  //     } catch (error) {
-  //       // console.log("Error fetching states:", error);
-  //       setStateList([]); // Clear the state list in case of an error
-  //     }
-  //   }
-  //   // console.log("it is country", country);
-  //   // console.log("it is country code", countryCode);
-  //   fetchStates(countryCode);
-  // }, [countryCode]);
-
-  // useEffect(() => {
-  //   async function fetchCities(countryCode, stateCode) {
-  //     try {
-  //       const response = await axios.get(
-  //         `https://api.countrystatecity.in/v1/countries/${countryCode}/states/${stateCode}/cities`,
-  //         {
-  //           headers: {
-  //             "X-CSCAPI-KEY": cityApiKey,
-  //           },
-  //         }
-  //       );
-  //       const cities = response.data.map((city) => ({
-  //         value: city.id,
-  //         label: city.name,
-  //       }));
-  //       setCityList(cities);
-  //       // console.log(cityList);
-  //     } catch (error) {
-  //       // console.log("Error fetching states:", error);
-  //       setCityList([]); // Clear the state list in case of an error
-  //     }
-  //   }
-  //   // console.log("it is state", state);
-  //   // console.log("it is state code", stateCode);
-  //   fetchCities(countryCode, stateCode);
-  // }, [stateCode]);
-
   const emptySubmissionAlert = () =>
     Alert.alert(
       "Empty Submission",
@@ -215,23 +161,9 @@ export default function EditUser({ navigation}) {
       ]
     );
 
-  // const invalidPetNumAlert = () =>
-  //   Alert.alert("Invalid Pet Number", "Pet Number must be a number >= 0.", [
-  //     {
-  //       text: "Cancel",
-  //       onPress: () => console.log("Cancel Pressed"),
-  //       style: "cancel",
-  //     },
-  //     { text: "OK", onPress: () => console.log("OK Pressed") },
-  //   ]);
-
   function nameChangeHandler(name) {
     setName(name);
   }
-
-  // function petNumChangeHandler(petNum) {
-  //   setPetNum(petNum);
-  // }
 
   function saveHandler() {
     validateInputs();
@@ -263,16 +195,9 @@ export default function EditUser({ navigation}) {
     // Validate username
     const isNameValid = /^[a-zA-Z0-9_]{4,16}$/.test(name); // Check if username matches the pattern
 
-    // Validate petNum
-    // const isPetNumValid = /^\d+$/.test(petNum);
-
     if (!isNameValid) {
       invalidNameAlert();
     }
-
-    // if (!isPetNumValid) {
-    //   invalidPetNumAlert();
-    // }
 
     if (isEmpty) {
       emptySubmissionAlert();
@@ -358,7 +283,8 @@ export default function EditUser({ navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: "50%",
+    backgroundColor: colors.lightbackgroundlight,
   },
   inputsContainer: {
     flex: 4,
