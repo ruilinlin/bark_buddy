@@ -206,14 +206,14 @@ export default function PostScreen({ navigation }) {
           }}
         />
 
-        <ScrollView horizontal style={styles.storiesContainer}>
+        {/* <ScrollView horizontal style={styles.storiesContainer}>
           {stories.map((story) => (
             <View key={story.id} style={styles.story}>
               <Image source={story.avatar} style={styles.storyAvatar} />
               <Text style={styles.storyUsername}>{story.username}</Text>
             </View>
           ))}
-        </ScrollView>
+        </ScrollView> */}
         <FlatList
           style={styles.listContainer}
           data={postData}
@@ -236,13 +236,13 @@ export default function PostScreen({ navigation }) {
 
             return (
               <PostItem
-              postId={item.id}         
-              avatar={avatar}
+                postId={item.id}         
+                avatar={avatar}
                 postItemname={name}
                 images={item.images}
                 describe={item.description}
                 likenumbers={item.likeNumbers}
-                commentsnumbers={item.commentNumbers}
+                // commentsnumbers={item.commentNumbers}
                 onCommentClick={handleCommentClick}
               />
             );
@@ -255,9 +255,9 @@ export default function PostScreen({ navigation }) {
           scrollEventThrottle={16}
         />
 
-        {ModalVisible && (
+        {/* {ModalVisible && (
           <PostComments comments={comments} setModalVisible={setModalVisible} />
-        )}
+        )} */}
       </View>
     </GradientBackground>
   );
