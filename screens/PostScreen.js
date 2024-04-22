@@ -25,7 +25,7 @@ import {
   searchUsersByUserId,
 } from "../firebase-files/firestoreHelper";
 import { useFocusEffect } from "@react-navigation/native";
-import { onSnapshot, collection, query,orderBy } from "firebase/firestore";
+import { onSnapshot, collection, query, orderBy } from "firebase/firestore";
 import { auth, database } from "../firebase-files/firebaseSetup";
 
 export default function PostScreen({ navigation }) {
@@ -64,7 +64,7 @@ export default function PostScreen({ navigation }) {
     // Set up a listener to get realtime data from Firestore
     const unsubscribe = onSnapshot(
       query(collection(database, "Posts"), orderBy("createdAt", "desc")),
-       (querySnapshot) => {
+      (querySnapshot) => {
         try {
           if (querySnapshot.empty) {
             Alert.alert("You need to add a Post");
@@ -108,6 +108,8 @@ export default function PostScreen({ navigation }) {
 
           for (const doc of querySnapshot.docs) {
             const data = doc.data();
+            console.log("????????????");
+            console.log(data);
             const UserData = {
               ...data,
               id: doc.id,
@@ -115,18 +117,22 @@ export default function PostScreen({ navigation }) {
             if (!UserData.avatar) {
               fetcheduserInformation.push({
                 name: UserData.name,
-                avatar: require("../assets/dog-lover.png"),
+                avatar: null,
                 id: UserData.userId,
               });
             }
 
             if (UserData.avatar && UserData.name) {
+              console.log("-----------------");
+              console.log(UserData);
               fetcheduserInformation.push({
                 name: UserData.name,
                 avatar: UserData.avatar,
                 id: UserData.userId,
               });
             }
+            console.log("!!!!!!");
+            console.log(fetcheduserInformation);
             // console.log("The fetched userinformation is",fetcheduserInformation);
           }
           setUserInformation(fetcheduserInformation);
@@ -226,9 +232,7 @@ export default function PostScreen({ navigation }) {
             console.log("it is userInformation", userInformation);
             console.log("it is userInfo", userInfo);
             // If userInfo exists, use its avatar and name, otherwise use defaults
-            const avatar = userInfo
-              ? userInfo.avatar
-              : require("../assets/dog-lover.png");
+            const avatar = userInfo ? userInfo.avatar : null;
             const name = userInfo ? userInfo.name : "anonymous visitor";
 
             // const avatar = require("../assets/dog-lover.png");
@@ -236,7 +240,7 @@ export default function PostScreen({ navigation }) {
 
             return (
               <PostItem
-                postId={item.id}         
+                postId={item.id}
                 avatar={avatar}
                 postItemname={name}
                 images={item.images}
