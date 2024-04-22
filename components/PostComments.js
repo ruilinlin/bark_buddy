@@ -10,12 +10,13 @@ import {
   updateToSubCol,
   addNewAttribute,
 } from "../firebase-files/firestoreHelper";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+// import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { doc, updateDoc , onSnapshot ,increment} from 'firebase/firestore';
 import { auth, database } from "../firebase-files/firebaseSetup";
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-export const PostComments = ({  setModalVisible,postId }) => {
+export const PostComments = ({ setModalVisible,postId, }) => {
   const screenHeight = Dimensions.get("window").height;
   const modalHeight = screenHeight * 0.75;
   const [commentList,setCommentList] = useState([]);
@@ -23,6 +24,7 @@ export const PostComments = ({  setModalVisible,postId }) => {
   const [error,setError] = useState("");
   const [userInformation, setUserInformation] = useState(null);
   const [isCommentAdded, setIsCommentAdded] = useState(false);
+  // const [commentNumbers,setConmmentNumbers] = useState( commentsnumbers);
 
   useEffect(() => {
     fetchUserData();
@@ -104,13 +106,18 @@ export const PostComments = ({  setModalVisible,postId }) => {
     }
 
     const newcomment = {
-      name: userInformation ? userInformation.name : "anonymous visitor",
-      avatar: userInformation ? userInformation.avatar: null,
+      name: userInformation && userInformation.name ? userInformation.name : "anonymous visitor",
+      avatar: userInformation && userInformation.avatar ? userInformation.avatar: null,
       content: commentContent,
       createdAt: new Date(),
     };
     console.log("add comments is",newcomment)
+
+    const postRef = doc(database, "Posts", postId);
     writeToSubcollection(newcomment, "Posts", postId, "CommentList");
+    updateDoc(postRef, {
+      commentNumbers: increment(1)  // Increment the comment count by 1
+      });
     fetchCommentData();
     // onsubmit(comment);
     setCommentContent("");

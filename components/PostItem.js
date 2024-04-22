@@ -31,6 +31,7 @@ export default function PostItem({
   const navigation = useNavigation();
   const [liked, setLiked] = useState(false);
   const [likeNumbers, setLikeNumbers] = useState(likenumbers); 
+  // const [CommentsNumbers, setCommentsNumbers] = useState(commentsnumbers); 
   const [isClickComments, setIsClickComments] = useState(false);
   const [currentPostId,setCurrentPostId] =useState(null);
 
@@ -46,6 +47,7 @@ export default function PostItem({
         const data = doc.data();
         console.log("fetchlikenumbers from data",data)
         setLikeNumbers(data.likeNumbers);  // Update like numbers from Firestore
+        setIsClickComments(data.commentNumbers); 
       } else {
         console.log("No such document!");
       }

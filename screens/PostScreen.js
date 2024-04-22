@@ -38,30 +38,6 @@ export default function PostScreen({ navigation }) {
   const [currentPostId, setCurrentPostId] = useState(null);
   console.log("postId is pass ",currentPostId )
   
-  // const [userAvatar, setUserAvatar] = useState(null);
-
-  // async function fetchData() {
-  //   try {
-  //     const postsData = await readAllFromDB("Posts");
-  //     console.log(postsData);
-  //     if (postsData) {
-  //       setPostData(postsData);
-
-  //     }
-  //   } catch (error) {
-  //     // Alert.alert(
-  //     //   "Please edit your profile via the button located in the top-right corner!"
-  //     // );
-  //     console.error("Error fetching Post data:", error);
-  //   }
-  // }
-
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     fetchData();
-  //     console.log("it is updated post", postData);
-  //   }, [])
-  // );
 
   useEffect(() => {
     // Set up a listener to get realtime data from Firestore
@@ -242,7 +218,7 @@ export default function PostScreen({ navigation }) {
         />
 
         {ModalVisible && (
-          <PostComments postId={currentPostId} comments={comments} setModalVisible={setModalVisible} />
+          <PostComments postId={currentPostId}  setModalVisible={setModalVisible} />
         )}
       </View>
     </GradientBackground>
