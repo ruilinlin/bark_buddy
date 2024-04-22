@@ -61,21 +61,21 @@ Our team members have made contributions to the development of BarkBuddy, each b
 
 Below are some screenshots showcasing the current UI and functionalities of the BarkBuddy app. These images provide a glimpse into the user experience and interface design of our platform.
 
-| Login                                                       | Register                                                          | Post                                                      |
-| ----------------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------- |
-| <img src="image/Login.PNG" alt="Login Screen" width="100%"> | <img src="image/Register.PNG" alt="Register Screen" width="100%"> | <img src="image/Post.PNG" alt="Post Screen" width="100%"> |
+| Post                                                        | Post                                                           | Post                                                       |
+| ----------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------- |
+| <img src="image/Post1.PNG" alt="Login Screen" width="100%"> | <img src="image/Post2.PNG" alt="Register Screen" width="100%"> | <img src="image/Post3.PNG" alt="Post Screen" width="100%"> |
 
-| Add Post                                                    | Add Post                                                    | Add Post                                                    |
+| Event                                                       | Event                                                       | Event                                                       |
 | ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
-| <img src="image/Post_1.png" alt="Post Screen" width="100%"> | <img src="image/Post_2.png" alt="Post Screen" width="100%"> | <img src="image/Post_3.png" alt="Post Screen" width="100%"> |
+| <img src="image/Event1.png" alt="Post Screen" width="100%"> | <img src="image/Event2.png" alt="Post Screen" width="100%"> | <img src="image/Event3.png" alt="Post Screen" width="100%"> |
 
-| Events                                                        | My Events                                                         | Add Event                                                         |
-| ------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| <img src="image/Events.PNG" alt="Events Screen" width="100%"> | <img src="image/MyEvents.PNG" alt="MyEvents Screen" width="100%"> | <img src="image/AddEvent.PNG" alt="AddEvent Screen" width="100%"> |
+| Map                                                         | Map                                                           | User                                                           |
+| ----------------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------- |
+| <img src="image/Map1.PNG" alt="Events Screen" width="100%"> | <img src="image/Map2.PNG" alt="MyEvents Screen" width="100%"> | <img src="image/User1.jpg" alt="AddEvent Screen" width="100%"> |
 
-| Message                                                          | User Profile                                              | Add Puppy Modal                                                          |
-| ---------------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------ |
-| <img src="image/Messages.PNG" alt="Message Screen" width="100%"> | <img src="image/User.PNG" alt="User Screen" width="100%"> | <img src="image/UserPuppyModal.PNG" alt="User Puppy Modal" width="100%"> |
+| User2                                                         | User Profile                                              | Add Puppy Modal                                                          |
+| ------------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------ |
+| <img src="image/User2.PNG" alt="Message Screen" width="100%"> | <img src="image/User.PNG" alt="User Screen" width="100%"> | <img src="image/UserPuppyModal.PNG" alt="User Puppy Modal" width="100%"> |
 
 | Breed List                                                    | Edit User                                                         |     |
 | ------------------------------------------------------------- | ----------------------------------------------------------------- | --- |
