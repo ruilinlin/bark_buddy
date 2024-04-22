@@ -188,7 +188,7 @@ export default function PostScreen({ navigation }) {
     <GradientBackground colors={colors}>
       <View style={styles.container}>
         <DynamicHeader
-          title="Post"
+          title="BarkBuddy"
           scrollY={scrollY}
           showAddButton={showAddButton}
           onPress={() => {

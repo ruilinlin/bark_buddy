@@ -5,14 +5,13 @@ import LoginScreen from "../screens/LoginScreen";
 import TabNavigator from "./TabNavigator";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-files/firebaseSetup";
-import { NavigationContainer } from '@react-navigation/native';
-
+import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
 export default function AppStackNavigator() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
-  const [isVisitor, setIsVisitor] = useState(false); 
+  const [isVisitor, setIsVisitor] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -32,7 +31,6 @@ export default function AppStackNavigator() {
   //   </>
   // );
 
-
   // const AppStack = (
   //   <>
   //     <Stack.Screen
@@ -44,19 +42,22 @@ export default function AppStackNavigator() {
   // );
 
   return (
-    <Stack.Navigator initialRouteName="Signup" screenOptions={{ headerShown: false }}>
-      {userLoggedIn || isVisitor ? (
+    <Stack.Navigator
+      initialRouteName="Signup"
+      screenOptions={{ headerShown: false }}
+    >
+      {/* {userLoggedIn || isVisitor ? (
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       ) : (
-        <>
-          <Stack.Screen name="Signup">
-            {(props) => <SignupScreen {...props} setIsVisitor={setIsVisitor} />}
-          </Stack.Screen>
-          <Stack.Screen name="Login">
-            {(props) => <LoginScreen {...props} setIsVisitor={setIsVisitor} />}
-          </Stack.Screen>
-        </>
-      )}
+        <> */}
+      <Stack.Screen name="Signup">
+        {(props) => <SignupScreen {...props} setIsVisitor={setIsVisitor} />}
+      </Stack.Screen>
+      <Stack.Screen name="Login">
+        {(props) => <LoginScreen {...props} setIsVisitor={setIsVisitor} />}
+      </Stack.Screen>
+      {/* </>
+      )} */}
     </Stack.Navigator>
   );
 }

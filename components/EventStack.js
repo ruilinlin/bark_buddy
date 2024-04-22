@@ -6,6 +6,7 @@ import { Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import EventDetail from "../screens/EventDetail";
 import EventHeader from "./EventHeader";
+import { colors } from "../helper/Color";
 
 const Stack = createStackNavigator();
 
@@ -25,13 +26,18 @@ export default function EventStack({ navigation }) {
               setSelectedScreen={setSelectedScreen}
             />
           ), // Pass setSelectedScreen function here
+          headerTransparent: true,
           headerLeft: null,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("AddEvent")}
               style={{ margin: 10 }}
             >
-              <Ionicons name="add-circle-outline" size={24} color="black" />
+              <Ionicons
+                name="add-circle-outline"
+                size={24}
+                color={colors.backgroundlight}
+              />
             </Pressable>
           ),
         }}
@@ -67,7 +73,11 @@ export default function EventStack({ navigation }) {
         name="EventDetail"
         component={EventDetail}
         options={{
+          headerTintColor: colors.backgroundlight,
           headerTitle: "Event Detail",
+          headerTitleStyle: { fontFamily: "Philosopher-Bold", fontSize: 20 },
+          headerTransparent: true,
+          headerBackTitleVisible: false,
         }}
       />
     </Stack.Navigator>

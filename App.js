@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-
 import { useFonts } from "expo-font";
 import { AppLoading } from "expo";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import AppStackNavigator from "./components/StackNavigator";
 import * as Notifications from "expo-notifications";
+
+// const fetchFonts = () => {
+//   return Font.loadAsync({
+//     PhilosopherRegular: require("./assets/fonts/OpenSans-Regular.ttf"),
+//     PhilosopherBold: require("./assets/fonts/OpenSans-Bold.ttf"),
+//   });
+// };
 
 Notifications.setNotificationHandler({
   handleNotification: async function (notification) {
@@ -19,6 +25,12 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "Philosopher-Regular": require("./assets/fonts/Philosopher-Regular.ttf"),
+    "Philosopher-Bold": require("./assets/fonts/Philosopher-Bold.ttf"),
+    "AfterSmile-Regular": require("./assets/fonts/AfterSmile-Regular.otf"),
+  });
+
   useEffect(() => {
     const sunscription = Notifications.addNotificationReceivedListener(
       (notification) => {
