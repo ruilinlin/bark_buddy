@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { colors } from "../helper/Color";
 
 export default function EventHeader({ selectedScreen, setSelectedScreen }) {
   const handleScreenChange = (screenName) => {
@@ -13,7 +14,14 @@ export default function EventHeader({ selectedScreen, setSelectedScreen }) {
         onPress={() => handleScreenChange("Event")}
         style={styles.pressable}
       >
-        <Text style={{ color: selectedScreen === "Event" ? "blue" : "black" }}>
+        <Text
+          style={{
+            color:
+              selectedScreen === "Event" ? "white" : colors.backgroundlight,
+            // fontFamily: "Futura-Bold",
+            fontSize: 18,
+          }}
+        >
           Events
         </Text>
       </Pressable>
@@ -22,7 +30,12 @@ export default function EventHeader({ selectedScreen, setSelectedScreen }) {
         style={styles.pressable}
       >
         <Text
-          style={{ color: selectedScreen === "MyEvents" ? "blue" : "black" }}
+          style={{
+            color:
+              selectedScreen === "MyEvents" ? "white" : colors.backgroundlight,
+            // fontFamily: "Futura-Bold",
+            fontSize: 18,
+          }}
         >
           My Events
         </Text>

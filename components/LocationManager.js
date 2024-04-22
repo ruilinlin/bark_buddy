@@ -128,7 +128,9 @@ export default function LocationManager({
           )}
         </MapView>
       ) : (
-        <Text>Please wait ...</Text>
+        <View style={styles.messageContainer}>
+          <Text style={styles.waitMessage}>Please wait ...</Text>
+        </View>
       )}
     </View>
   );
@@ -158,5 +160,15 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 5,
     textAlign: "center",
+  },
+  waitMessage: {
+    textAlign: "center",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  messageContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

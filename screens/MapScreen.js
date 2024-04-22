@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, Button, StyleSheet } from "react-native";
+import { Text, Button, StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { collection, onSnapshot, query } from "firebase/firestore";
@@ -79,7 +79,9 @@ export default function MapScreen() {
           ))}
         </MapView>
       ) : (
-        <Text>Please wait ...</Text>
+        <View style={styles.messageContainer}>
+          <Text style={styles.waitMessage}>Please wait ...</Text>
+        </View>
       )}
     </>
   );
@@ -87,4 +89,14 @@ export default function MapScreen() {
 
 const styles = StyleSheet.create({
   map: { flex: 1 },
+  waitMessage: {
+    textAlign: "center",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  messageContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

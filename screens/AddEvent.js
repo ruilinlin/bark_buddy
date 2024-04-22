@@ -176,6 +176,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   text: {
+    // fontFamily: "Futura-Bold",
     color: "#ffffff",
     fontWeight: "bold",
     width: "90%",

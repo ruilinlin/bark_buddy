@@ -77,7 +77,7 @@ export default function EventDetail({ navigation, route }) {
 
   return (
     <GradientBackground colors={colors}>
-      <View>
+      <View style={styles.allContainer}>
         <Image
           style={styles.image}
           source={image ? { uri: image } : null}
@@ -130,6 +130,7 @@ export default function EventDetail({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  allContainer: { marginTop: "25%" },
   eventInfo: {
     marginVertical: 25,
     marginHorizontal: 15,
@@ -148,6 +149,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   overlayText: {
+    // fontFamily: "Futura-Bold",
     color: "#ffffff",
   },
   container: {
@@ -157,11 +159,13 @@ const styles = StyleSheet.create({
     flex: 3,
   },
   eventName: {
+    // fontFamily: "Futura-Bold",
     fontSize: 30,
     color: "#ffffff",
     paddingVertical: 10,
   },
   eventDetail: {
+    // fontFamily: "Futura",
     fontSize: 20,
     color: "#ffffff",
     paddingBottom: 5,
@@ -172,10 +176,16 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   buttonText: {
+    // fontFamily: "Futura-Bold",
     color: "#ffffff",
   },
   introductionContainer: {
     marginVertical: 5,
   },
-  introduction: { color: "#ffffff", fontSize: 18, lineHeight: 25 },
+  introduction: {
+    // fontFamily: "Futura",
+    color: "#ffffff",
+    fontSize: 18,
+    lineHeight: 25,
+  },
 });

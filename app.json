@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -28,13 +26,27 @@
     },
     "plugins": [
       [
-      "expo-image-picker",
-      {
-      "cameraPermission": "The app needs access to your camera to let you take photo.",
-       "photosPermission": "The app accesses your photos to let you share them with your friends."
-      }
+        "expo-image-picker",
+        {
+          "cameraPermission": "The app needs access to your camera to let you take photo.",
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Futura.ttf",
+            "./assets/fonts/Futura-Italic.ttf",
+            "./assets/fonts/Futura-BoldItalic.ttf",
+            "./assets/fonts/Futura-Bold.ttf",
+            "./assets/fonts/LibreBaskerville-Regular.ttf",
+            "./assets/fonts/LibreBaskerville-Italic.ttf",
+            "./assets/fonts/LibreBaskerville-Bold.ttf",
+            "./assets/fonts/sans-serif-medium.otf"
+          ]
+        }
       ]
-      ]
-      
+    ]
   }
 }

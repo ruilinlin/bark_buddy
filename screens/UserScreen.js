@@ -493,6 +493,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+    marginTop: "20%",
   },
   userinformationContainer: {
     // flex: 1,
@@ -501,6 +502,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Username: {
+    // fontFamily: "Futura-Bold",
     fontSize: 20,
     color: colors.fontcolor,
     paddingLeft: 10,
@@ -536,6 +538,7 @@ const styles = StyleSheet.create({
     // marginLeft: numItems <= 1 ? 0 : 30,
   }),
   cardInfo: {
+    // fontFamily: "Futura",
     fontSize: 12,
     color: colors.fontcolor,
   },
@@ -551,10 +554,12 @@ const styles = StyleSheet.create({
     margin: 1,
   },
   location: {
+    // fontFamily: "Futura",
     fontSize: 12,
     color: colors.fontcolor,
   },
   titleText: {
+    // fontFamily: "Futura-Bold",
     fontSize: 20,
     color: colors.fontcolortitle,
     margin: 10,
@@ -597,6 +602,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   promptText: {
+    // fontFamily: "Futura-Bold",
     color: colors.fontcolor,
     fontSize: 20,
   },
