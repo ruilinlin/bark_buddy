@@ -55,7 +55,7 @@ export default function UserScreen() {
   const [puppyList, setPuppyList] = useState([]);
   const [puppyDocId, setPuppyDocId] = useState("");
   const [imageURI, setImageURI] = useState("");
-  const [recentPost, setRecentPost] =useState([]);
+  const [recentPost, setRecentPost] = useState([]);
 
   useEffect(() => {
     if (imageURI) {
@@ -88,7 +88,6 @@ export default function UserScreen() {
     }
   }
 
-
   useEffect(() => {
     // Set up a listener to get realtime data from firestore
     const unsubscribe = onSnapshot(
@@ -99,7 +98,7 @@ export default function UserScreen() {
       (querySnapshot) => {
         if (querySnapshot.empty) {
           if (querySnapshot.metadata.hasPendingWrites) {
-            // This condition ensures that the alert is only shown 
+            // This condition ensures that the alert is only shown
             // when there are no pending writes, preventing premature alerts
             Alert.alert("You need to add a post");
           }
@@ -107,32 +106,30 @@ export default function UserScreen() {
         const fetchedRecentPosts = []; // Initialize the array to store fetched posts
         for (const doc of querySnapshot.docs) {
           const data = doc.data();
-          
+
           if (data.images && data.images.length > 0) {
             // Create a new object with only the images data
             const recentImageData = {
               images: data.images,
-              id: doc.id
+              id: doc.id,
             };
-            fetchedRecentPosts.push(recentImageData); 
+            fetchedRecentPosts.push(recentImageData);
           }
           console.log("fetch post by uid data is", fetchedRecentPosts);
         }
-        setRecentPost(fetchedRecentPosts); 
-        console.log("Recent Post is", recentPost)
+        setRecentPost(fetchedRecentPosts);
+        console.log("Recent Post is", recentPost);
       },
       (error) => {
         Alert.alert("Error", error.message);
       }
-    ); 
-    
+    );
+
     return () => {
       console.log("Unsubscribing from Firestore");
       unsubscribe();
     };
   }, []);
-  
-  
 
   useEffect(() => {
     fetchData();
@@ -224,7 +221,6 @@ export default function UserScreen() {
         { text: "OK", onPress: () => console.log("OK Pressed") },
       ]
     );
-
 
   const { width, height } = Dimensions.get("window");
 
@@ -422,10 +418,9 @@ export default function UserScreen() {
               keyExtractor={(item) => item.id}
               numColumns={3}
             /> */}
-
-            <RecentPostAlbum recentPosts={recentPost} />
-
-
+            <View style={styles.recentPost}>
+              <RecentPostAlbum recentPosts={recentPost} />
+            </View>
             <Modal
               animationType="slide"
               transparent={true}
@@ -495,7 +490,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   userinformationContainer: {
-    // flex: 1,
+    flex: 1,
     height: 150,
     marginTop: 30,
     alignItems: "center",
@@ -564,6 +559,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // alignItems: "center",
   },
+  recentPost: { flex: 5 },
   modalView: {
     margin: 20,
     backgroundColor: "white",
