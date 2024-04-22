@@ -84,13 +84,15 @@ export default function TextManager({ navigation, route }) {
   };
 
   function handleBack(){
-    navigation.navigate('Filter');
+    navigation.navigate('Album');
   }
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-      <ImageViewer images={images} />
+        <View style={styles.contentContainer}>
+          <ImageViewer images={images} />
+        </View>
         {/* {images.map((img, index) => (
           <Image key={index} source={{ uri: img }} style={styles.image} resizeMode="cover" />
         ))} */}
@@ -143,6 +145,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightbackgroundlight,
     // padding: 10
   },
+  contentContainer:{
+    flex:3,
+  },
   image: {
     width: 400,
     height: 400,
@@ -168,6 +173,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     // alignItems: 'center',
     marginHorizontal: 10, 
+    flex:1,
   },
 
   backButton: {

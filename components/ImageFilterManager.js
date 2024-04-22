@@ -15,11 +15,11 @@ export default function ImageFilterManager({ navigation, route }) {
   console.log(route.params);
 // use to show gallery
   const Filters = [{id: '1', uri: require('../assets/bomei_1.png') ,name:"Colosseum"},
-                  {id: '2', uri: require('../assets/bomei_2.png') ,name:"Colosseum"},
-                  {id: '3', uri: require('../assets/bomei_3.png') ,name:"Colosseum"},
+                  {id: '2', uri: require('../assets/bomei_2.png') ,name:"sea"},
+                  {id: '3', uri: require('../assets/bomei_3.png') ,name:"Space"},
                   {id: '4', uri: require('../assets/jinmao_1.png') ,name:"Colosseum"},
-                  {id: '5', uri: require('../assets/jinmao_2.png') ,name:"Colosseum"},
-                  {id: '6', uri: require('../assets/jinmao_3.png') ,name:"Colosseum"},
+                  {id: '5', uri: require('../assets/jinmao_2.png') ,name:"sea"},
+                  {id: '6', uri: require('../assets/jinmao_3.png') ,name:"Space"},
                 ]
 
   useEffect(() => {

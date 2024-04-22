@@ -18,7 +18,6 @@ import { colors } from "../helper/Color";
 import PostItem from "../components/PostItem";
 import ImageViewer from "../components/PostImageViewer";
 // import LinearGradient from 'react-native-linear-gradient';
-import { auth } from "../firebase-files/firebaseSetup";
 import {
   searchUsersByUserId,
   writeToSubcollection,
@@ -26,6 +25,8 @@ import {
   updateToSubCol,
   addNewAttribute,
 } from "../firebase-files/firestoreHelper";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { auth, database } from "../firebase-files/firebaseSetup";
 import Input from "../components/Input";
 import PressableButton from "../components/PressableButton";
 import axios from "axios";
@@ -35,6 +36,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import AvatarManager from "../components/AvatarManager";
 import GradientBackground from "../components/DarkBackGround";
+import RecentPostAlbum from "../components/RecentPostAlbum";
 
 export default function UserScreen() {
   const [user, setUser] = useState(null);
@@ -53,6 +55,7 @@ export default function UserScreen() {
   const [puppyList, setPuppyList] = useState([]);
   const [puppyDocId, setPuppyDocId] = useState("");
   const [imageURI, setImageURI] = useState("");
+  const [recentPost, setRecentPost] = useState([]);
 
   useEffect(() => {
     if (imageURI) {
@@ -84,6 +87,49 @@ export default function UserScreen() {
       console.error("Error fetching user data:", error);
     }
   }
+
+  useEffect(() => {
+    // Set up a listener to get realtime data from firestore
+    const unsubscribe = onSnapshot(
+      query(
+        collection(database, "Posts"),
+        where("userId", "==", auth.currentUser.uid)
+      ),
+      (querySnapshot) => {
+        if (querySnapshot.empty) {
+          if (querySnapshot.metadata.hasPendingWrites) {
+            // This condition ensures that the alert is only shown
+            // when there are no pending writes, preventing premature alerts
+            Alert.alert("You need to add a post");
+          }
+        }
+        const fetchedRecentPosts = []; // Initialize the array to store fetched posts
+        for (const doc of querySnapshot.docs) {
+          const data = doc.data();
+
+          if (data.images && data.images.length > 0) {
+            // Create a new object with only the images data
+            const recentImageData = {
+              images: data.images,
+              id: doc.id,
+            };
+            fetchedRecentPosts.push(recentImageData);
+          }
+          console.log("fetch post by uid data is", fetchedRecentPosts);
+        }
+        setRecentPost(fetchedRecentPosts);
+        console.log("Recent Post is", recentPost);
+      },
+      (error) => {
+        Alert.alert("Error", error.message);
+      }
+    );
+
+    return () => {
+      console.log("Unsubscribing from Firestore");
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -175,18 +221,6 @@ export default function UserScreen() {
         { text: "OK", onPress: () => console.log("OK Pressed") },
       ]
     );
-
-  const images = [
-    { id: "1", uri: require("../assets/1.png") },
-    { id: "2", uri: require("../assets/2.png") },
-    { id: "3", uri: require("../assets/3.png") },
-    { id: "4", uri: require("../assets/1.png") },
-    { id: "5", uri: require("../assets/2.png") },
-    { id: "6", uri: require("../assets/3.png") },
-    { id: "7", uri: require("../assets/2.png") },
-    { id: "8", uri: require("../assets/3.png") },
-    { id: "9", uri: require("../assets/3.png") },
-  ];
 
   const { width, height } = Dimensions.get("window");
 
@@ -358,26 +392,35 @@ export default function UserScreen() {
               )}
             </ScrollView>
             <Text style={styles.titleText}>Recent Post</Text>
-            <FlatList
+            {/* <FlatList
               style={styles.listContainer}
-              data={images}
+              data={recentPost}
               renderItem={({ item }) => (
-                <View
-                  style={[
-                    styles.imageContainer,
-                    { width: width / 3 - 5, height: width / 3 },
-                  ]}
-                >
-                  <Image
-                    source={item.uri}
-                    style={{ width: "100%", height: "100%" }}
-                    resizeMode="contain"
-                  />
+                <View style={styles.row}>
+                  {item.images.map((imageUri, index) => (
+                    <View
+                      key={index}
+                      style={[
+                        styles.imageContainer,
+                        { width: width / 3 - 5, height: width / 3 },
+                        { aspectRatio: 1 }, 
+                      ]}
+                    >
+                      <Image
+                        source={{ uri: imageUri }}
+                        style={{ width: "100%", height: "100%", resizeMode: "cover" }}
+                        resizeMode="contain"
+                      />
+                    </View>
+                  ))}
                 </View>
               )}
               keyExtractor={(item) => item.id}
               numColumns={3}
-            />
+            /> */}
+            <View style={styles.recentPost}>
+              <RecentPostAlbum recentPosts={recentPost} />
+            </View>
             <Modal
               animationType="slide"
               transparent={true}
@@ -448,7 +491,7 @@ const styles = StyleSheet.create({
     marginTop: "20%",
   },
   userinformationContainer: {
-    // flex: 1,
+    flex: 1,
     height: 150,
     marginTop: 30,
     alignItems: "center",
@@ -521,6 +564,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // alignItems: "center",
   },
+  recentPost: { flex: 5 },
   modalView: {
     margin: 20,
     backgroundColor: "white",
