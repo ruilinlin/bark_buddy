@@ -20,7 +20,10 @@ import { colors } from "../helper/Color";
 import { useNavigation } from "@react-navigation/core";
 import { Animated } from "react-native";
 import DynamicHeader from "../components/DynamicHeader";
-import { readAllFromDB ,searchUsersByUserId} from "../firebase-files/firestoreHelper";
+import {
+  readAllFromDB,
+  searchUsersByUserId,
+} from "../firebase-files/firestoreHelper";
 import { useFocusEffect } from "@react-navigation/native";
 import { onSnapshot, collection, query } from "firebase/firestore";
 import { auth, database } from "../firebase-files/firebaseSetup";
@@ -110,16 +113,24 @@ export default function PostScreen({ navigation }) {
               id: doc.id,
             };
             if (!UserData.avatar) {
-              fetcheduserInformation.push({ name: UserData.name, avatar: require("../assets/dog-lover.png") });
+              fetcheduserInformation.push({
+                name: UserData.name,
+                avatar: require("../assets/dog-lover.png"),
+                id: UserData.userId,
+              });
             }
-          
+
             if (UserData.avatar && UserData.name) {
-              fetcheduserInformation.push({ name: UserData.name, avatar: UserData.avatar });
+              fetcheduserInformation.push({
+                name: UserData.name,
+                avatar: UserData.avatar,
+                id: UserData.userId,
+              });
             }
             // console.log("The fetched userinformation is",fetcheduserInformation);
           }
           setUserInformation(fetcheduserInformation);
-          console.log("setuserinformation is ", userInformation)
+          // console.log("setuserinformation is ", userInformation);
         } catch (error) {
           console.error("Error fetching userInformation:", error);
         }
@@ -132,7 +143,6 @@ export default function PostScreen({ navigation }) {
     // Clean up the listener when the component unmounts
     return () => unsubscribe();
   }, []); // Empty dependency array to run effect only once when component mounts
-
 
   const showAddButton = true;
 
@@ -209,10 +219,16 @@ export default function PostScreen({ navigation }) {
           data={postData}
           renderItem={({ item }) => {
             // Find the corresponding user information based on item's name
-            const userInfo = userInformation ? userInformation.find(info => info.name === item.name) : null;
-
+            const userInfo = userInformation
+              ? userInformation.find((info) => info.id === item.userId)
+              : null;
+            console.log("it is item", item);
+            console.log("it is userInformation", userInformation);
+            console.log("it is userInfo", userInfo);
             // If userInfo exists, use its avatar and name, otherwise use defaults
-            const avatar = userInfo ? userInfo.avatar : require("../assets/dog-lover.png");
+            const avatar = userInfo
+              ? userInfo.avatar
+              : require("../assets/dog-lover.png");
             const name = userInfo ? userInfo.name : "anonymous visitor";
 
             // const avatar = require("../assets/dog-lover.png");
