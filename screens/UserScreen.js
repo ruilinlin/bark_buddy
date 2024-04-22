@@ -454,13 +454,13 @@ export default function UserScreen() {
                       backgroundColor={colors.backgrounddark}
                       onPress={() => setModalVisible(false)}
                     >
-                      <Text style={styles.text}>Cancel</Text>
+                      <Text style={styles.buttonText}>Cancel</Text>
                     </PressableButton>
                     <PressableButton
                       backgroundColor={colors.backgroundlight}
                       onPress={saveHandler}
                     >
-                      <Text style={styles.text}>Save</Text>
+                      <Text style={styles.buttonText}>Save</Text>
                     </PressableButton>
                   </View>
                   {/* </>
@@ -580,9 +580,11 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   label: {
-    fontSize: 12,
+    fontFamily: "Philosopher-Bold",
+    fontSize: 20,
     color: colors.commentsfontcolor,
-    margin: 5,
+    marginTop: 5,
+    marginLeft: 5,
     justifyContent: "flex-start",
     alignItems: "flex-start",
   },
@@ -601,5 +603,9 @@ const styles = StyleSheet.create({
     fontFamily: "Philosopher-Bold",
     color: colors.fontcolor,
     fontSize: 20,
+  },
+  buttonText: {
+    fontFamily: "Philosopher-Regular",
+    color: "#ffffff",
   },
 });
