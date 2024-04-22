@@ -20,9 +20,12 @@ import { colors } from "../helper/Color";
 import { useNavigation } from "@react-navigation/core";
 import { Animated } from "react-native";
 import DynamicHeader from "../components/DynamicHeader";
-import { readAllFromDB } from "../firebase-files/firestoreHelper";
+import {
+  readAllFromDB,
+  searchUsersByUserId,
+} from "../firebase-files/firestoreHelper";
 import { useFocusEffect } from "@react-navigation/native";
-import { onSnapshot, collection, query } from "firebase/firestore";
+import { onSnapshot, collection, query,orderBy } from "firebase/firestore";
 import { auth, database } from "../firebase-files/firebaseSetup";
 
 export default function PostScreen({ navigation }) {
@@ -31,6 +34,8 @@ export default function PostScreen({ navigation }) {
   const scrollY = useRef(new Animated.Value(0)).current;
   const [showPostStack, setShowPostStack] = useState(false);
   const [postData, setPostData] = useState([]);
+  const [userInformation, setUserInformation] = useState(null);
+  // const [userAvatar, setUserAvatar] = useState(null);
 
   // async function fetchData() {
   //   try {
@@ -58,8 +63,8 @@ export default function PostScreen({ navigation }) {
   useEffect(() => {
     // Set up a listener to get realtime data from Firestore
     const unsubscribe = onSnapshot(
-      query(collection(database, "Posts")),
-      async (querySnapshot) => {
+      query(collection(database, "Posts"), orderBy("createdAt", "desc")),
+       (querySnapshot) => {
         try {
           if (querySnapshot.empty) {
             Alert.alert("You need to add a Post");
@@ -73,11 +78,61 @@ export default function PostScreen({ navigation }) {
               id: doc.id,
             };
             fetchedPosts.push(PostData);
-            // console.log(PostData);
+            console.log(PostData);
           }
           setPostData(fetchedPosts);
         } catch (error) {
           console.error("Error fetching posts:", error);
+        }
+      },
+      (error) => {
+        Alert.alert("Error", error.message);
+      }
+    );
+
+    // Clean up the listener when the component unmounts
+    return () => unsubscribe();
+  }, []); // Empty dependency array to run effect only once when component mounts
+
+  useEffect(() => {
+    // Set up a listener to get realtime data from Firestore
+    const unsubscribe = onSnapshot(
+      query(collection(database, "users")),
+      async (querySnapshot) => {
+        try {
+          if (querySnapshot.empty) {
+            Alert.alert("There is no user inside users collection");
+            return;
+          }
+          const fetcheduserInformation = [];
+
+          for (const doc of querySnapshot.docs) {
+            const data = doc.data();
+            const UserData = {
+              ...data,
+              id: doc.id,
+            };
+            if (!UserData.avatar) {
+              fetcheduserInformation.push({
+                name: UserData.name,
+                avatar: require("../assets/dog-lover.png"),
+                id: UserData.userId,
+              });
+            }
+
+            if (UserData.avatar && UserData.name) {
+              fetcheduserInformation.push({
+                name: UserData.name,
+                avatar: UserData.avatar,
+                id: UserData.userId,
+              });
+            }
+            // console.log("The fetched userinformation is",fetcheduserInformation);
+          }
+          setUserInformation(fetcheduserInformation);
+          // console.log("setuserinformation is ", userInformation);
+        } catch (error) {
+          console.error("Error fetching userInformation:", error);
         }
       },
       (error) => {
@@ -151,28 +206,47 @@ export default function PostScreen({ navigation }) {
           }}
         />
 
-        <ScrollView horizontal style={styles.storiesContainer}>
+        {/* <ScrollView horizontal style={styles.storiesContainer}>
           {stories.map((story) => (
             <View key={story.id} style={styles.story}>
               <Image source={story.avatar} style={styles.storyAvatar} />
               <Text style={styles.storyUsername}>{story.username}</Text>
             </View>
           ))}
-        </ScrollView>
-
+        </ScrollView> */}
         <FlatList
           style={styles.listContainer}
           data={postData}
-          renderItem={({ item }) => (
-            <PostItem
-              postItemname={item.name}
-              images={item.images}
-              describe={item.description}
-              likenumbers={item.likeNumbers}
-              commentsnumbers={item.commentNumbers}
-              onCommentClick={handleCommentClick}
-            />
-          )}
+          renderItem={({ item }) => {
+            // Find the corresponding user information based on item's name
+            const userInfo = userInformation
+              ? userInformation.find((info) => info.id === item.userId)
+              : null;
+            console.log("it is item", item);
+            console.log("it is userInformation", userInformation);
+            console.log("it is userInfo", userInfo);
+            // If userInfo exists, use its avatar and name, otherwise use defaults
+            const avatar = userInfo
+              ? userInfo.avatar
+              : require("../assets/dog-lover.png");
+            const name = userInfo ? userInfo.name : "anonymous visitor";
+
+            // const avatar = require("../assets/dog-lover.png");
+            // const name =  "anonymous visitor";
+
+            return (
+              <PostItem
+                postId={item.id}         
+                avatar={avatar}
+                postItemname={name}
+                images={item.images}
+                describe={item.description}
+                likenumbers={item.likeNumbers}
+                // commentsnumbers={item.commentNumbers}
+                onCommentClick={handleCommentClick}
+              />
+            );
+          }}
           keyExtractor={(item) => item.id}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: scrollY } } }],
@@ -181,9 +255,9 @@ export default function PostScreen({ navigation }) {
           scrollEventThrottle={16}
         />
 
-        {ModalVisible && (
+        {/* {ModalVisible && (
           <PostComments comments={comments} setModalVisible={setModalVisible} />
-        )}
+        )} */}
       </View>
     </GradientBackground>
   );

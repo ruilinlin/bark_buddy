@@ -8,6 +8,7 @@ import LottieView from 'lottie-react-native';
 import NextButton from './NextButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import ImageFilterManager from './ImageFilterManager';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ImageAlbumManager({ navigation }) {
   const [images, setImages] = useState([]);
@@ -55,8 +56,11 @@ export default function ImageAlbumManager({ navigation }) {
 
       // Update the image URI and pass it to the parent component
       // receiveImageURI(result.uri);
-      setImageUri(result.uri);
-      setImages([...images, { uri: result.uri, deletable: true }]);
+      if (result.assets && result.assets.length > 0) {
+        const uri = result.assets[0].uri;
+        setImageUri(uri);
+        setImages([...images, { uri: uri, deletable: true }]);
+    }
     } catch (error) {
       console.log(error);
       Alert.alert("Error", "An error occurred while taking the photo");
@@ -101,7 +105,7 @@ export default function ImageAlbumManager({ navigation }) {
     if (images.length === 0) {
       Alert.alert("No Images Selected", "Please select at least one image.");
     } else {
-      navigation.navigate('Filter', { images: images });
+      navigation.navigate('Text', { images: images });
     }
   }
 
@@ -119,7 +123,7 @@ export default function ImageAlbumManager({ navigation }) {
 
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <ImageViewer images={images} />
 
@@ -176,13 +180,13 @@ export default function ImageAlbumManager({ navigation }) {
           <Text style={styles.text}>Next</Text>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: colors.lightbackgroundlight,
   },
   scrollViewContent: {

@@ -4,7 +4,6 @@ import Swiper from 'react-native-swiper';
 
 const { width } = Dimensions.get('window');
 const ImageViewer = ({ images }) => {
-  const { width } = Dimensions.get('window');  // Ensure 'Dimensions' is imported from 'react-native'
 
   return (
     <Swiper
@@ -13,6 +12,7 @@ const ImageViewer = ({ images }) => {
       autoplay={false}
     >
       {images.map((image, index) => {
+        
         // Check if image is a string or an object and set imageSource accordingly
         let imageSource = {};
         if (typeof image === 'string') {

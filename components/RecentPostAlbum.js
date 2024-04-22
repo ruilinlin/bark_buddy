@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const RecentPostAlbum = ({ recentPosts }) => {
   return (
+    
     <View style={styles.container}>
       {recentPosts.map((post, index) => (
         <View key={index} style={styles.postContainer}>

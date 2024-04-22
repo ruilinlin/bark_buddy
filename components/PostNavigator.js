@@ -31,7 +31,7 @@ export default function PostNavigator() {
         name="Album"
         component={ImageAlbumManager}
         options={{
-          headerTitle: () => <StepProgress currentStep={1} totalSteps={3} />,
+          headerTitle: () => <StepProgress currentStep={1} totalSteps={2} />,
           tabBarStyle: { display: 'none' },
         }}
       />
@@ -50,20 +50,20 @@ export default function PostNavigator() {
 
 
 
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Filter"
         component={ImageFilterManager}
         options={{
           headerTitle: () => <StepProgress currentStep={2} totalSteps={3} />,
           tabBarStyle: { display: 'none' },
         }}
-      />
+      /> */}
 
       <Tab.Screen 
         name="Text"
         component={TextManager}
         options={{
-          headerTitle: () => <StepProgress currentStep={3} totalSteps={3} />,
+          headerTitle: () => <StepProgress currentStep={2} totalSteps={2} />,
           tabBarStyle: { display: 'none' },
         }}
       />
