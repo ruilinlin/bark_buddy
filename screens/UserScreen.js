@@ -488,12 +488,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    marginTop: "20%",
+    marginTop: "25%",
   },
   userinformationContainer: {
-    flex: 1,
+    flex: 2,
     height: 150,
-    marginTop: 30,
+    marginVertical: 10,
     alignItems: "center",
   },
   Username: {
@@ -515,18 +515,19 @@ const styles = StyleSheet.create({
     width: 150,
     height: 110,
     borderRadius: 20,
-    backgroundColor: colors.backgroundlight,
+    backgroundColor: "rgba(249, 90, 131, 0.6)", // Adjust the alpha value as needed
     marginLeft: 30,
     marginTop: 20,
   },
   petcardContainer: (numItems) => ({
-    flex: numItems <= 1 ? 1 : null,
+    flex: 1,
+    // flex: numItems <= 1 ? 1 : null,
     // height: 200,
     // width: "100%",
     // width: numItems <= 1 ? "100%" : "auto", // Adjust width based on number of items
     alignItems: numItems <= 1 ? "center" : "auto", // Center items if there's only one, otherwise align to start
     justifyContent: numItems <= 1 ? "center" : "auto", // Center items if there's only one, otherwise align to start
-    padding: 30,
+    paddingTop: 30,
     // marginTop: 30,
     // marginBottom: 30,
     // marginLeft: 0,
@@ -537,34 +538,24 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.fontcolor,
   },
-  listContainer: {
-    // flex:2,
-    width: "100%",
-    // marginTop:0,
-    // marginBottom:0,
-  },
-  imageContainer: {
-    flex: 1,
-    flexDirection: "column",
-    margin: 1,
-  },
   location: {
     fontFamily: "Philosopher-Regular",
     fontSize: 12,
     color: colors.fontcolor,
   },
   titleText: {
+    flex: 0.5,
     fontFamily: "Philosopher-Bold",
     fontSize: 20,
     color: colors.fontcolortitle,
-    margin: 10,
+    margin: 15,
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     // alignItems: "center",
   },
-  recentPost: { flex: 5 },
+  recentPost: { flex: 9 },
   modalView: {
     margin: 20,
     backgroundColor: "white",

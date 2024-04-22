@@ -1,47 +1,46 @@
-import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import { View, Image, StyleSheet, FlatList, Dimensions } from "react-native";
+
+const { width } = Dimensions.get("window");
+const imageSize = width / 3;
 
 const RecentPostAlbum = ({ recentPosts }) => {
   return (
-    
-    <View style={styles.container}>
-      {recentPosts.map((post, index) => (
-        <View key={index} style={styles.postContainer}>
-          <Image source={{ uri: post.images[0] }} style={styles.image} resizeMode="cover" />
-          {post.images.length > 1 && (
-            <Ionicons name="images-outline" size={10} color="white" style={styles.icon} />
-          )}
+    <FlatList
+      style={styles.listContainer}
+      data={recentPosts}
+      renderItem={({ item }) => (
+        <View style={styles.row}>
+          {item.images.map((imageUri, index) => (
+            <View key={index} style={styles.imageContainer}>
+              <Image
+                source={{ uri: imageUri }}
+                style={[styles.image, { aspectRatio: 1 }]}
+                resizeMode="cover"
+              />
+            </View>
+          ))}
         </View>
-      ))}
-    </View>
+      )}
+      keyExtractor={(item) => item.id}
+      numColumns={3}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent:"space-evenly",
+  listContainer: {
+    width: "100%",
   },
-  postContainer: {
-    position: 'relative',
-    width: 100,
-    height: 90,
-    margin: 5,
+  row: {
+    flexDirection: "row",
+  },
+  imageContainer: {
+    width: imageSize,
+    height: imageSize,
   },
   image: {
-    width: '100%',
-    height: '100%',
-  },
-  icon: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    borderRadius: 5,
-    padding: 4,
-    
+    flex: 1,
   },
 });
 
