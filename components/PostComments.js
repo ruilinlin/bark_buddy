@@ -1,4 +1,4 @@
-import { Modal,StyleSheet,Image, Text, View, FlatList,Button,SafeAreaView,Alert, Pressable, ScrollView,TouchableOpacity,Dimensions} from 'react-native'
+import { Modal,StyleSheet,Image, Text, View, FlatList,Button,SafeAreaView,Alert, Pressable, ScrollView,TouchableOpacity,Dimensions,TouchableWithoutFeedback } from 'react-native'
 import React, { useState, useRef, useEffect } from "react";
 import { colors } from '../helper/Color';
 import Input from './Input';
@@ -26,6 +26,7 @@ export const PostComments = ({ setModalVisible,postId, }) => {
   const [isCommentAdded, setIsCommentAdded] = useState(false);
   // const [commentNumbers,setConmmentNumbers] = useState( commentsnumbers);
 
+  console.log(" userInformation is",userInformation);
   useEffect(() => {
     fetchUserData();
     if (postId) {
@@ -102,16 +103,18 @@ export const PostComments = ({ setModalVisible,postId, }) => {
   const handleCommentSubmit = () =>{
     if(!commentContent.trim()){
       setError("Please Enter A Comment to submit.")
+      Alert.alert("Please enter a comment before submitting.");
       return;
     }
 
     const newcomment = {
-      name: userInformation && userInformation.name ? userInformation.name : "anonymous visitor",
-      avatar: userInformation && userInformation.avatar ? userInformation.avatar: null,
+      name: userInformation && userInformation[0].name ? userInformation[0].name : "anonymous visitor",
+      avatar: userInformation && userInformation[0].avatar ? userInformation[0].avatar: null,
       content: commentContent,
       createdAt: new Date(),
     };
-    console.log("add comments is",newcomment)
+    console.log("????????");
+    console.log("newcomment is",newcomment);
 
     const postRef = doc(database, "Posts", postId);
     writeToSubcollection(newcomment, "Posts", postId, "CommentList");
@@ -128,9 +131,10 @@ export const PostComments = ({ setModalVisible,postId, }) => {
   return (
     <Modal animationType="slide" transparent={true}>
       <View style={styles.modalOverlay}>
+      <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
         <View style={[styles.modalView, { height: modalHeight }]}>
         <View style={styles.headerContainer}>
-        <FontAwesome5 name="step-backward" size={18} color="black" onPress={() => setModalVisible(false)} style={styles.backButton}/>
+        {/* <FontAwesome5 name="step-backward" size={18} color="black" onPress={() => setModalVisible(false)} style={styles.backButton}/> */}
           <Text style={styles.headerText}>Comments</Text>
         </View>          
           {/* Modal content */}
@@ -138,7 +142,10 @@ export const PostComments = ({ setModalVisible,postId, }) => {
             data={commentList}
             renderItem={({ item }) => (
               <View style={styles.userinformation}>
-                <Image source={item.avatar} style={styles.avatorContainer} resizeMode="cover" />
+              <Image source={
+                item.avatar ? { uri: item.avatar } : require("../assets/dog-lover.png")
+              } style={styles.avatorContainer} resizeMode="cover"/>
+                {/* <Image source={item.avatar} style={styles.avatorContainer} resizeMode="cover" /> */}
               <View style={styles.commentsmodal}>                               
                 <Text style={styles.Username}>{item.name}</Text>
                 <Text>{item.content}</Text>
@@ -164,23 +171,27 @@ export const PostComments = ({ setModalVisible,postId, }) => {
           <FontAwesome name="check-circle" size={24} color="black" onPress={handleCommentSubmit} style={styles.backButton}/>
           </View>
         </View>
+        </TouchableWithoutFeedback>
       </View>
     </Modal>
   );
 };
-
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     justifyContent: 'flex-end', 
+    alignItems: 'center', 
     backgroundColor: colors.commentsmodal, 
   },
 
   modalView: {
+    // justifyContent: 'flex-end', 
     width: '100%',
     backgroundColor: 'white',
     borderRadius: 20,
+    marginTop:210,
     alignItems: 'center',
+    // overflow: 'hidden',
   },
   headerText:{
     flex: 1, 
@@ -225,6 +236,7 @@ const styles = StyleSheet.create({
     // marginBottom:20,
   },
   commentsContainer:{
+    // flex: 1, 
     paddingLeft: 5, 
   },
   commentsmodal:{
@@ -232,7 +244,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginLeft:10,
     width: "88%",
-
   },
   userinformation:{
     flexDirection: 'row',
