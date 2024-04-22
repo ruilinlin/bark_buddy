@@ -25,13 +25,15 @@ export default function PostItem({
   images,
   describe,
   likenumbers,
-  // commentsnumbers,
+  commentsnumbers,
   onCommentClick,
 }) {
   const navigation = useNavigation();
   const [liked, setLiked] = useState(false);
   const [likeNumbers, setLikeNumbers] = useState(likenumbers); 
+  // const [CommentsNumbers, setCommentsNumbers] = useState(commentsnumbers); 
   const [isClickComments, setIsClickComments] = useState(false);
+  const [currentPostId,setCurrentPostId] =useState(null);
 
   const { width } = Dimensions.get("window");
 
@@ -45,6 +47,7 @@ export default function PostItem({
         const data = doc.data();
         console.log("fetchlikenumbers from data",data)
         setLikeNumbers(data.likeNumbers);  // Update like numbers from Firestore
+        setIsClickComments(data.commentNumbers); 
       } else {
         console.log("No such document!");
       }
@@ -103,8 +106,9 @@ export default function PostItem({
   };
 
 
-  function handleClickComment() {
+  function handleClickComment(postId) {
     setIsClickComments(true);
+    setCurrentPostId(postId); 
   }
 
   return (
@@ -135,19 +139,19 @@ export default function PostItem({
             style={styles.icon}
           />
         </TouchableOpacity>
-        {/* <TouchableOpacity onPress={onCommentClick}>
+        <TouchableOpacity onPress={onCommentClick}>
           <FontAwesome5
             name="comment-alt"
             size={22}
             color={colors.backgroundlight}
             style={styles.icon}
           />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
 
       <View style={styles.userinformationContainer}>
         <Text style={styles.textsmall}>{likeNumbers} likes</Text>
-        {/* <Text style={styles.textsmall}>{commentsnumbers} comments</Text> */}
+        <Text style={styles.textsmall}>{commentsnumbers} comments</Text>
       </View>
       <Text style={styles.describe}>{describe}</Text>
     </View>

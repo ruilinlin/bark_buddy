@@ -35,30 +35,8 @@ export default function PostScreen({ navigation }) {
   const [showPostStack, setShowPostStack] = useState(false);
   const [postData, setPostData] = useState([]);
   const [userInformation, setUserInformation] = useState(null);
-  // const [userAvatar, setUserAvatar] = useState(null);
-
-  // async function fetchData() {
-  //   try {
-  //     const postsData = await readAllFromDB("Posts");
-  //     console.log(postsData);
-  //     if (postsData) {
-  //       setPostData(postsData);
-
-  //     }
-  //   } catch (error) {
-  //     // Alert.alert(
-  //     //   "Please edit your profile via the button located in the top-right corner!"
-  //     // );
-  //     console.error("Error fetching Post data:", error);
-  //   }
-  // }
-
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     fetchData();
-  //     console.log("it is updated post", postData);
-  //   }, [])
-  // );
+  const [currentPostId, setCurrentPostId] = useState(null);
+  console.log("postId is pass ", currentPostId);
 
   useEffect(() => {
     // Set up a listener to get realtime data from Firestore
@@ -108,8 +86,8 @@ export default function PostScreen({ navigation }) {
 
           for (const doc of querySnapshot.docs) {
             const data = doc.data();
-            console.log("????????????");
-            console.log(data);
+            // console.log("????????????");
+            // console.log(data);
             const UserData = {
               ...data,
               id: doc.id,
@@ -152,31 +130,6 @@ export default function PostScreen({ navigation }) {
 
   const showAddButton = true;
 
-  // const posts = [{id: '1', name: 'test', avatar: require("../assets/favicon.png")},
-  //               {id: '2', name: 'test', avatar: require("../assets/favicon.png")},
-  //               ];
-
-  const comments = [
-    {
-      id: "1",
-      name: "test",
-      avatar: require("../assets/favicon.png"),
-      comments: "Mobile Application Development SEC 05 Spring 2024 ",
-    },
-    {
-      id: "2",
-      name: "test",
-      avatar: require("../assets/favicon.png"),
-      comments: "Mobile Application Development SEC 05 Spring 2024 ",
-    },
-    {
-      id: "3",
-      name: "test",
-      avatar: require("../assets/favicon.png"),
-      comments: "Mobile Application Development SEC 05 Spring 2024 ",
-    },
-  ];
-
   const stories = [
     {
       id: "1",
@@ -190,8 +143,9 @@ export default function PostScreen({ navigation }) {
     },
   ];
 
-  function handleCommentClick() {
+  function handleCommentClick(postId) {
     setModalVisible(true);
+    setCurrentPostId(postId);
     // console.log(setModalVisible);
   }
 
@@ -237,7 +191,7 @@ export default function PostScreen({ navigation }) {
 
             // const avatar = require("../assets/dog-lover.png");
             // const name =  "anonymous visitor";
-
+            console.log("item.id is fetched", item.id);
             return (
               <PostItem
                 postId={item.id}
@@ -246,8 +200,8 @@ export default function PostScreen({ navigation }) {
                 images={item.images}
                 describe={item.description}
                 likenumbers={item.likeNumbers}
-                // commentsnumbers={item.commentNumbers}
-                onCommentClick={handleCommentClick}
+                commentsnumbers={item.commentNumbers}
+                onCommentClick={() => handleCommentClick(item.id)}
               />
             );
           }}
@@ -259,9 +213,12 @@ export default function PostScreen({ navigation }) {
           scrollEventThrottle={16}
         />
 
-        {/* {ModalVisible && (
-          <PostComments comments={comments} setModalVisible={setModalVisible} />
-        )} */}
+        {ModalVisible && (
+          <PostComments
+            postId={currentPostId}
+            setModalVisible={setModalVisible}
+          />
+        )}
       </View>
     </GradientBackground>
   );
