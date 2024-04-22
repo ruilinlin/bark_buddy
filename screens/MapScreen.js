@@ -90,9 +90,9 @@ export default function MapScreen() {
 const styles = StyleSheet.create({
   map: { flex: 1 },
   waitMessage: {
+    fontFamily: "AfterSmile-Regular",
     textAlign: "center",
     fontSize: 30,
-    fontWeight: "bold",
   },
   messageContainer: {
     flex: 1,

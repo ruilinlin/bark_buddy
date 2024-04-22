@@ -170,9 +170,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   waitMessage: {
+    fontFamily: "AfterSmile-Regular",
     textAlign: "center",
     fontSize: 30,
-    fontWeight: "bold",
   },
   messageContainer: {
     flex: 1,
