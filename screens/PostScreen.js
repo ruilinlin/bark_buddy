@@ -35,6 +35,9 @@ export default function PostScreen({ navigation }) {
   const [showPostStack, setShowPostStack] = useState(false);
   const [postData, setPostData] = useState([]);
   const [userInformation, setUserInformation] = useState(null);
+  const [currentPostId, setCurrentPostId] = useState(null);
+  console.log("postId is pass ",currentPostId )
+  
   // const [userAvatar, setUserAvatar] = useState(null);
 
   // async function fetchData() {
@@ -108,6 +111,8 @@ export default function PostScreen({ navigation }) {
 
           for (const doc of querySnapshot.docs) {
             const data = doc.data();
+            // console.log("????????????");
+            // console.log(data);
             const UserData = {
               ...data,
               id: doc.id,
@@ -115,18 +120,22 @@ export default function PostScreen({ navigation }) {
             if (!UserData.avatar) {
               fetcheduserInformation.push({
                 name: UserData.name,
-                avatar: require("../assets/dog-lover.png"),
+                avatar: null,
                 id: UserData.userId,
               });
             }
 
             if (UserData.avatar && UserData.name) {
+              console.log("-----------------");
+              console.log(UserData);
               fetcheduserInformation.push({
                 name: UserData.name,
                 avatar: UserData.avatar,
                 id: UserData.userId,
               });
             }
+            console.log("!!!!!!");
+            console.log(fetcheduserInformation);
             // console.log("The fetched userinformation is",fetcheduserInformation);
           }
           setUserInformation(fetcheduserInformation);
@@ -146,30 +155,6 @@ export default function PostScreen({ navigation }) {
 
   const showAddButton = true;
 
-  // const posts = [{id: '1', name: 'test', avatar: require("../assets/favicon.png")},
-  //               {id: '2', name: 'test', avatar: require("../assets/favicon.png")},
-  //               ];
-
-  const comments = [
-    {
-      id: "1",
-      name: "test",
-      avatar: require("../assets/favicon.png"),
-      comments: "Mobile Application Development SEC 05 Spring 2024 ",
-    },
-    {
-      id: "2",
-      name: "test",
-      avatar: require("../assets/favicon.png"),
-      comments: "Mobile Application Development SEC 05 Spring 2024 ",
-    },
-    {
-      id: "3",
-      name: "test",
-      avatar: require("../assets/favicon.png"),
-      comments: "Mobile Application Development SEC 05 Spring 2024 ",
-    },
-  ];
 
   const stories = [
     {
@@ -184,8 +169,9 @@ export default function PostScreen({ navigation }) {
     },
   ];
 
-  function handleCommentClick() {
+  function handleCommentClick(postId) {
     setModalVisible(true);
+    setCurrentPostId(postId);
     // console.log(setModalVisible);
   }
 
@@ -228,12 +214,12 @@ export default function PostScreen({ navigation }) {
             // If userInfo exists, use its avatar and name, otherwise use defaults
             const avatar = userInfo
               ? userInfo.avatar
-              : require("../assets/dog-lover.png");
+              : null;
             const name = userInfo ? userInfo.name : "anonymous visitor";
 
             // const avatar = require("../assets/dog-lover.png");
             // const name =  "anonymous visitor";
-
+            console.log("item.id is fetched",item.id)
             return (
               <PostItem
                 postId={item.id}         
@@ -242,8 +228,8 @@ export default function PostScreen({ navigation }) {
                 images={item.images}
                 describe={item.description}
                 likenumbers={item.likeNumbers}
-                // commentsnumbers={item.commentNumbers}
-                onCommentClick={handleCommentClick}
+                commentsnumbers={item.commentNumbers}
+                onCommentClick={() => handleCommentClick(item.id)}
               />
             );
           }}
@@ -255,9 +241,9 @@ export default function PostScreen({ navigation }) {
           scrollEventThrottle={16}
         />
 
-        {/* {ModalVisible && (
-          <PostComments comments={comments} setModalVisible={setModalVisible} />
-        )} */}
+        {ModalVisible && (
+          <PostComments postId={currentPostId} comments={comments} setModalVisible={setModalVisible} />
+        )}
       </View>
     </GradientBackground>
   );
