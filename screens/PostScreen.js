@@ -22,7 +22,7 @@ import { Animated } from "react-native";
 import DynamicHeader from "../components/DynamicHeader";
 import { readAllFromDB ,searchUsersByUserId} from "../firebase-files/firestoreHelper";
 import { useFocusEffect } from "@react-navigation/native";
-import { onSnapshot, collection, query } from "firebase/firestore";
+import { onSnapshot, collection, query,orderBy } from "firebase/firestore";
 import { auth, database } from "../firebase-files/firebaseSetup";
 
 export default function PostScreen({ navigation }) {
@@ -60,8 +60,8 @@ export default function PostScreen({ navigation }) {
   useEffect(() => {
     // Set up a listener to get realtime data from Firestore
     const unsubscribe = onSnapshot(
-      query(collection(database, "Posts")),
-      async (querySnapshot) => {
+      query(collection(database, "Posts"), orderBy("createdAt", "desc")),
+       (querySnapshot) => {
         try {
           if (querySnapshot.empty) {
             Alert.alert("You need to add a Post");
