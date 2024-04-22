@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Username: {
-    fontFamily: "Philosopher-Bold",
+    // fontFamily: "Futura-Bold",
     fontSize: 20,
     color: colors.fontcolor,
     paddingLeft: 10,
@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
     // marginLeft: numItems <= 1 ? 0 : 30,
   }),
   cardInfo: {
-    fontFamily: "Philosopher-Regular",
+    // fontFamily: "Futura",
     fontSize: 12,
     color: colors.fontcolor,
   },
@@ -506,12 +506,12 @@ const styles = StyleSheet.create({
     margin: 1,
   },
   location: {
-    fontFamily: "Philosopher-Regular",
+    // fontFamily: "Futura",
     fontSize: 12,
     color: colors.fontcolor,
   },
   titleText: {
-    fontFamily: "Philosopher-Bold",
+    // fontFamily: "Futura-Bold",
     fontSize: 20,
     color: colors.fontcolortitle,
     margin: 10,
@@ -554,7 +554,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   promptText: {
-    fontFamily: "Philosopher-Bold",
+    // fontFamily: "Futura-Bold",
     color: colors.fontcolor,
     fontSize: 20,
   },

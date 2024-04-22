@@ -46,18 +46,18 @@ export default function AppStackNavigator() {
       initialRouteName="Signup"
       screenOptions={{ headerShown: false }}
     >
-      {/* {userLoggedIn || isVisitor ? (
+      {userLoggedIn || isVisitor ? (
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       ) : (
-        <> */}
-      <Stack.Screen name="Signup">
-        {(props) => <SignupScreen {...props} setIsVisitor={setIsVisitor} />}
-      </Stack.Screen>
-      <Stack.Screen name="Login">
-        {(props) => <LoginScreen {...props} setIsVisitor={setIsVisitor} />}
-      </Stack.Screen>
-      {/* </>
-      )} */}
+        <>
+          <Stack.Screen name="Signup">
+            {(props) => <SignupScreen {...props} setIsVisitor={setIsVisitor} />}
+          </Stack.Screen>
+          <Stack.Screen name="Login">
+            {(props) => <LoginScreen {...props} setIsVisitor={setIsVisitor} />}
+          </Stack.Screen>
+        </>
+      )}
     </Stack.Navigator>
   );
 }

@@ -9,8 +9,8 @@ import * as Notifications from "expo-notifications";
 
 // const fetchFonts = () => {
 //   return Font.loadAsync({
-//     PhilosopherRegular: require("./assets/fonts/OpenSans-Regular.ttf"),
-//     PhilosopherBold: require("./assets/fonts/OpenSans-Bold.ttf"),
+//     FuturaRegular: require("./assets/fonts/OpenSans-Regular.ttf"),
+//     FuturaBold: require("./assets/fonts/OpenSans-Bold.ttf"),
 //   });
 // };
 
@@ -25,11 +25,11 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    "Philosopher-Regular": require("./assets/fonts/Philosopher-Regular.ttf"),
-    "Philosopher-Bold": require("./assets/fonts/Philosopher-Bold.ttf"),
-    "AfterSmile-Regular": require("./assets/fonts/AfterSmile-Regular.otf"),
-  });
+  // const [fontsLoaded] = useFonts({
+  //   "Futura": require("./assets/fonts/Futura.ttf"),
+  //   "Futura-Bold": require("./assets/fonts/Futura-Bold.ttf"),
+  //   "sans-serif-medium": require("./assets/fonts/sans-serif-medium.otf"),
+  // });
 
   useEffect(() => {
     const sunscription = Notifications.addNotificationReceivedListener(

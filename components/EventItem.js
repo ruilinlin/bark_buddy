@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   overlayText: {
-    fontFamily: "Philosopher-Bold",
+    // fontFamily: "Futura-Bold",
     color: "#ffffff",
   },
   container: {
@@ -108,13 +108,13 @@ const styles = StyleSheet.create({
     flex: 3,
   },
   eventName: {
-    fontFamily: "Philosopher-Bold",
+    // fontFamily: "Futura-Bold",
     fontSize: 30,
     color: "#ffffff",
     paddingVertical: 10,
   },
   eventDetail: {
-    fontFamily: "Philosopher-Regular",
+    // fontFamily: "Futura",
     fontSize: 20,
     color: "#ffffff",
     paddingBottom: 5,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   buttonText: {
-    fontFamily: "Philosopher-Regular",
+    // fontFamily: "Futura",
     color: "#ffffff",
   },
 });

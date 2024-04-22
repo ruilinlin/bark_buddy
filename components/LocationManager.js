@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   waitMessage: {
     textAlign: "center",
     fontSize: 30,
-    fontFamily: "AfterSmile-Regular",
+    fontWeight: "bold",
   },
   messageContainer: {
     flex: 1,

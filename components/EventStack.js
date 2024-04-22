@@ -75,7 +75,10 @@ export default function EventStack({ navigation }) {
         options={{
           headerTintColor: colors.backgroundlight,
           headerTitle: "Event Detail",
-          headerTitleStyle: { fontFamily: "Philosopher-Bold", fontSize: 20 },
+          headerTitleStyle: {
+            // fontFamily: "Futura-Bold",
+            fontSize: 20,
+          },
           headerTransparent: true,
           headerBackTitleVisible: false,
         }}
