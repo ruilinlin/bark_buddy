@@ -5,12 +5,13 @@ export default function PressableButton({
   backgroundColor,
   onPress,
   children,
+  customStyle,
 }) {
   return (
     <Pressable
       // style={[styles.defaultStyle, { backgroundColor }]}
       style={({ pressed }) => [
-        styles.defaultStyle,
+        customStyle || styles.defaultStyle,
         {
           opacity: pressed ? 0.5 : 1,
           backgroundColor: backgroundColor,

@@ -7,6 +7,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import AppStackNavigator from "./components/StackNavigator";
 import * as Notifications from "expo-notifications";
 
+// const fetchFonts = () => {
+//   return Font.loadAsync({
+//     PhilosopherRegular: require("./assets/fonts/OpenSans-Regular.ttf"),
+//     PhilosopherBold: require("./assets/fonts/OpenSans-Bold.ttf"),
+//   });
+// };
+
 Notifications.setNotificationHandler({
   handleNotification: async function (notification) {
     //marking the function async will make it always return a resolved promise
@@ -19,9 +26,9 @@ Notifications.setNotificationHandler({
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    PhilosopherRegular: require("./assets/fonts/Philosopher-Regular.ttf"),
-    PhilosopherBold: require("./assets/fonts/Philosopher-Bold.ttf"),
-    AfterSmileRegular: require("./assets/fonts/AfterSmileRegular.otf"),
+    "Philosopher-Regular": require("./assets/fonts/Philosopher-Regular.ttf"),
+    "Philosopher-Bold": require("./assets/fonts/Philosopher-Bold.ttf"),
+    "AfterSmile-Regular": require("./assets/fonts/AfterSmile-Regular.otf"),
   });
 
   useEffect(() => {

@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Username: {
-    fontFamily: "PhilosopherBold",
+    fontFamily: "Philosopher-Bold",
     fontSize: 20,
     color: colors.fontcolor,
     paddingLeft: 10,
@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
     // marginLeft: numItems <= 1 ? 0 : 30,
   }),
   cardInfo: {
-    fontFamily: "PhilosopherRegular",
+    fontFamily: "Philosopher-Regular",
     fontSize: 12,
     color: colors.fontcolor,
   },
@@ -506,12 +506,12 @@ const styles = StyleSheet.create({
     margin: 1,
   },
   location: {
-    fontFamily: "PhilosopherRegular",
+    fontFamily: "Philosopher-Regular",
     fontSize: 12,
     color: colors.fontcolor,
   },
   titleText: {
-    fontFamily: "PhilosopherBold",
+    fontFamily: "Philosopher-Bold",
     fontSize: 20,
     color: colors.fontcolortitle,
     margin: 10,
@@ -554,7 +554,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   promptText: {
-    fontFamily: "PhilosopherBold",
+    fontFamily: "Philosopher-Bold",
     color: colors.fontcolor,
     fontSize: 20,
   },

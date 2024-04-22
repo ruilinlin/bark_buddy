@@ -35,7 +35,16 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts"]
+          "fonts": [
+            "./assets/fonts/Philosopher-Regular.ttf",
+            "./assets/fonts/Philosopher-Italic.ttf",
+            "./assets/fonts/Philosopher-BoldItalic.ttf",
+            "./assets/fonts/Philosopher-Bold.ttf",
+            "./assets/fonts/LibreBaskerville-Regular.ttf",
+            "./assets/fonts/LibreBaskerville-Italic.ttf",
+            "./assets/fonts/LibreBaskerville-Bold.ttf",
+            "./assets/fonts/AfterSmile-Regular.otf"
+          ]
         }
       ]
     ]

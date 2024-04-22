@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   waitMessage: {
     textAlign: "center",
     fontSize: 30,
-    fontFamily: "AfterSmileRegular",
+    fontFamily: "AfterSmile-Regular",
   },
   messageContainer: {
     flex: 1,

@@ -178,8 +178,6 @@ export default function EditUser({ navigation }) {
       state: state,
       stateCode: stateCode,
       city: city,
-      avatar: setAvatarUri,
-      // picture: picture,
     };
     writeToDB(newUser, "users");
   }
@@ -301,7 +299,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   text: {
-    fontFamily: "PhilosopherBold",
+    fontFamily: "Philosopher-Bold",
     color: "#ffffff",
     fontWeight: "bold",
     width: "90%",
