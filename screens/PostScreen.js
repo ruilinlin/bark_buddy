@@ -236,8 +236,8 @@ export default function PostScreen({ navigation }) {
 
             return (
               <PostItem
-                postId={item.id}
-                avatar={avatar}
+              postId={item.id}         
+              avatar={avatar}
                 postItemname={name}
                 images={item.images}
                 describe={item.description}
