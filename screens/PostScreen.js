@@ -31,8 +31,8 @@ export default function PostScreen({ navigation }) {
   const scrollY = useRef(new Animated.Value(0)).current;
   const [showPostStack, setShowPostStack] = useState(false);
   const [postData, setPostData] = useState([]);
-  const [userName, setUserName] = useState(null);
-  const [userAvatar, setUserAvatar] = useState(null);
+  const [userInformation, setUserInformation] = useState(null);
+  // const [userAvatar, setUserAvatar] = useState(null);
 
   // async function fetchData() {
   //   try {
@@ -101,20 +101,25 @@ export default function PostScreen({ navigation }) {
             Alert.alert("There is no user inside users collection");
             return;
           }
-          const fetchedusername = [];
-          const fetchduseravatar = [];
+          const fetcheduserInformation = [];
+
           for (const doc of querySnapshot.docs) {
             const data = doc.data();
             const UserData = {
               ...data,
               id: doc.id,
             };
-            fetchedusername.push(UserData.name);
-            fetchduseravatar.push(UserData.avatar);
-            console.log(UserData);
+            if (!UserData.avatar) {
+              fetcheduserInformation.push({ name: UserData.name, avatar: require("../assets/dog-lover.png") });
+            }
+          
+            if (UserData.avatar && UserData.name) {
+              fetcheduserInformation.push({ name: UserData.name, avatar: UserData.avatar });
+            }
+            // console.log("The fetched userinformation is",fetcheduserInformation);
           }
-          setUserName(fetchedusername);
-          setUserAvatar(fetchduseravatar);
+          setUserInformation(fetcheduserInformation);
+          console.log("setuserinformation is ", userInformation)
         } catch (error) {
           console.error("Error fetching userInformation:", error);
         }
@@ -199,21 +204,32 @@ export default function PostScreen({ navigation }) {
             </View>
           ))}
         </ScrollView>
-
         <FlatList
           style={styles.listContainer}
           data={postData}
-          renderItem={({ item }) => (
-            <PostItem
-              postItemname={userName}
-              avatar={userAvatar}
-              images={item.images}
-              describe={item.description}
-              likenumbers={item.likeNumbers}
-              commentsnumbers={item.commentNumbers}
-              onCommentClick={handleCommentClick}
-            />
-          )}
+          renderItem={({ item }) => {
+            // Find the corresponding user information based on item's name
+            const userInfo = userInformation ? userInformation.find(info => info.name === item.name) : null;
+
+            // If userInfo exists, use its avatar and name, otherwise use defaults
+            const avatar = userInfo ? userInfo.avatar : require("../assets/dog-lover.png");
+            const name = userInfo ? userInfo.name : "anonymous visitor";
+
+            // const avatar = require("../assets/dog-lover.png");
+            // const name =  "anonymous visitor";
+
+            return (
+              <PostItem
+                avatar={avatar}
+                postItemname={name}
+                images={item.images}
+                describe={item.description}
+                likenumbers={item.likeNumbers}
+                commentsnumbers={item.commentNumbers}
+                onCommentClick={handleCommentClick}
+              />
+            );
+          }}
           keyExtractor={(item) => item.id}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: scrollY } } }],

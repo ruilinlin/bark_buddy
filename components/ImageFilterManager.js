@@ -15,11 +15,11 @@ export default function ImageFilterManager({ navigation, route }) {
   console.log(route.params);
 // use to show gallery
   const Filters = [{id: '1', uri: require('../assets/bomei_1.png') ,name:"Colosseum"},
-                  {id: '2', uri: require('../assets/bomei_2.png') ,name:"Colosseum"},
-                  {id: '3', uri: require('../assets/bomei_3.png') ,name:"Colosseum"},
+                  {id: '2', uri: require('../assets/bomei_2.png') ,name:"sea"},
+                  {id: '3', uri: require('../assets/bomei_3.png') ,name:"Space"},
                   {id: '4', uri: require('../assets/jinmao_1.png') ,name:"Colosseum"},
-                  {id: '5', uri: require('../assets/jinmao_2.png') ,name:"Colosseum"},
-                  {id: '6', uri: require('../assets/jinmao_3.png') ,name:"Colosseum"},
+                  {id: '5', uri: require('../assets/jinmao_2.png') ,name:"sea"},
+                  {id: '6', uri: require('../assets/jinmao_3.png') ,name:"Space"},
                 ]
 
   useEffect(() => {
@@ -45,9 +45,7 @@ export default function ImageFilterManager({ navigation, route }) {
 
   return (
     <ScrollView contentContainerStyle={styles.Container}>
-      <View style={styles.contentContainer}>
       <ImageViewer images={images}/>
-      </View>
     <View style={styles.buttonContainer}>
 
     <Pressable onPress={handleBack} style={styles.backButton}>
@@ -96,9 +94,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.lightbackgroundlight,
   },
-  contentContainer:{
-    flex:3,
-  },
   nextButtonContainer:{
     // marginTop:30,
     alignItems:"flex-end",
@@ -110,7 +105,6 @@ const styles = StyleSheet.create({
   },
   FilterContainer:{
     marginBottom:20,
-    flex:2,
     // width: 200,
     // height: 200,
     borderColor:colors.backgroundshallow,
@@ -129,7 +123,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     // alignItems: 'center',
     marginHorizontal: 10, 
-    flex:1,
   },
   nextButton: {
     backgroundColor: "rgba(136, 116, 163, 0.5)",

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, ScrollView, StyleSheet, Pressable ,Text, Animated , AlertDimensions, Platform,Dimensions,Alert} from 'react-native';
+import { View, Image, ScrollView, StyleSheet, Pressable ,Text, Animated , Alert} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import FloatingWindow from "./FloatingWindow";
 import { colors } from '../helper/Color';
@@ -8,6 +8,7 @@ import LottieView from 'lottie-react-native';
 import NextButton from './NextButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import ImageFilterManager from './ImageFilterManager';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ImageAlbumManager({ navigation }) {
   const [images, setImages] = useState([]);
@@ -55,8 +56,11 @@ export default function ImageAlbumManager({ navigation }) {
 
       // Update the image URI and pass it to the parent component
       // receiveImageURI(result.uri);
-      setImageUri(result.uri);
-      setImages([...images, { uri: result.uri, deletable: true }]);
+      if (result.assets && result.assets.length > 0) {
+        const uri = result.assets[0].uri;
+        setImageUri(uri);
+        setImages([...images, { uri: uri, deletable: true }]);
+    }
     } catch (error) {
       console.log(error);
       Alert.alert("Error", "An error occurred while taking the photo");
@@ -119,7 +123,7 @@ export default function ImageAlbumManager({ navigation }) {
 
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <ImageViewer images={images} />
 
@@ -176,32 +180,25 @@ export default function ImageAlbumManager({ navigation }) {
           <Text style={styles.text}>Next</Text>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: colors.lightbackgroundlight,
-    justifyContent: 'space-between', // Adjust vertical spacing
   },
   scrollViewContent: {
     flexGrow: 1,
-    flex: 3,
   },
   thumbnailContainer: {
+    flexDirection: 'row',
     padding: 10,
-    ...Platform.select({
-      'android': { flexDirection: Dimensions.get('window').width > 500 ? 'column' : 'row' },
-      'ios': { flexDirection: Dimensions.get('window').width > 600 ? 'column' : 'row' },
-      'default': { flexDirection: 'row' },
-    }),
   },
   thumbnailWrapper: {
     position: 'relative',
     marginRight: 10,
-    marginBottom: 10, // Add margin bottom for better spacing
   },
   thumbnail: {
     width: 100,
@@ -221,16 +218,25 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10, // Add margin bottom for better spacing
   },
   addButtonText: {
     color: 'black',
   },
+  previewImagesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+  },
+  // previewImage: {
+  //   width: 50,
+  //   height: 50,
+  //   marginHorizontal: 5,
+  // },
+  
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
-    flex: 1,
   },
   backButton: {
     backgroundColor: "rgba(136, 116, 163, 0.5)",
@@ -258,14 +264,15 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   cameraButton: {
-    backgroundColor: "rgba(136, 116, 163, 0.5)",
-    flexDirection: "row-reverse",
-    width: 50,
-    height: 40,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: 'center', 
-    margin: 10,
-    padding: 5, // Ensure content is not squeezed
+      backgroundColor: "rgba(136, 116, 163, 0.5)",
+      flexDirection: "row-reverse",
+      width: 50,
+      height: 40,
+      borderRadius: 10,
+      alignItems: "center",
+      justifyContent: 'center', 
+      margin: 10,
+      padding: 5, // Ensure content is not squeezed
+
   },
 });

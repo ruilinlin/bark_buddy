@@ -32,7 +32,7 @@ export default function PostItem({
   const { width } = Dimensions.get("window");
 
   console.log(postItemname);
-  // console.log(images);
+  console.log("the passed images is",images);
 
   // const [userId, setUserId] = useState("");
   // const [likenumbers,setLikeNumbers] = useState(0);
