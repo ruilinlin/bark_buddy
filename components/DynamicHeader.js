@@ -28,7 +28,7 @@ const DynamicHeader = ({ title, onPress, scrollY, showAddButton }) => {
       <Text style={styles.text}>{title}</Text>
       {showAddButton && (
         <Pressable style={{ margin: 10 }} onPress={onPress}>
-          <Entypo name="camera" size={21} color="#8e4585" />
+          <Entypo name="camera" size={21} color={colors.backgrounddark} />
         </Pressable>
       )}
     </Animated.View>
@@ -40,15 +40,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: 'rgba(189, 160, 182, 0.6)',
+    backgroundColor: "rgba(189, 160, 182, 0.6)",
     // backgroundColor: "white",
     paddingTop: 40,
     paddingHorizontal: 20,
   },
   text: {
-    fontFamily: "Philosopher-Bold",
+    fontFamily: "AfterSmile-Regular",
     textAlign: "left",
-    color: "#8e4585",
+    color: colors.backgrounddark,
     fontSize: 28,
     marginLeft: -2,
   },

@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     width: "80%",
     marginVertical: 22,
     padding: 10,
-    color: colors.backgroundlight,
+    color: "white",
   },
   label: {
     fontFamily: "Philosopher-Bold",

@@ -109,14 +109,14 @@ const styles = StyleSheet.create({
   },
   eventName: {
     fontFamily: "Philosopher-Bold",
-    fontSize: 30,
-    color: "#ffffff",
+    fontSize: 20,
+    color: colors.fontcolorpost,
     paddingVertical: 10,
   },
   eventDetail: {
-    fontFamily: "Philosopher-Regular",
-    fontSize: 20,
-    color: "#ffffff",
+    // fontFamily: "Philosopher-Regular",
+    fontSize: 15,
+    color: colors.fontcolorpost,
     paddingBottom: 5,
   },
   buttonContainer: {
