@@ -62,7 +62,7 @@ Below are some screenshots showcasing the current UI and functionalities of the 
 
 | Post                                                        | Post                                                           | Post                                                       |
 | ----------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------- |
-| <img src="image/Post1.PNG" alt="Login Screen" width="100%"> | <img src="image/Post2.PNG" alt="Register Screen" width="100%"> | <img src="image/Post3.PNG" alt="Post Screen" width="100%"> |
+| <img src="image/Post1.jpg" alt="Login Screen" width="100%"> | <img src="image/Post2.PNG" alt="Register Screen" width="100%"> | <img src="image/Post3.PNG" alt="Post Screen" width="100%"> |
 
 | Event                                                       | Event                                                       | Event                                                       |
 | ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
@@ -72,7 +72,7 @@ Below are some screenshots showcasing the current UI and functionalities of the 
 | ----------------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------- |
 | <img src="image/Map1.PNG" alt="Events Screen" width="100%"> | <img src="image/Map2.PNG" alt="MyEvents Screen" width="100%"> | <img src="image/User1.jpg" alt="AddEvent Screen" width="100%"> |
 
-| User2                                                         | User Profile                                              | Add Puppy Modal                                                          |
+| User1                                                         | User Profile                                              | Add Puppy Modal                                                          |
 | ------------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------ |
 | <img src="image/User2.PNG" alt="Message Screen" width="100%"> | <img src="image/User.PNG" alt="User Screen" width="100%"> | <img src="image/UserPuppyModal.PNG" alt="User Puppy Modal" width="100%"> |
 
