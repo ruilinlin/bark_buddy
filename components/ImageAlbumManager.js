@@ -105,7 +105,7 @@ export default function ImageAlbumManager({ navigation }) {
     if (images.length === 0) {
       Alert.alert("No Images Selected", "Please select at least one image.");
     } else {
-      navigation.navigate('Filter', { images: images });
+      navigation.navigate('Text', { images: images });
     }
   }
 
