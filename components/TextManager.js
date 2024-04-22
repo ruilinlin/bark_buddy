@@ -84,7 +84,7 @@ export default function TextManager({ navigation, route }) {
   };
 
   function handleBack(){
-    navigation.navigate('Filter');
+    navigation.navigate('Album');
   }
 
   return (
