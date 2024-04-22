@@ -18,7 +18,7 @@ export default function Input({
     <View style={Customstyle}>
       <Text style={styles.label}>{label}</Text>
       <TextInput
-        style={[styles.input,custominputborder]}
+        style={[styles.input, custominputborder]}
         value={value}
         onChangeText={onChangeText}
         onPressIn={onPressIn}
@@ -33,7 +33,8 @@ export default function Input({
 
 const styles = StyleSheet.create({
   label: {
-    fontSize: 12,
+    fontSize: 18,
+    fontFamily: "Philosopher-Bold",
     color: colors.commentsfontcolor,
     margin: 5,
     justifyContent: "flex-start",

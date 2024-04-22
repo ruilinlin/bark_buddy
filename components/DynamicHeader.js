@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   text: {
-    // fontFamily: "Roboto",
+    fontFamily: "Philosopher-Bold",
     textAlign: "left",
     color: "#8e4585",
     fontSize: 28,

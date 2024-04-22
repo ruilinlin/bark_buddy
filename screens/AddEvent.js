@@ -124,8 +124,8 @@ export default function AddEvent({ navigation, route }) {
           label="Description *"
           value={description}
           onChangeText={descriptionChangeHandler}
-          multiline={true}
-          numberOfLines={5}
+          // multiline={true}
+          // numberOfLines={5}
         />
         <DatePicker onDateChange={dateChangeHandler} savedDate={date} />
         <LocationManager
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   text: {
-    // fontFamily: "Futura-Bold",
+    fontFamily: "Philosopher-Bold",
     color: "#ffffff",
     fontWeight: "bold",
     width: "90%",

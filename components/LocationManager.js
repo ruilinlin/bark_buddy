@@ -140,6 +140,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  label: {
+    fontSize: 18,
+    fontFamily: "Philosopher-Bold",
+    color: colors.commentsfontcolor,
+    margin: 5,
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+  },
   map: {
     flex: 1,
   },

@@ -19,7 +19,7 @@ export default function UserProfileStack({ navigation }) {
         options={{
           // header: () => <HeaderWithBlur />,
           headerTitleStyle: {
-            // fontFamily: "Futura-Bold",
+            fontFamily: "Philosopher-Bold",
             fontSize: 25,
           },
           headerTransparent: true,

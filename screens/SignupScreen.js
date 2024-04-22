@@ -116,7 +116,8 @@ export default function SignupScreen({ navigation, setIsVisitor }) {
 
 const styles = StyleSheet.create({
   title: {
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily: "AfterSmile-Regular",
     color: colors.backgroundlight,
     fontSize: 50,
     marginBottom: 30,
@@ -136,14 +137,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   label: {
-    // fontFamily: "Futura-Bold",
+    fontFamily: "Philosopher-Bold",
     color: colors.backgroundlight,
     fontSize: 20,
     marginLeft: 10,
     alignItems: "flex-start",
   },
   buttonText: {
-    // fontFamily: "Futura",
+    fontFamily: "Philosopher-Regular",
     color: "#ffffff",
   },
   buttonContainer: {

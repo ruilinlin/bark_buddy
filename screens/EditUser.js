@@ -231,9 +231,11 @@ export default function EditUser({ navigation }) {
     // <GradientBackground>
     <View style={styles.container}>
       <View style={styles.inputsContainer}>
-        <Input label="Name *" value={name} onChangeText={nameChangeHandler} />
+        <View style={styles.inputBox}>
+          <Input label="Name *" value={name} onChangeText={nameChangeHandler} />
+        </View>
         {/* Need to add Picture picker */}
-        <Text>Your current living place *</Text>
+        <Text style={styles.label}>Your current living place *</Text>
         <DropdownBox
           data={countryList}
           placeholder={country ? `${country}` : "Select Country"}
@@ -263,13 +265,13 @@ export default function EditUser({ navigation }) {
             backgroundColor={colors.backgrounddark}
             onPress={() => navigation.goBack()}
           >
-            <Text style={styles.text}>Cancel</Text>
+            <Text style={styles.buttonText}>Cancel</Text>
           </PressableButton>
           <PressableButton
             backgroundColor={colors.backgroundlight}
             onPress={saveHandler}
           >
-            <Text style={styles.text}>Save</Text>
+            <Text style={styles.buttonText}>Save</Text>
           </PressableButton>
         </View>
       </View>
@@ -289,17 +291,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 20,
   },
+  inputBox: {
+    marginBottom: 20,
+  },
   buttonsContainer: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
   },
   downside: {
-    flex: 1,
+    flex: 2,
     flexDirection: "column",
   },
-  text: {
-    // fontFamily: "Futura-Bold",
+  label: {
+    fontFamily: "Philosopher-Bold",
+    fontSize: 18,
+  },
+  buttonText: {
+    fontFamily: "Philosopher-Bold",
     color: "#ffffff",
     fontWeight: "bold",
     width: "90%",
