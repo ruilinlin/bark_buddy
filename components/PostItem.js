@@ -36,7 +36,7 @@ export default function PostItem({
   const { width } = Dimensions.get("window");
 
   console.log(postItemname);
-  console.log("the passed images is",images);
+  // console.log("the passed images is",images);
 
   useEffect(() => {
     // Set up a real-time listener for this specific post
