@@ -9,6 +9,7 @@ import { readFromDB, deleteFromDB } from "../firebase-files/firestoreHelper";
 import { getAddressFromCoordinates } from "../components/LocationManager";
 import { mapsApiKey } from "@env";
 import { useFocusEffect } from "@react-navigation/native";
+import { customMapStyle } from "../components/encodeCustomMapStyle";
 
 export default function EventDetail({ navigation, route }) {
   const { id, userId } = route.params;
@@ -62,7 +63,8 @@ export default function EventDetail({ navigation, route }) {
           item?.location.latitude,
           item?.location.longitude
         );
-        const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${item?.location.latitude},${item?.location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${item?.location.latitude},${item?.location.longitude}&key=${mapsApiKey}`;
+        // const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${item?.location.latitude},${item?.location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${item?.location.latitude},${item?.location.longitude}&key=${mapsApiKey}`;
+        const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${item?.location.latitude},${item?.location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${item?.location.latitude},${item?.location.longitude}&style=${customMapStyle}&key=${mapsApiKey}`;
         setImage(imageUrl);
         setLocation(address);
       } catch (error) {

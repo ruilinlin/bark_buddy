@@ -7,10 +7,12 @@ import {
   Dimensions,
   TextInput,
 } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker ,PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import { geocodeApiKey } from "@env";
 import { colors } from "../helper/Color";
+
+import mapStyles from "../screens/mapStyles.json"
 
 export async function getAddressFromCoordinates(latitude, longitude) {
   try {
@@ -121,6 +123,8 @@ export default function LocationManager({
           style={styles.map}
           initialRegion={currentLocation}
           onPress={handleMapPress}
+          customMapStyle={mapStyles} 
+          provider={PROVIDER_GOOGLE}
         >
           <Marker coordinate={currentLocation} />
           {chosenLocation && (
