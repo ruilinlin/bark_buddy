@@ -9,8 +9,8 @@ export default function AvatarManager({ receiveImageURI, savedImage }) {
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [imageUri, setImageUri] = useState(null); // Initialize as null
 
-  console.log("it is imageUri", imageUri);
-  console.log("it is savedImage", savedImage);
+  // console.log("it is imageUri", imageUri);
+  // console.log("it is savedImage", savedImage);
 
   useEffect(() => {
     if (savedImage) {
@@ -43,7 +43,7 @@ export default function AvatarManager({ receiveImageURI, savedImage }) {
       const downloadURL = await getDownloadURL(uploadResult.ref);
       return downloadURL;
     } catch (err) {
-      console.log("test error information" ,err);
+      console.log("test error information", err);
     }
   }
 
@@ -56,18 +56,18 @@ export default function AvatarManager({ receiveImageURI, savedImage }) {
         );
         return;
       }
-  
+
       const results = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0,
       });
-  
+
       if (!results.canceled && results.assets && results.assets.length > 0) {
         const selectedImageUri = results.assets[0].uri;
         const downloadURL = await uploadImage(selectedImageUri);
-        console.log("Download URL:", downloadURL);
-        
+        // console.log("Download URL:", downloadURL);
+
         // Set the state to the download URL
         receiveImageURI(downloadURL);
         setImageUri(downloadURL);
@@ -76,7 +76,6 @@ export default function AvatarManager({ receiveImageURI, savedImage }) {
       console.log("Error:", err);
     }
   }
-  
 
   // async function pickImageHandler() {
   //   try {

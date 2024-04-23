@@ -41,8 +41,8 @@ export default function LocationManager({
     // Set currentLocation to initialLocation if provided
     if (initialLocation) {
       setCurrentLocation(initialLocation);
-      console.log("it is current", currentLocation);
-      console.log("it is chosen", chosenLocation);
+      // console.log("it is current", currentLocation);
+      // console.log("it is chosen", chosenLocation);
     }
   }, [initialLocation]);
 

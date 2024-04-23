@@ -18,7 +18,7 @@ export default function EventStack({ navigation }) {
   const [selectedScreen, setSelectedScreen] = useState("Event"); // Define selectedScreen state here
   const [haveUserInfo, setHaveUserInfo] = useState(false);
 
-  console.log(haveUserInfo);
+  // console.log(haveUserInfo);
 
   async function fetchData() {
     try {

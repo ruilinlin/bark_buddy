@@ -44,7 +44,7 @@ export default function DropdownBox({
           //     <Text style={{ margin: 10 }}>{item.label}</Text>
           //   </Pressable>
           // ))}
-          console.log;
+          // console.log;
         }}
       />
     </View>

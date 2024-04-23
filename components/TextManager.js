@@ -32,14 +32,14 @@ export default function TextManager({ navigation, route }) {
     }
   }, [route.params?.images]);
 
-  console.log(images)
+  // console.log(images)
   // Upload image to Firebase Storage and return the URL
   async function uploadImage(uri) {
     try {
-      console.log(uri);
+      // console.log(uri);
       const response = await fetch(uri);
       const imageBlob = await response.blob();
-      console.log(imageBlob.size);
+      // console.log(imageBlob.size);
 
       const imageName = uri.substring(uri.lastIndexOf("/") + 1);
       const imageRef = ref(storage, `images/${imageName}`);

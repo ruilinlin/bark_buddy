@@ -26,7 +26,7 @@ export default function MapScreen() {
         }
 
         setEvents(fetchedEvents);
-        console.log(fetchedEvents);
+        // console.log(fetchedEvents);
       },
       (error) => {
         Alert.alert("Error", error.message);
