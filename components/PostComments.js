@@ -39,6 +39,7 @@ export const PostComments = ({ setModalVisible, postId }) => {
   const [error, setError] = useState("");
   const [userInformation, setUserInformation] = useState(null);
   const [isCommentAdded, setIsCommentAdded] = useState(false);
+  const [isCommentPermission, setIsCommentPermission] = useState(true);
   // const [commentNumbers,setConmmentNumbers] = useState( commentsnumbers);
 
   // console.log(" userInformation is",userInformation);
@@ -64,11 +65,12 @@ export const PostComments = ({ setModalVisible, postId }) => {
           avatar: userData.avatar || null, // Use null as default if no avatar
           id: userData.userId,
         });
-
+        setUserInformation(fetcheduserInformation);
         // console.log("!!!!!!");
         // console.log(fetcheduserInformation);
+      }else{
+        setIsCommentPermission(false);
       }
-      setUserInformation(fetcheduserInformation);
     } catch (error) {
       console.error("Error fetching user data:", error);
       Alert.alert(
@@ -120,6 +122,10 @@ export const PostComments = ({ setModalVisible, postId }) => {
     if (!commentContent.trim()) {
       setError("Please Enter A Comment to submit.");
       Alert.alert("Please enter a comment before submitting.");
+      return;
+    }
+    if(!isCommentPermission){
+      Alert.alert("Please edit your profile before add your comment");
       return;
     }
 

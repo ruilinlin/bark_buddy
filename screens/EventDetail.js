@@ -64,7 +64,7 @@ export default function EventDetail({ navigation, route }) {
           item?.location.longitude
         );
         // const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${item?.location.latitude},${item?.location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${item?.location.latitude},${item?.location.longitude}&key=${mapsApiKey}`;
-        const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${item?.location.latitude},${item?.location.longitude}&zoom=14&size=400x200&maptype=terrain&markers=color:red%7Clabel:L%7C${item?.location.latitude},${item?.location.longitude}&style=${customMapStyle}&key=${mapsApiKey}`;
+        const imageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${item?.location.latitude},${item?.location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${item?.location.latitude},${item?.location.longitude}&style=${customMapStyle}&key=${mapsApiKey}`;
         setImage(imageUrl);
         setLocation(address);
       } catch (error) {
