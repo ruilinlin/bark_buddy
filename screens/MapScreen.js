@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Text, Button, StyleSheet, View } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker ,PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { database } from "../firebase-files/firebaseSetup";
 import mapStyles from './mapStyles.json';
 
+
 export default function MapScreen() {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [events, setEvents] = useState([]);
 
-  // console.log("mapmapmap",mapStyles)
+  console.log("mapmapmap",mapStyles)
   useEffect(() => {
     // Set up a listener to get all the latlng of events
     const unsubscribe = onSnapshot(
@@ -62,7 +63,11 @@ export default function MapScreen() {
   return (
     <>
       {currentLocation ? (
-        <MapView style={styles.map} initialRegion={currentLocation} customMapStyle={mapStyles} >
+        <MapView 
+        style={styles.map} 
+        initialRegion={currentLocation} 
+        customMapStyle={mapStyles} 
+        provider={PROVIDER_GOOGLE}>
           <Marker
             coordinate={currentLocation}
             title="Your current location"
