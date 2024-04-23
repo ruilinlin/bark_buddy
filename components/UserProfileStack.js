@@ -4,6 +4,9 @@ import { Pressable } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import UserScreen from "../screens/UserScreen";
 import EditUser from "../screens/EditUser";
+import { BlurView } from "expo-blur";
+import { View, StyleSheet, Text } from "react-native";
+import { colors } from "../helper/Color";
 
 const Stack = createStackNavigator();
 
@@ -14,6 +17,13 @@ export default function UserProfileStack({ navigation }) {
         name="User"
         component={UserScreen}
         options={{
+          // header: () => <HeaderWithBlur />,
+          headerTitleStyle: {
+            fontFamily: "Philosopher-Bold",
+            fontSize: 25,
+          },
+          headerTransparent: true,
+          headerTintColor: colors.backgroundlight,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("EditUser")}
@@ -22,13 +32,17 @@ export default function UserProfileStack({ navigation }) {
               <MaterialCommunityIcons
                 name="account-edit-outline"
                 size={24}
-                color="black"
+                color={colors.backgroundlight}
               />
             </Pressable>
           ),
         }}
       />
-      <Stack.Screen name="EditUser" component={EditUser} />
+      <Stack.Screen
+        name="EditUser"
+        component={EditUser}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

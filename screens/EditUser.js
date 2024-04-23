@@ -26,6 +26,7 @@ export default function EditUser({ navigation }) {
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
   const [docId, setDocId] = useState("");
+  // const [avatar, setAvatarUri] = useState("");
 
   // console.log(country);
   // console.log(state);
@@ -44,6 +45,7 @@ export default function EditUser({ navigation }) {
           setDocId(userData.id);
           setCountryCode(userData.countryCode);
           setStateCode(userData.stateCode);
+          // setAvatarUri(imageUri);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -131,60 +133,6 @@ export default function EditUser({ navigation }) {
     }
   }, [countryCode, stateCode]);
 
-  // useEffect(() => {
-  //   async function fetchStates(countryCode) {
-  //     try {
-  //       const response = await axios.get(
-  //         `https://api.countrystatecity.in/v1/countries/${countryCode}/states`,
-  //         {
-  //           headers: {
-  //             "X-CSCAPI-KEY": cityApiKey,
-  //           },
-  //         }
-  //       );
-  //       const states = response.data.map((state) => ({
-  //         value: state.iso2,
-  //         label: state.name,
-  //       }));
-  //       setStateList(states);
-  //       // console.log(stateList);
-  //     } catch (error) {
-  //       // console.log("Error fetching states:", error);
-  //       setStateList([]); // Clear the state list in case of an error
-  //     }
-  //   }
-  //   // console.log("it is country", country);
-  //   // console.log("it is country code", countryCode);
-  //   fetchStates(countryCode);
-  // }, [countryCode]);
-
-  // useEffect(() => {
-  //   async function fetchCities(countryCode, stateCode) {
-  //     try {
-  //       const response = await axios.get(
-  //         `https://api.countrystatecity.in/v1/countries/${countryCode}/states/${stateCode}/cities`,
-  //         {
-  //           headers: {
-  //             "X-CSCAPI-KEY": cityApiKey,
-  //           },
-  //         }
-  //       );
-  //       const cities = response.data.map((city) => ({
-  //         value: city.id,
-  //         label: city.name,
-  //       }));
-  //       setCityList(cities);
-  //       // console.log(cityList);
-  //     } catch (error) {
-  //       // console.log("Error fetching states:", error);
-  //       setCityList([]); // Clear the state list in case of an error
-  //     }
-  //   }
-  //   // console.log("it is state", state);
-  //   // console.log("it is state code", stateCode);
-  //   fetchCities(countryCode, stateCode);
-  // }, [stateCode]);
-
   const emptySubmissionAlert = () =>
     Alert.alert(
       "Empty Submission",
@@ -213,23 +161,9 @@ export default function EditUser({ navigation }) {
       ]
     );
 
-  // const invalidPetNumAlert = () =>
-  //   Alert.alert("Invalid Pet Number", "Pet Number must be a number >= 0.", [
-  //     {
-  //       text: "Cancel",
-  //       onPress: () => console.log("Cancel Pressed"),
-  //       style: "cancel",
-  //     },
-  //     { text: "OK", onPress: () => console.log("OK Pressed") },
-  //   ]);
-
   function nameChangeHandler(name) {
     setName(name);
   }
-
-  // function petNumChangeHandler(petNum) {
-  //   setPetNum(petNum);
-  // }
 
   function saveHandler() {
     validateInputs();
@@ -244,7 +178,6 @@ export default function EditUser({ navigation }) {
       state: state,
       stateCode: stateCode,
       city: city,
-      // picture: picture,
     };
     writeToDB(newUser, "users");
   }
@@ -260,16 +193,9 @@ export default function EditUser({ navigation }) {
     // Validate username
     const isNameValid = /^[a-zA-Z0-9_]{4,16}$/.test(name); // Check if username matches the pattern
 
-    // Validate petNum
-    // const isPetNumValid = /^\d+$/.test(petNum);
-
     if (!isNameValid) {
       invalidNameAlert();
     }
-
-    // if (!isPetNumValid) {
-    //   invalidPetNumAlert();
-    // }
 
     if (isEmpty) {
       emptySubmissionAlert();
@@ -305,9 +231,11 @@ export default function EditUser({ navigation }) {
     // <GradientBackground>
     <View style={styles.container}>
       <View style={styles.inputsContainer}>
-        <Input label="Name *" value={name} onChangeText={nameChangeHandler} />
+        <View style={styles.inputBox}>
+          <Input label="Name *" value={name} onChangeText={nameChangeHandler} />
+        </View>
         {/* Need to add Picture picker */}
-        <Text>Your current living place *</Text>
+        <Text style={styles.label}>Your current living place *</Text>
         <DropdownBox
           data={countryList}
           placeholder={country ? `${country}` : "Select Country"}
@@ -337,13 +265,13 @@ export default function EditUser({ navigation }) {
             backgroundColor={colors.backgrounddark}
             onPress={() => navigation.goBack()}
           >
-            <Text style={styles.text}>Cancel</Text>
+            <Text style={styles.buttonText}>Cancel</Text>
           </PressableButton>
           <PressableButton
             backgroundColor={colors.backgroundlight}
             onPress={saveHandler}
           >
-            <Text style={styles.text}>Save</Text>
+            <Text style={styles.buttonText}>Save</Text>
           </PressableButton>
         </View>
       </View>
@@ -355,11 +283,15 @@ export default function EditUser({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: "50%",
+    backgroundColor: colors.lightbackgroundlight,
   },
   inputsContainer: {
     flex: 4,
     paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+  inputBox: {
     marginBottom: 20,
   },
   buttonsContainer: {
@@ -368,10 +300,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   downside: {
-    flex: 1,
+    flex: 2,
     flexDirection: "column",
   },
-  text: {
+  label: {
+    fontFamily: "Philosopher-Bold",
+    fontSize: 18,
+  },
+  buttonText: {
+    fontFamily: "Philosopher-Bold",
     color: "#ffffff",
     fontWeight: "bold",
     width: "90%",

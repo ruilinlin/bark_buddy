@@ -31,12 +31,12 @@ export default function PostNavigator() {
         name="Album"
         component={ImageAlbumManager}
         options={{
-          headerTitle: () => <StepProgress currentStep={1} totalSteps={4} />,
+          headerTitle: () => <StepProgress currentStep={1} totalSteps={2} />,
           tabBarStyle: { display: 'none' },
         }}
       />
 {/*still need to finish the camera function */}
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Camera"
         component={ImageManager}
         options={{
@@ -46,24 +46,24 @@ export default function PostNavigator() {
           //   backgroundColor: colors.backgroundlight, 
           // },
         }}
-      />
+      /> */}
 
 
 
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Filter"
         component={ImageFilterManager}
         options={{
-          headerTitle: () => <StepProgress currentStep={3} totalSteps={4} />,
+          headerTitle: () => <StepProgress currentStep={2} totalSteps={3} />,
           tabBarStyle: { display: 'none' },
         }}
-      />
+      /> */}
 
       <Tab.Screen 
         name="Text"
         component={TextManager}
         options={{
-          headerTitle: () => <StepProgress currentStep={4} totalSteps={4} />,
+          headerTitle: () => <StepProgress currentStep={2} totalSteps={2} />,
           tabBarStyle: { display: 'none' },
         }}
       />

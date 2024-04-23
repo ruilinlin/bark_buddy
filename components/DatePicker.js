@@ -6,6 +6,9 @@ import Input from "./Input";
 export default function DatePicker({ onDateChange, savedDate }) {
   const [date, setDate] = useState(null);
   const [show, setShow] = useState(false);
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
 
   const showDatePicker = () => {
     setShow(true);
@@ -24,7 +27,7 @@ export default function DatePicker({ onDateChange, savedDate }) {
   return (
     <View>
       <Input
-        label="Date and Time*"
+        label="Date and Time *"
         value={
           date
             ? date.toString().substring(0, 21)
@@ -37,6 +40,7 @@ export default function DatePicker({ onDateChange, savedDate }) {
       <DateTimePickerModal
         isVisible={show}
         mode="datetime"
+        minimumDate={tomorrow}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />

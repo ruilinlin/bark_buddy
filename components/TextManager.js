@@ -8,24 +8,38 @@ import { auth, database, storage } from "../firebase-files/firebaseSetup";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { writeToDB } from "../firebase-files/firestoreHelper";
 import LottieView from 'lottie-react-native';
+import ImageViewer from './PostImageViewer';
+
 export default function TextManager({ navigation, route }) {
   const [images, setImages] = useState([]);
+  const [imageUri, setImageUri] = useState([]);
   const [description, setDescription] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
 
+  // useEffect(() => {
+  //   if (route.params?.images) {
+  //     setImages(route.params.images);
+  //   }
+  //   // else(){
+  //   //   console.log("ask permission again");
+  //   // }
+  // }, [route.params?.images]);
+
   useEffect(() => {
     if (route.params?.images) {
-      setImages(route.params.images.map(img => img.uri)); 
+      setImageUri(route.params.images.map(img => img.uri)); 
+      setImages(route.params.images);
     }
   }, [route.params?.images]);
 
+  // console.log(images)
   // Upload image to Firebase Storage and return the URL
   async function uploadImage(uri) {
     try {
-      console.log(uri);
+      // console.log(uri);
       const response = await fetch(uri);
       const imageBlob = await response.blob();
-      console.log(imageBlob.size);
+      // console.log(imageBlob.size);
 
       const imageName = uri.substring(uri.lastIndexOf("/") + 1);
       const imageRef = ref(storage, `images/${imageName}`);
@@ -40,7 +54,7 @@ export default function TextManager({ navigation, route }) {
   // Add a new post to Firestore with image URLs
   const addNewPost = async () => {
     try {
-      const imageUrls = await Promise.all(images.map(imgUri => uploadImage(imgUri)));
+      const imageUrls = await Promise.all(imageUri.map(imgUri => uploadImage(imgUri)));
       const newPost = {
         userId: auth.currentUser.uid,
         images: imageUrls,
@@ -66,6 +80,7 @@ export default function TextManager({ navigation, route }) {
       return;
     }
     addNewPost();
+    navigation.navigate('Posts');
   };
 
   function handleBack(){
@@ -75,9 +90,12 @@ export default function TextManager({ navigation, route }) {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-        {images.map((img, index) => (
+        <View style={styles.contentContainer}>
+          <ImageViewer images={images} />
+        </View>
+        {/* {images.map((img, index) => (
           <Image key={index} source={{ uri: img }} style={styles.image} resizeMode="cover" />
-        ))}
+        ))} */}
         {/* <FloatingWindow navigation={navigation} /> */}
         <Input
           label="Description"
@@ -124,8 +142,11 @@ export default function TextManager({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.lightbackgroundlight,
+    // backgroundColor: colors.lightbackgroundlight,
     // padding: 10
+  },
+  contentContainer:{
+    flex:3,
   },
   image: {
     width: 400,
@@ -152,6 +173,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     // alignItems: 'center',
     marginHorizontal: 10, 
+    flex:1,
   },
 
   backButton: {

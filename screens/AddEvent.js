@@ -10,6 +10,8 @@ import {
   writeToDB,
   updateToDB,
 } from "../firebase-files/firestoreHelper";
+import LocationManager from "../components/LocationManager";
+import NotificationManager from "../components/NotificationManager";
 
 export default function AddEvent({ navigation, route }) {
   const isEdit = route.params !== undefined;
@@ -18,6 +20,9 @@ export default function AddEvent({ navigation, route }) {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(null);
   const [item, setItem] = useState(null);
+  const [location, setLocation] = useState(null); // State to store chosen location
+
+  // console.log("it is the received location", location);
 
   useEffect(() => {
     if (isEdit) {
@@ -34,9 +39,14 @@ export default function AddEvent({ navigation, route }) {
       setTitle(itemData.title);
       setDescription(itemData.description);
       setDate(itemData.date.toDate());
+      setLocation(itemData.location);
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
+  };
+
+  const handleLocationSelected = (chosenLocation) => {
+    setLocation(chosenLocation); // Update the location state with the chosen location
   };
 
   const emptySubmissionAlert = () => {
@@ -59,8 +69,7 @@ export default function AddEvent({ navigation, route }) {
       userId: auth.currentUser.uid,
       title: title,
       description: description,
-      // location: location,
-      // picture: picture,
+      location: location,
       date: date,
     };
     writeToDB(newEntry, "events");
@@ -72,14 +81,17 @@ export default function AddEvent({ navigation, route }) {
 
   const validateInputs = () => {
     const isEmpty =
-      title.length === 0 || description.length === 0 || date == null;
+      title.length === 0 ||
+      description.length === 0 ||
+      date == null ||
+      location == null;
     if (isEmpty) {
       emptySubmissionAlert();
     }
 
     if (!isEmpty) {
       if (isEdit) {
-        const updatedData = { title, description, date };
+        const updatedData = { title, description, date, location };
         updateToDB(id, updatedData, "events");
       } else {
         writeNewEntry();
@@ -112,10 +124,15 @@ export default function AddEvent({ navigation, route }) {
           label="Description *"
           value={description}
           onChangeText={descriptionChangeHandler}
-          multiline={true}
-          numberOfLines={5}
+          // multiline={true}
+          // numberOfLines={5}
         />
         <DatePicker onDateChange={dateChangeHandler} savedDate={date} />
+        <LocationManager
+          onLocationSelected={handleLocationSelected}
+          initialLocation={isEdit ? location : null}
+        />
+        <NotificationManager date={date} />
       </View>
 
       <View style={styles.downside}>
@@ -141,10 +158,11 @@ export default function AddEvent({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: "20%",
+    backgroundColor: colors.lightbackgroundlight,
   },
   inputsContainer: {
-    flex: 4,
+    flex: 8,
     paddingHorizontal: 20,
     marginBottom: 20,
   },
@@ -154,10 +172,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   downside: {
-    flex: 1,
+    flex: 2,
     flexDirection: "column",
   },
   text: {
+    fontFamily: "Philosopher-Bold",
     color: "#ffffff",
     fontWeight: "bold",
     width: "90%",

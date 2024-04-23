@@ -1,42 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from "react-native";
-
-import { useFonts } from 'expo-font';
-import { AppLoading } from 'expo';
-import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import { useFonts } from "expo-font";
+import { AppLoading } from "expo";
+import { StatusBar } from "expo-status-bar";
+import { NavigationContainer } from "@react-navigation/native";
 import AppStackNavigator from "./components/StackNavigator";
+import * as Notifications from "expo-notifications";
+import * as Font from "expo-font";
+import { colors } from "./helper/Color";
+
+Notifications.setNotificationHandler({
+  handleNotification: async function (notification) {
+    return {
+      shouldShowAlert: true,
+    };
+  },
+});
 
 export default function App() {
-  // const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
-  // const loadFonts = async () => {
-  //   await useFonts({
-  //     "Midorima-PersonalUse-Regular": require('./assets/fonts/Midorima-PersonalUse-Regular.ttf'), 
-  //   });
-  // };
+  useEffect(() => {
+    const loadFontsAsync = async () => {
+      try {
+        await Font.loadAsync({
+          "Philosopher-Regular": require("./assets/fonts/Philosopher-Regular.ttf"),
+          "Philosopher-Bold": require("./assets/fonts/Philosopher-Bold.ttf"),
+          "AfterSmile-Regular": require("./assets/fonts/AfterSmile-Regular.otf"),
+        });
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error("Error loading font", error);
+      }
+    };
 
-  // useEffect(() => {
-  //   const load = async () => {
-  //     await loadFonts();
-  //     setFontsLoaded(true);
-  //   };
-  //   load();
-  // }, []);
+    loadFontsAsync();
+  }, []);
 
-  // if (!fontsLoaded) {
-  //   return <AppLoading />;
-  // }
-
-  return (
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <NavigationContainer>
-          <AppStackNavigator />
-        </NavigationContainer>
+  if (!fontsLoaded) {
+    // show ActivityIndicator while fonts are loading
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.backgrounddark} />
       </View>
     );
   }
+
+  return (
+    <View style={styles.container}>
+      <StatusBar style="auto" />
+      <NavigationContainer>
+        <AppStackNavigator />
+      </NavigationContainer>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -44,5 +62,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     ...StyleSheet.absoluteFillObject,
     height: null,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
   },
 });
