@@ -10,12 +10,12 @@ import {
 // import UserAvatar from 'react-native-user-avatar';
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { colors } from "../helper/Color";
 import ImageViewer from "./PostImageViewer";
 import { useNavigation } from "@react-navigation/core";
 import { fetchDataList } from "../firebase-files/firestoreHelper";
-import { doc, updateDoc , onSnapshot} from 'firebase/firestore';
+import { doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { auth, database } from "../firebase-files/firebaseSetup";
 
 export default function PostItem({
@@ -30,34 +30,36 @@ export default function PostItem({
 }) {
   const navigation = useNavigation();
   const [liked, setLiked] = useState(false);
-  const [likeNumbers, setLikeNumbers] = useState(likenumbers); 
-  // const [CommentsNumbers, setCommentsNumbers] = useState(commentsnumbers); 
+  const [likeNumbers, setLikeNumbers] = useState(likenumbers);
+  // const [CommentsNumbers, setCommentsNumbers] = useState(commentsnumbers);
   const [isClickComments, setIsClickComments] = useState(false);
-  const [currentPostId,setCurrentPostId] =useState(null);
+  const [currentPostId, setCurrentPostId] = useState(null);
 
   const { width } = Dimensions.get("window");
 
-  console.log(postItemname);
+  // console.log(postItemname);
   // console.log("the passed images is",images);
 
   useEffect(() => {
     // Set up a real-time listener for this specific post
-    const unsubscribe = onSnapshot(doc(database, "Posts", postId), (doc) => {
-      if (doc.exists()) {
-        const data = doc.data();
-        console.log("fetchlikenumbers from data",data)
-        setLikeNumbers(data.likeNumbers);  // Update like numbers from Firestore
-        setIsClickComments(data.commentNumbers); 
-      } else {
-        console.log("No such document!");
+    const unsubscribe = onSnapshot(
+      doc(database, "Posts", postId),
+      (doc) => {
+        if (doc.exists()) {
+          const data = doc.data();
+          // console.log("fetchlikenumbers from data",data)
+          setLikeNumbers(data.likeNumbers); // Update like numbers from Firestore
+          setIsClickComments(data.commentNumbers);
+        } else {
+          console.log("No such document!");
+        }
+      },
+      (error) => {
+        console.error("Error fetching document:", error);
       }
-    }, (error) => {
-      console.error("Error fetching document:", error);
-    });
-    return () => unsubscribe();  // Cleanup the listener when the component unmounts
-  }, [postId]);  // Dependency array to ensure the effect runs once per post id
-
-
+    );
+    return () => unsubscribe(); // Cleanup the listener when the component unmounts
+  }, [postId]); // Dependency array to ensure the effect runs once per post id
 
   // const [userId, setUserId] = useState("");
   // const [likenumbers,setLikeNumbers] = useState(0);
@@ -93,22 +95,23 @@ export default function PostItem({
   const toggleLike = async () => {
     const newLikedStatus = !liked;
     setLiked(newLikedStatus);
-    const postRef = doc(database, "Posts", postId); 
+    const postRef = doc(database, "Posts", postId);
 
     // Update Firestore document
     try {
       await updateDoc(postRef, {
-        likeNumbers: newLikedStatus ? likenumbers + 1 : Math.max(likenumbers - 1, 0)  // Increment or decrement the like count
+        likeNumbers: newLikedStatus
+          ? likenumbers + 1
+          : Math.max(likenumbers - 1, 0), // Increment or decrement the like count
       });
     } catch (error) {
       console.error("Error updating like count:", error);
     }
   };
 
-
   function handleClickComment(postId) {
     setIsClickComments(true);
-    setCurrentPostId(postId); 
+    setCurrentPostId(postId);
   }
 
   return (

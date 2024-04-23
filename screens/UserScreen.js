@@ -69,7 +69,7 @@ export default function UserScreen() {
   useFocusEffect(
     React.useCallback(() => {
       fetchData();
-      console.log("it is updated user", user);
+      // console.log("it is updated user", user);
     }, [])
   );
 
@@ -78,7 +78,7 @@ export default function UserScreen() {
       const userData = await searchUsersByUserId(auth.currentUser.uid);
       if (userData) {
         setUser(userData);
-        console.log(user);
+        // console.log(user);
       }
     } catch (error) {
       // Alert.alert(
@@ -115,10 +115,10 @@ export default function UserScreen() {
             };
             fetchedRecentPosts.push(recentImageData);
           }
-          console.log("fetch post by uid data is", fetchedRecentPosts);
+          // console.log("fetch post by uid data is", fetchedRecentPosts);
         }
         setRecentPost(fetchedRecentPosts);
-        console.log("Recent Post is", recentPost);
+        // console.log("Recent Post is", recentPost);
       },
       (error) => {
         Alert.alert("Error", error.message);
@@ -134,7 +134,7 @@ export default function UserScreen() {
   useEffect(() => {
     fetchData();
     // fetchPuppyData();
-    console.log("it is user", user);
+    // console.log("it is user", user);
   }, []);
 
   useEffect(() => {
@@ -155,7 +155,7 @@ export default function UserScreen() {
         );
         if (puppyData) {
           setPuppyList(puppyData);
-          console.log("It is puppyList", puppyList);
+          // console.log("It is puppyList", puppyList);
         }
       }
     } catch (error) {
@@ -231,7 +231,7 @@ export default function UserScreen() {
   // }
 
   function addCardClickHandler() {
-    console.log("add card clicked");
+    // console.log("add card clicked");
     // Clear input fields and dropdown box
     setPuppyName("");
     setPuppyAge("");
@@ -242,8 +242,8 @@ export default function UserScreen() {
   }
 
   function editCardClickHandler(pet) {
-    console.log("edit card clicked");
-    console.log("it is pet", pet);
+    // console.log("edit card clicked");
+    // console.log("it is pet", pet);
     // Populate input fields and dropdown box with selected puppy's data
     setPuppyName(pet.name);
     setPuppyAge(pet.age);

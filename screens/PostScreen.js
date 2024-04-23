@@ -36,8 +36,8 @@ export default function PostScreen({ navigation }) {
   const [postData, setPostData] = useState([]);
   const [userInformation, setUserInformation] = useState(null);
   const [currentPostId, setCurrentPostId] = useState(null);
-  console.log("postId is pass ", currentPostId);
-  console.log("userInformation",userInformation);
+  // console.log("postId is pass ", currentPostId);
+
   useEffect(() => {
     // Set up a listener to get realtime data from Firestore
     const unsubscribe = onSnapshot(
@@ -56,7 +56,7 @@ export default function PostScreen({ navigation }) {
               id: doc.id,
             };
             fetchedPosts.push(PostData);
-            console.log(PostData);
+            // console.log(PostData);
           }
           setPostData(fetchedPosts);
         } catch (error) {
@@ -101,16 +101,16 @@ export default function PostScreen({ navigation }) {
             }
 
             if (UserData.avatar && UserData.name) {
-              console.log("-----------------");
-              console.log(UserData);
+              // console.log("-----------------");
+              // console.log(UserData);
               fetcheduserInformation.push({
                 name: UserData.name,
                 avatar: UserData.avatar,
                 id: UserData.userId,
               });
             }
-            console.log("!!!!!!");
-            console.log(fetcheduserInformation);
+            // console.log("!!!!!!");
+            // console.log(fetcheduserInformation);
             // console.log("The fetched userinformation is",fetcheduserInformation);
           }
           setUserInformation(fetcheduserInformation);
@@ -167,16 +167,24 @@ export default function PostScreen({ navigation }) {
         />
 
         <ScrollView horizontal style={styles.storiesContainer}>
-        {userInformation && userInformation.map((user) => {
-          console.log("it is userInformation.avatar", user.avatar);
-          return (
-            <View key={user.id} style={styles.story}>
-              <Image source={user.avatar?{uri:user.avatar}: require("../assets/dog-lover.png")} style={styles.storyAvatar} />
-              {/* You can uncomment the next line if you need to display the username */}
-              {/* <Text style={styles.storyUsername}>{user.name}</Text> */}
-            </View>
-          );
-        })}
+          {userInformation &&
+            userInformation.map((user) => {
+              console.log("it is userInformation.avatar", user.avatar);
+              return (
+                <View key={user.id} style={styles.story}>
+                  <Image
+                    source={
+                      user.avatar
+                        ? { uri: user.avatar }
+                        : require("../assets/dog-lover.png")
+                    }
+                    style={styles.storyAvatar}
+                  />
+                  {/* You can uncomment the next line if you need to display the username */}
+                  {/* <Text style={styles.storyUsername}>{user.name}</Text> */}
+                </View>
+              );
+            })}
         </ScrollView>
 
         <FlatList
@@ -187,16 +195,16 @@ export default function PostScreen({ navigation }) {
             const userInfo = userInformation
               ? userInformation.find((info) => info.id === item.userId)
               : null;
-            console.log("it is item", item);
-            console.log("it is userInformation", userInformation);
-            console.log("it is userInfo", userInfo);
+            // console.log("it is item", item);
+            // console.log("it is userInformation", userInformation);
+            // console.log("it is userInfo", userInfo);
             // If userInfo exists, use its avatar and name, otherwise use defaults
             const avatar = userInfo ? userInfo.avatar : null;
             const name = userInfo ? userInfo.name : "anonymous visitor";
 
             // const avatar = require("../assets/dog-lover.png");
             // const name =  "anonymous visitor";
-            console.log("item.id is fetched", item.id);
+            // console.log("item.id is fetched", item.id);
             return (
               <PostItem
                 postId={item.id}
