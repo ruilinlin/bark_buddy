@@ -8,27 +8,8 @@ import AppStackNavigator from "./components/StackNavigator";
 import * as Notifications from "expo-notifications";
 import * as Font from "expo-font";
 
-// async function loadFonts() {
-//   await Font.loadAsync({
-//     "Philosopher-Regular": require("./assets/fonts/Philosopher-Regular.ttf"),
-//     "Philosopher-Bold": require("./assets/fonts/Philosopher-Bold.ttf"),
-//     "AfterSmile-Regular": require("./assets/fonts/AfterSmile-Regular.otf"),
-//   });
-// }
-
-// // Call the loadFonts function somewhere in your app initialization code
-// loadFonts()
-//   .then(() => {
-//     console.log("Font loaded!");
-//   })
-//   .catch((error) => {
-//     console.error("Font loading failed:", error);
-//   });
-
 Notifications.setNotificationHandler({
   handleNotification: async function (notification) {
-    //marking the function async will make it always return a resolved promise
-    // you could use the info about incoming notification and do different behaviour for different notifications
     return {
       shouldShowAlert: true,
     };
@@ -36,58 +17,29 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
-  // const [fontsLoaded] = useFonts({
-  //   "Philosopher-Regular": require("./assets/fonts/Philosopher-Regular.ttf"),
-  //   "Philosopher-Bold": require("./assets/fonts/Philosopher-Bold.ttf"),
-  //   "AfterSmile-Regular": require("./assets/fonts/AfterSmile-Regular.otf"),
-  // });
-
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
-  const loadFontsAsync = async () => {
-    try {
-      await Font.loadAsync({
-        "Philosopher-Regular": require("./assets/fonts/Philosopher-Regular.ttf"),
-        "Philosopher-Bold": require("./assets/fonts/Philosopher-Bold.ttf"),
-        "AfterSmile-Regular": require("./assets/fonts/AfterSmile-Regular.otf"),
-      });
-      setFontsLoaded(true);
-    } catch (error) {
-      console.error("Error loading font", error);
-    }
-  };
-
   useEffect(() => {
+    const loadFontsAsync = async () => {
+      try {
+        await Font.loadAsync({
+          "Philosopher-Regular": require("./assets/fonts/Philosopher-Regular.ttf"),
+          "Philosopher-Bold": require("./assets/fonts/Philosopher-Bold.ttf"),
+          "AfterSmile-Regular": require("./assets/fonts/AfterSmile-Regular.otf"),
+        });
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error("Error loading font", error);
+      }
+    };
+
     loadFontsAsync();
   }, []);
 
-  useEffect(() => {
-    const sunscription = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        console.log("received listener", notification);
-      }
-    );
-    return () => {
-      sunscription.remove();
-    };
-  }, []);
-
-  useEffect(() => {
-    const sunscription = Notifications.addNotificationResponseReceivedListener(
-      (notificationResponse) => {
-        console.log(
-          "received response listener",
-          notificationResponse.notification.request.content.data.url
-        );
-        Linking.openURL(
-          notificationResponse.notification.request.content.data.url
-        );
-      }
-    );
-    return () => {
-      sunscription.remove();
-    };
-  }, []);
+  if (!fontsLoaded) {
+    // Return a loading indicator or null until fonts are loaded
+    return null;
+  }
 
   return (
     <View style={styles.container}>
