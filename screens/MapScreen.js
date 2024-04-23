@@ -4,11 +4,13 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { database } from "../firebase-files/firebaseSetup";
+import mapStyles from './mapStyles.json';
 
 export default function MapScreen() {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [events, setEvents] = useState([]);
 
+  // console.log("mapmapmap",mapStyles)
   useEffect(() => {
     // Set up a listener to get all the latlng of events
     const unsubscribe = onSnapshot(
@@ -60,7 +62,7 @@ export default function MapScreen() {
   return (
     <>
       {currentLocation ? (
-        <MapView style={styles.map} initialRegion={currentLocation}>
+        <MapView style={styles.map} initialRegion={currentLocation} customMapStyle={mapStyles} >
           <Marker
             coordinate={currentLocation}
             title="Your current location"

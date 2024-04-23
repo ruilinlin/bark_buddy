@@ -37,7 +37,7 @@ export default function PostScreen({ navigation }) {
   const [userInformation, setUserInformation] = useState(null);
   const [currentPostId, setCurrentPostId] = useState(null);
   console.log("postId is pass ", currentPostId);
-
+  console.log("userInformation",userInformation);
   useEffect(() => {
     // Set up a listener to get realtime data from Firestore
     const unsubscribe = onSnapshot(
@@ -130,18 +130,18 @@ export default function PostScreen({ navigation }) {
 
   const showAddButton = true;
 
-  const stories = [
-    {
-      id: "1",
-      username: "iiamcharlie",
-      avatar: require("../assets/favicon.png"),
-    },
-    {
-      id: "2",
-      username: "iiamcharles",
-      avatar: require("../assets/favicon.png"),
-    },
-  ];
+  // const stories = [
+  //   {
+  //     id: "1",
+  //     username: "iiamcharlie",
+  //     avatar: require("../assets/favicon.png"),
+  //   },
+  //   {
+  //     id: "2",
+  //     username: "iiamcharles",
+  //     avatar: require("../assets/favicon.png"),
+  //   },
+  // ];
 
   function handleCommentClick(postId) {
     setModalVisible(true);
@@ -166,14 +166,19 @@ export default function PostScreen({ navigation }) {
           }}
         />
 
-        {/* <ScrollView horizontal style={styles.storiesContainer}>
-          {stories.map((story) => (
-            <View key={story.id} style={styles.story}>
-              <Image source={story.avatar} style={styles.storyAvatar} />
-              <Text style={styles.storyUsername}>{story.username}</Text>
+        <ScrollView horizontal style={styles.storiesContainer}>
+        {userInformation && userInformation.map((user) => {
+          console.log("it is userInformation.avatar", user.avatar);
+          return (
+            <View key={user.id} style={styles.story}>
+              <Image source={user.avatar?{uri:user.avatar}: require("../assets/dog-lover.png")} style={styles.storyAvatar} />
+              {/* You can uncomment the next line if you need to display the username */}
+              {/* <Text style={styles.storyUsername}>{user.name}</Text> */}
             </View>
-          ))}
-        </ScrollView> */}
+          );
+        })}
+        </ScrollView>
+
         <FlatList
           style={styles.listContainer}
           data={postData}
@@ -240,14 +245,14 @@ const styles = StyleSheet.create({
   },
   story: {
     alignItems: "center",
-    margin: 10,
-    marginBottom: 30,
+    margin: 8,
+    marginBottom: 20,
   },
   storyAvatar: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: colors.backgroundlight,
   },
   storyUsername: {

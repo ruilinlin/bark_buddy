@@ -142,7 +142,7 @@ export default function TextManager({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.lightbackgroundlight,
+    // backgroundColor: colors.lightbackgroundlight,
     // padding: 10
   },
   contentContainer:{

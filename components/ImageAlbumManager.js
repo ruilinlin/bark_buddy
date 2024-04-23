@@ -187,7 +187,7 @@ export default function ImageAlbumManager({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    backgroundColor: colors.lightbackgroundlight,
+    // backgroundColor: colors.lightbackgroundlight,
   },
   scrollViewContent: {
     flexGrow: 1,
